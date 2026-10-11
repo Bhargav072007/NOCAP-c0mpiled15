@@ -1,15 +1,16 @@
 [theme]
 base = "dark"
 primaryColor = "#F5F5F5"
-backgroundColor = "#0A0A0A"
-secondaryBackgroundColor = "#111111"
-textColor = "#F5F5F5"
+backgroundColor = "#121410"
+secondaryBackgroundColor = "#1B1E18"
+textColor = "#F3F0E7"
 font = "sans-serif"
 baseFontSize = 16
 baseRadius = "large"
-buttonRadius = "full"
+buttonRadius = "medium"
 
 [server]
+enableStaticServing = true
 maxUploadSize = 25
 headless = true
 

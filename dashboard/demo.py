@@ -4,12 +4,12 @@ from dashboard.motion import ambient_ribbon
 
 def workflow_demo():
     return f'''<section id="demo" class="nc-demo" aria-label="Interactive sample workflow">
-      <div class="nc-demo-heading"><div><span class="nc-eyebrow">A LOOK INSIDE NOCAP</span><h2>Evidence in motion.</h2></div>{ambient_ribbon(compact=True)}</div>
+      <div class="nc-demo-heading"><div><h2>Evidence in motion.</h2></div>{ambient_ribbon(compact=True)}</div>
       <fieldset class="nc-demo-player"><legend class="nc-sr-only">Preview a workflow step</legend>
         <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-auto" checked><label class="nc-demo-tab" for="nc-demo-auto">Play tour</label>
-        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-capture"><label class="nc-demo-tab" for="nc-demo-capture">01 Capture</label>
-        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-review"><label class="nc-demo-tab" for="nc-demo-review">02 Review</label>
-        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-export"><label class="nc-demo-tab" for="nc-demo-export">03 Export</label>
+        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-capture"><label class="nc-demo-tab" for="nc-demo-capture">Capture</label>
+        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-review"><label class="nc-demo-tab" for="nc-demo-review">Review</label>
+        <input class="nc-demo-input" type="radio" name="demo-step" id="nc-demo-export"><label class="nc-demo-tab" for="nc-demo-export">Export</label>
         <input class="nc-demo-input" type="checkbox" id="nc-demo-pause" aria-label="Pause workflow animation"><label class="nc-demo-pause" for="nc-demo-pause"><span class="nc-demo-pause-text">Ⅱ Pause</span><span class="nc-demo-resume-text">▷ Resume</span></label>
         <div class="nc-demo-stage" aria-hidden="true"><div class="nc-demo-rig">
           <div class="nc-demo-plane nc-demo-plane-back"></div><div class="nc-demo-plane nc-demo-plane-mid"></div>

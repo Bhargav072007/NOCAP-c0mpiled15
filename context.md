@@ -1096,3 +1096,10 @@ Next action: user tests http://localhost:8501, reviews docs/FULLSTACK.md and han
 - Published commit 1e619faad25f0c1c748b9fcc5c5c9542315fb9eb to main via non-force ref update; git ls-remote confirmed it. No Codespace or paid resource created.
 - Environment/private keys/runtime data excluded; blank configuration template included. Verifier suite was not re-run; end-to-end live integration is not claimed.
 - Next: collaborator review of the combined repository and live integration acceptance.
+
+### UI-R3 — 2026-10-11T22:09:15.769032+00:00
+
+- Applied requested Impeccable/Taste/Emil skills to landing, login, dashboard and demo. References and licenses: docs/design-sources.md.
+- Added self-hosted fonts, restrained shared palette, editorial workflow list and flatter review workspace. Retained single source, real access flows, 3D demo and paused/reduced-motion support.
+- 66 tests + 7 subtests pass; browser access, validation, motion preferences and responsive layouts checked. Phone 3D overflow corrected. One reviewed font detector warning remains.
+- Report: reports/UI-R3-refinement.md. No live hardware/cloud or verifier integration claim.
