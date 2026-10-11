@@ -1,0 +1,245 @@
+{
+  "schema_version": "hybrid-3.0",
+  "mode": "hybrid",
+  "status": "needs_review",
+  "paper_sha256": "944d366dcf2f44018c0b4b42185ccccb7153aca7bb3866d213b55be2fe5fc18f",
+  "summary": {
+    "DATA_MISMATCH": 1,
+    "NEEDS_REVIEW": 7,
+    "NO_ISSUE_IDENTIFIED": 1,
+    "SCIENTIFIC_CONCERN": 4,
+    "UNSIGNED_DATA": 2,
+    "VERIFIED": 5
+  },
+  "issues": [
+    "Dataset rr has columns without explicit assessment links: Country, Year, debtgdp, dgcat",
+    "Unlinked manuscript statements require human review; automatic semantic/data linking is not implemented",
+    "No signed captures supplied",
+    "Automatic evidence link has no explicit ID/label anchor; provide a reviewer link"
+  ],
+  "coverage": {
+    "reference_entries": 1,
+    "catalog_records": 0,
+    "sources_supplied": 2,
+    "explicit_source_claims": 1,
+    "explicit_data_claims": 2,
+    "unlinked_statement_count": 6,
+    "unlinked_statements": [
+      "Original table result (normalised transcription):",
+      "Original paper abstract (verbatim extracted text):",
+      "Above 90 percent, median growth rates fall by one percent, and average growth falls",
+      "considerably more.",
+      "[1]",
+      "Replication abstract (verbatim extracted phrase):"
+    ],
+    "automatic_semantic_verification": true,
+    "automatic_data_claims": 0,
+    "scientific_review_requested": true,
+    "scientific_review_completed": true,
+    "external_sources_for_science": 2
+  },
+  "dataset_diagnostics": [
+    {
+      "dataset_id": "rr",
+      "rows": 110,
+      "duplicate_rows": 0,
+      "columns": {
+        "Country": {
+          "missing": 0,
+          "nonnumeric": 110,
+          "nonfinite": 0,
+          "finite_numeric_count": 0,
+          "min": null,
+          "max": null,
+          "constant_numeric": false
+        },
+        "Year": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": 1946.0,
+          "max": 2009.0,
+          "constant_numeric": false
+        },
+        "dRGDP": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": -10.942158616577224,
+          "max": 15.21630210989593,
+          "constant_numeric": false
+        },
+        "debtgdp": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": 90.37305816986053,
+          "max": 247.48194221508828,
+          "constant_numeric": false
+        },
+        "dgcat": {
+          "missing": 0,
+          "nonnumeric": 110,
+          "nonfinite": 0,
+          "finite_numeric_count": 0,
+          "min": null,
+          "max": null,
+          "constant_numeric": false
+        }
+      },
+      "interpretation": "Duplicates, missingness and constant columns are diagnostics, not proof of error or misconduct."
+    }
+  ],
+  "elapsed_seconds": 16.576,
+  "api": {
+    "provider": "OpenAI",
+    "configured": true,
+    "model": "gpt-4.1-mini",
+    "store": false,
+    "citation_pipeline_requested": true,
+    "data_linking_requested": true
+  },
+  "scientific_findings": [
+    {
+      "category": "statistics",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "The original reported average real GDP growth for public-debt-to-GDP over 90% is -0.1%, but reanalysis shows the correct figure is about +2.2%. This discrepancy arises from errors including data exclusions, a spreadsheet coding error, and unconventional weighting by country rather than country-year, heavily biasing estimates downward.",
+      "confidence": 0.95,
+      "needs_human_review": true
+    },
+    {
+      "category": "methodology",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "The original methodology uses non-parametric grouping of data into debt/GDP buckets and compares averages without regression controls, ignoring potential confounders or dynamics. Also, selective data exclusion and weighting choices strongly affect results, limiting robustness.",
+      "confidence": 0.9,
+      "needs_human_review": true
+    },
+    {
+      "category": "statistics",
+      "status": "NO_ISSUE_IDENTIFIED",
+      "reason": "The reported average growth rate of 2.2% for public debt to GDP over 90% matches the corrected computations from the replication dataset, correcting previous errors.",
+      "confidence": 0.85,
+      "needs_human_review": true
+    },
+    {
+      "category": "causal_inference",
+      "status": "NEEDS_REVIEW",
+      "reason": "Insufficient grounded evidence or low model confidence. Observational association is reported between high public debt and lower GDP growth, but confounding factors, temporal sequencing, or reverse causality are not accounted for in the evidence.",
+      "confidence": 0.75,
+      "needs_human_review": true
+    },
+    {
+      "category": "scientific_plausibility",
+      "status": "NEEDS_REVIEW",
+      "reason": "Insufficient grounded evidence or low model confidence. While the negative association of high debt with growth is plausible, the evidence does not provide mechanistic explanations or control for alternative factors to confirm plausibility.",
+      "confidence": 0.6,
+      "needs_human_review": true
+    },
+    {
+      "category": "reproducibility",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "Replication effort reveals data coding errors, data exclusions, and unconventional weighting altering findings, indicating original results are not reproducible or robust without correction.",
+      "confidence": 0.95,
+      "needs_human_review": true
+    },
+    {
+      "category": "external_consistency",
+      "status": "NEEDS_REVIEW",
+      "reason": "Independent source evidence is required. Insufficient grounded evidence or low model confidence. No comparison with independent datasets or studies addressing the same question is provided in the evidence; thus external consistency cannot be assessed.",
+      "confidence": 0.5,
+      "needs_human_review": true
+    },
+    {
+      "category": "limitations",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "Limitations include missing years of data, selective exclusions, lack of control variables, and questionable weighting methods. These limit generalization and interpretation of the main findings.",
+      "confidence": 0.9,
+      "needs_human_review": true
+    }
+  ],
+  "scientific_coverage": [
+    [
+      {
+        "category": "methodology",
+        "state": "ASSESSED",
+        "reason": "Non-parametric grouping and averaging used, but data exclusions and weighting raise concerns."
+      },
+      {
+        "category": "statistics",
+        "state": "ASSESSED",
+        "reason": "Reported statistics contradicted by corrected replication showing major errors."
+      },
+      {
+        "category": "causal_inference",
+        "state": "INSUFFICIENT_EVIDENCE",
+        "reason": "Evidence only observational, no controls presented, causality not established."
+      },
+      {
+        "category": "scientific_plausibility",
+        "state": "INSUFFICIENT_EVIDENCE",
+        "reason": "Mechanistic explanation lacking in evidence."
+      },
+      {
+        "category": "reproducibility",
+        "state": "ASSESSED",
+        "reason": "Replication documented significant errors and inability to reproduce original summary results without corrections."
+      },
+      {
+        "category": "external_consistency",
+        "state": "INSUFFICIENT_EVIDENCE",
+        "reason": "No independent external studies or data comparisons provided."
+      },
+      {
+        "category": "limitations",
+        "state": "ASSESSED",
+        "reason": "Data exclusions, weighting methods, missing data, and lack of controls limit conclusions."
+      }
+    ]
+  ],
+  "audit_metadata": [
+    {
+      "provider": "OpenAI",
+      "model": "gpt-4.1-mini",
+      "model_version": "gpt-4.1-mini-2025-04-14",
+      "request_id": "resp_087c439713e3ffd8016acbf520d4e087d29cfa7603fa02b755",
+      "usage": {
+        "input_tokens": 8969,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1246,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10215
+      }
+    }
+  ],
+  "quantum": {
+    "enabled": null,
+    "backend": null,
+    "review_indices": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "note": null
+  },
+  "note": "Source text, quoted passages and complete prompts omitted from portable summary; regenerate the full report to inspect them."
+}

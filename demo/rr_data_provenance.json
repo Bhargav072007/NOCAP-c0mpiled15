@@ -1,0 +1,15 @@
+{
+  "source": "https://peri.umass.edu/images/RR-keycolumns.xlsx",
+  "source_sha256": "80bdd2503328d6bac29c6b33dc3113e40c0ba319da38907804de275294cf4179",
+  "sheet": "Sheet1",
+  "columns": [
+    "Country",
+    "Year",
+    "debtgdp",
+    "dgcat",
+    "dRGDP"
+  ],
+  "transformation": "Read cached cell values; select dgcat exactly Above 90% and numeric dRGDP; retain original country, year, debtgdp, dgcat, dRGDP. No weighting or imputation.",
+  "n": 110,
+  "signature": "none; public archival replication data, not NoCap signed capture"
+}

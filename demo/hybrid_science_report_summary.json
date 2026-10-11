@@ -1,0 +1,252 @@
+{
+  "schema_version": "hybrid-3.0",
+  "mode": "hybrid",
+  "status": "needs_review",
+  "paper_sha256": "487955de7777a786a53cadc6180006252ead641784eafd7af617a8154d62cafb",
+  "summary": {
+    "DATA_MISMATCH": 1,
+    "NEEDS_REVIEW": 7,
+    "SCIENTIFIC_CONCERN": 5,
+    "UNSIGNED_DATA": 2,
+    "VERIFIED": 1
+  },
+  "issues": [
+    "Dataset rr has columns without explicit assessment links: Country, Year, debtgdp, dgcat",
+    "Unlinked manuscript statements require human review; automatic semantic/data linking is not implemented",
+    "No reference entries provided/extracted; citation coverage is incomplete",
+    "No explicit source-support claims supplied",
+    "No signed captures supplied",
+    "Live citation retrieval explicitly skipped"
+  ],
+  "coverage": {
+    "reference_entries": 0,
+    "catalog_records": 0,
+    "sources_supplied": 2,
+    "explicit_source_claims": 0,
+    "explicit_data_claims": 2,
+    "unlinked_statement_count": 5,
+    "unlinked_statements": [
+      "Original table result (normalised transcription):",
+      "Original paper abstract (verbatim extracted text):",
+      "Above 90 percent, median growth rates fall by one percent, and average growth falls",
+      "considerably more.",
+      "Replication abstract (verbatim extracted phrase):"
+    ],
+    "automatic_semantic_verification": true,
+    "automatic_data_claims": 0,
+    "scientific_review_requested": true,
+    "scientific_review_completed": true,
+    "external_sources_for_science": 2
+  },
+  "dataset_diagnostics": [
+    {
+      "dataset_id": "rr",
+      "rows": 110,
+      "duplicate_rows": 0,
+      "columns": {
+        "Country": {
+          "missing": 0,
+          "nonnumeric": 110,
+          "nonfinite": 0,
+          "finite_numeric_count": 0,
+          "min": null,
+          "max": null,
+          "constant_numeric": false
+        },
+        "Year": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": 1946.0,
+          "max": 2009.0,
+          "constant_numeric": false
+        },
+        "dRGDP": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": -10.942158616577224,
+          "max": 15.21630210989593,
+          "constant_numeric": false
+        },
+        "debtgdp": {
+          "missing": 0,
+          "nonnumeric": 0,
+          "nonfinite": 0,
+          "finite_numeric_count": 110,
+          "min": 90.37305816986053,
+          "max": 247.48194221508828,
+          "constant_numeric": false
+        },
+        "dgcat": {
+          "missing": 0,
+          "nonnumeric": 110,
+          "nonfinite": 0,
+          "finite_numeric_count": 0,
+          "min": null,
+          "max": null,
+          "constant_numeric": false
+        }
+      },
+      "interpretation": "Duplicates, missingness and constant columns are diagnostics, not proof of error or misconduct."
+    }
+  ],
+  "elapsed_seconds": 10.034,
+  "api": {
+    "provider": "OpenAI",
+    "configured": true,
+    "model": "gpt-4.1-mini",
+    "store": false,
+    "citation_pipeline_requested": false,
+    "data_linking_requested": false
+  },
+  "scientific_findings": [
+    {
+      "category": "statistics",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "The manuscript reports average growth for public debt/GDP over 90% as -0.1%, but the reanalysis of linked data finds an average growth around 2.2%, indicating a data or coding error in the original statistics.",
+      "confidence": 0.95,
+      "needs_human_review": true
+    },
+    {
+      "category": "statistics",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "The replication finds that the average GDP growth for debt/GDP over 90% is about 2.2%, contrary to original claim of negative growth, indicating the original analysis had errors due to data exclusions, coding mistakes and unusual weighting.",
+      "confidence": 0.95,
+      "needs_human_review": true
+    },
+    {
+      "category": "scientific_plausibility",
+      "status": "NEEDS_REVIEW",
+      "reason": "Insufficient grounded evidence or low model confidence. Original paper claims median growth falls by one percent over 90% debt, but details and methods for effect estimates, confounding factors and causality are not sufficiently provided to establish scientific plausibility from supplied evidence alone.",
+      "confidence": 0.6,
+      "needs_human_review": true
+    },
+    {
+      "category": "limitations",
+      "status": "NEEDS_REVIEW",
+      "reason": "Insufficient grounded evidence or low model confidence. The claim 'considerably more' decline in average growth above 90% debt is vague and unsupported by detailed effect size, confidence measures, or explanations of heterogeneity across countries in supplied evidence.",
+      "confidence": 0.5,
+      "needs_human_review": true
+    },
+    {
+      "category": "methodology",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "Original analysis excluded several country-year observations systematically, employed unconventional equal weighting across countries ignoring heterogenous time observations, and had a spreadsheet coding error excluding five countries, all of which undermine methodological validity.",
+      "confidence": 0.95,
+      "needs_human_review": true
+    },
+    {
+      "category": "causal_inference",
+      "status": "NEEDS_REVIEW",
+      "reason": "The evidence is observational showing associations of debt level and growth but does not provide suitable methods or controls to infer causality or address confounding.",
+      "confidence": 0.9,
+      "needs_human_review": true
+    },
+    {
+      "category": "reproducibility",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "Replication identified errors and data exclusions in the original study impacting results, indicating reproducibility issues. However, sufficient data are now available to reproduce corrected analysis if shared transparently.",
+      "confidence": 0.9,
+      "needs_human_review": true
+    },
+    {
+      "category": "external_consistency",
+      "status": "NEEDS_REVIEW",
+      "reason": "Insufficient grounded evidence or low model confidence. Both original and replication analyses find growth around 3-4% for debt below 90%, and growth decreases at high debt, though magnitude differs. Hence external consistency exists on general pattern though not on effect size.",
+      "confidence": 0.7,
+      "needs_human_review": true
+    },
+    {
+      "category": "limitations",
+      "status": "SCIENTIFIC_CONCERN",
+      "reason": "The original study's reliance on aggregated annual country-level data with inconsistent country coverage, unknown confounders, and untested causal assumptions limits generalization and interpretation of findings.",
+      "confidence": 0.9,
+      "needs_human_review": true
+    }
+  ],
+  "scientific_coverage": [
+    [
+      {
+        "category": "methodology",
+        "state": "ASSESSED",
+        "reason": "Methodological issues including data exclusions, coding errors, and unconventional weighting were identified and discussed."
+      },
+      {
+        "category": "statistics",
+        "state": "ASSESSED",
+        "reason": "Reported average growth statistics were recalculated showing discrepancies and errors in original values."
+      },
+      {
+        "category": "causal_inference",
+        "state": "ASSESSED",
+        "reason": "Insufficient evidence to infer causality; only associations were analyzed without controls for confounding."
+      },
+      {
+        "category": "scientific_plausibility",
+        "state": "ASSESSED",
+        "reason": "Original claims on growth decline above 90% debt lack detailed mechanistic or confounder control support."
+      },
+      {
+        "category": "reproducibility",
+        "state": "ASSESSED",
+        "reason": "Replication efforts identified errors and provided corrected analyses showing reproducibility concerns."
+      },
+      {
+        "category": "external_consistency",
+        "state": "ASSESSED",
+        "reason": "Both original and replication agree on general pattern though differ in effect magnitude."
+      },
+      {
+        "category": "limitations",
+        "state": "ASSESSED",
+        "reason": "Limitations in data completeness, generalization and potential confounders were noted without full resolution."
+      }
+    ]
+  ],
+  "audit_metadata": [
+    {
+      "provider": "OpenAI",
+      "model": "gpt-4.1-mini",
+      "model_version": "gpt-4.1-mini-2025-04-14",
+      "request_id": "resp_0bb464b545b0f741016acbf3e5095487d28fdb4c8f926d7a8d",
+      "usage": {
+        "input_tokens": 8956,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1434,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10390
+      }
+    }
+  ],
+  "quantum": {
+    "enabled": null,
+    "backend": null,
+    "review_indices": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "note": null
+  },
+  "note": "Source text, quoted passages and complete prompts omitted from portable summary; regenerate the full report to inspect them."
+}

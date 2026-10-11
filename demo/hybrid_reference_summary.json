@@ -1,0 +1,161 @@
+{
+  "method": "Current live resolver with independently prepared metadata; not an end-to-end extraction benchmark.",
+  "results": [
+    {
+      "id": "puppet-1",
+      "category": "academic-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.168
+    },
+    {
+      "id": "puppet-2",
+      "category": "academic-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.113
+    },
+    {
+      "id": "puppet-3",
+      "category": "academic-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.049
+    },
+    {
+      "id": "mata-varghese",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "mata-shaboon",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "mata-peterson",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "mata-martinez",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "mata-durden",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "mata-miller",
+      "category": "legal-fake",
+      "expected": "NOT_FOUND_OR_MISMATCH",
+      "status": "NEEDS_REVIEW",
+      "reason": "Set COURTLISTENER_API_TOKEN for live US case-law lookup",
+      "matched_title": null,
+      "doi": null,
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.0
+    },
+    {
+      "id": "valid-oxfam",
+      "category": "ngo-valid",
+      "expected": "VERIFIED",
+      "status": "VERIFIED",
+      "reason": "Available citation metadata matches publication record",
+      "matched_title": "Inequality Inc. How corporate power divides our world and the need for a new era of public action",
+      "doi": "10.21201/2024.000007",
+      "source_scope": "abstract",
+      "retraction": "not_marked",
+      "seconds": 2.253
+    },
+    {
+      "id": "valid-amnesty",
+      "category": "ngo-valid",
+      "expected": "VERIFIED",
+      "status": "NEEDS_REVIEW",
+      "reason": "No sufficiently close publication identity found; an unrelated search hit does not establish a metadata mismatch",
+      "matched_title": "amnesty-international-report-2013-the-state-of-the-worlds-human-rights;hr",
+      "doi": "10.1163/2210-7975_hrd-9211-3014",
+      "source_scope": null,
+      "retraction": null,
+      "seconds": 0.467
+    },
+    {
+      "id": "valid-rr",
+      "category": "academic-valid",
+      "expected": "VERIFIED",
+      "status": "VERIFIED",
+      "reason": "Available citation metadata matches publication record",
+      "matched_title": "Growth in a Time of Debt",
+      "doi": "10.1257/aer.100.2.573",
+      "source_scope": "abstract",
+      "retraction": "not_marked",
+      "seconds": 0.505
+    },
+    {
+      "id": "retracted-lancet",
+      "category": "retracted",
+      "expected": "RETRACTED",
+      "status": "RETRACTED",
+      "reason": "Available citation metadata matches publication record",
+      "matched_title": "RETRACTED: Hydroxychloroquine or chloroquine with or without a macrolide for treatment of COVID-19: a multinational registry analysis",
+      "doi": "10.1016/s0140-6736(20)31180-6",
+      "source_scope": "full_text",
+      "retraction": "retracted",
+      "seconds": 0.88
+    }
+  ]
+}

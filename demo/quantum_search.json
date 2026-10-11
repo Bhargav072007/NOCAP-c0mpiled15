@@ -1,0 +1,55 @@
+{
+  "algorithm": "Grover amplitude amplification of review flags",
+  "execution": "local Qiskit statevector simulator",
+  "quantum_hardware_used": false,
+  "truth_estimation": false,
+  "quantum_advantage_demonstrated": false,
+  "oracle": "Classically computed needs_human_review predicate; all findings retained regardless of sampling.",
+  "batches": [
+    {
+      "offset": 0,
+      "qubits": 2,
+      "iterations": 1,
+      "marked_indices": [
+        2
+      ],
+      "baseline_marked_probability": 0.25,
+      "amplified_marked_probability": 0.9999999999999984,
+      "padded_probability": 0.0,
+      "padded_samples": 0,
+      "circuit_depth": 11,
+      "circuit_qasm2": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[2];\nh q[0];\nh q[1];\nx q[0];\nh q[1];\ncx q[0],q[1];\nh q[1];\nx q[0];\nh q[0];\nh q[1];\nx q[0];\nx q[1];\nh q[1];\ncx q[0],q[1];\nh q[1];\nx q[0];\nx q[1];\nh q[0];\nh q[1];",
+      "shots": 2048,
+      "seed": 17,
+      "observations": [
+        {
+          "flag_index": 0,
+          "probability": 1.9857297664135327e-34,
+          "samples": 0,
+          "marked": false
+        },
+        {
+          "flag_index": 1,
+          "probability": 7.70371977754894e-34,
+          "samples": 0,
+          "marked": false
+        },
+        {
+          "flag_index": 2,
+          "probability": 0.9999999999999984,
+          "samples": 2048,
+          "marked": true
+        },
+        {
+          "flag_index": 3,
+          "probability": 7.581463465326009e-35,
+          "samples": 0,
+          "marked": false
+        }
+      ]
+    }
+  ],
+  "review_indices": [
+    2
+  ]
+}

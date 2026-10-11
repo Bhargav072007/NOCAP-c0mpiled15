@@ -1,0 +1,14 @@
+[
+  {
+    "id": "rr-original",
+    "source_url": "https://www.nber.org/system/files/working_papers/w15639/w15639.pdf",
+    "original_pdf_sha256": "4e522bb976cf2a2ffead5829c1f316d46e283e4125890342b1b15a19523cc10f",
+    "text_sha256": "29b0c4fab0625e2e8e817165f0965956b1718e105011271f32c3d4d2765e04cf"
+  },
+  {
+    "id": "rr-replication",
+    "source_url": "https://peri.umass.edu/images/WP322.pdf",
+    "original_pdf_sha256": "b481030e538a1222fb1116bd2cc0646d031b8e36a0bf3b7057f1378800e0f0e5",
+    "text_sha256": "e9c373986562c477e8f5a84d40b6a817dc747f8e8590ace89fd4c261e540cbc0"
+  }
+]

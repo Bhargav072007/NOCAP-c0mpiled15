@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-11",
+  "provider": "Luminal",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "base_url": "https://flash.luminal.cloud/v1",
+  "automated_tests": 90,
+  "citation_smoke_test": {
+    "case_ids": [
+      "puppet-1",
+      "puppet-2",
+      "puppet-3"
+    ],
+    "statuses": [
+      "NOT_FOUND",
+      "NOT_FOUND",
+      "NOT_FOUND"
+    ],
+    "scope": "Bibliography extraction and public lookup; three existing invalid original-v1 entries"
+  },
+  "scientific_fixture": {
+    "attempts": 2,
+    "completed": false,
+    "issues": [
+      "Luminal request failed (HTTP 503); check text API access, credentials and quota"
+    ],
+    "local_summary": {
+      "DATA_MISMATCH": 1,
+      "NEEDS_REVIEW": 4,
+      "UNSIGNED_DATA": 2,
+      "VERIFIED": 1
+    },
+    "elapsed_seconds_second_attempt": 26.015
+  },
+  "general_accuracy_measured": false
+}

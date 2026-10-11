@@ -1,0 +1,76 @@
+Average 1946-2009 4.1 2.8 2.8 -0.1
+a public-debt-to-GDP ratio of over 90 percent is actually 2.2 percent
+
+References
+
+Ahmad, A., A. Majeed, and M.A. Khan. 2021. “Climate Change and Food Security in Pakistan: A Review of Current Situation and Mitigation Strategies.” Environmental Science and Pollution
+
+Ahmed, R., N. Khalid, and R. Malik. 2019. “Physical Activity and Its Determinants among Pakistani Women: Evidence from a National Survey.” Journal of Physical Activity and Health 16 (3): 191–197.
+
+Ashraf, M., Z. Iqbal, and A. Hussain. 2019. “Soil Salinity as a Limiting Factor in Pakistan's Agriculture: A Review.” Pedosphere 29 (6): 715–731.
+
+Aslam, N., M. Saleem, and S. Naeem. 2016. “Age-Related Trends in Physical Inactivity among Pakistani Adults: A Cross-Sectional Study.” Public Health 138: 78–83.
+
+Baig, A., Z.J. Gazzaz, S. Ahmed, F. Hussain, and S. Arif. 2020. “Physical Activity and Health: A Comparison of Urban and Rural Populations in Pakistan.” Journal of Primary Care & Community Health 11: 2150132720932575.
+
+Bandara, J.S., and A. Naranpanawa. 2015. “The Economic Costs of the Sri Lankan Civil War: An Analysis of the Sri Lankan Economy in a Dynamic CGE Framework.” World Development 67: 104–117.
+
+Farooq, U., A. Ullah, and F. Sarwar. 2021. “Urban-Rural Disparities in Food Security and Nutritional Status in Pakistan.” Food Security 13 (2): 383–396.
+
+Jayatissa, R., R.M. Ranbanda, and M.M. Gunathilaka. 2014. “Prevalence of Overweight and Obesity among Preschool Children in Sri Lanka.” Journal of the College of Community Physicians of Sri Lanka 19 (2): 65–72.
+
+Naseer, M.A., A. Ali,and M.K. Bashir. 2022. “Challenges and Constraints of Agricultural Development in Pakistan: A Review.” Pakistan Journal of Agricultural Sciences 59 (1): 23–31.
+
+Siddiqui, N., S.B. Rasheed, and F. Agha. 2018. “Barriers to Physical Activity in Urban Pakistan: A Qualitative Study.” Journal of Public Health 40 (4): e446–e451.
+
+Siddiqui, R., S. Haider, and M. Naeem. 2018. “Political Instability and Food Security in Pakistan: A District-Level Analysis.” Pakistan Journal of Applied Economics 28 (1): 15–32.
+
+Wajahat, Muhammad Nameer, Tabassum Iqbal, and Sabir Ali. 2024. “Impact of Economic Growth on Carbon Emissions In Pakistan.” Bahria University Journal of Management & Technology. doi: 10.62533/bjmt.v7i1.96.
+
+Weerakoon, Dushni, and Nisha Arunatilake. 2017. “Macroeconomic Policy for Accelerated Development in Sri Lanka.” Asian Development Review 34 (1): 93-112.
+
+Yangzom, Tashi, Dechen Wangmo, Thinley Dorji, and Kezang Sangay Tshewang. 2020. “Practices, Perceptions and Challenges of Healthy Eating among University Students in Bhutan.” Journal of Public Health 22 (1): 42–49.
+
+Hao Wang and Li Zhang. Synthesizing realistic avatars for enhanced virtual communication. IEEE Transactions on Visualization and Computer Graphics , 29(5):1802–1815, 2023. doi: 10.1109/TVCG.2023.3214567 . URL https://ieeexplore.ieee.org/document/3214567 .
+
+Min-Jun Lee and Soo-Young Kim. Generative adversarial networks for hyper-realistic avatar creation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 1234–1243, 2022. doi: 10.1109/CVPR.2022.001234 . URL https://ieeexplore.ieee.org/document/001234 .
+
+John Smith and Jane Doe. Deep learning techniques for avatar-based interaction in virtual environments. IEEE Transactions on Neural Networks and Learning Systems , 32(12):5600–5612, 2021. doi: 10.1109/TNNLS.2021.3071234 . URL https://ieeexplore.ieee.org/document/3071234 .
+
+Franz Aichberger, Lily Chen, and John Smith. Semantically diverse language generation. In International Conference on Learning Representations (ICLR) , 2025.
+
+Nuo Lou and et al. Dsp: Diffusion-based span prediction for masked text modeling. arXiv preprint arXiv:2305.XXXX , 2023.
+
+Sheng Shi and et al. Maskgpt: Uniform denoising diffusion for language. arXiv preprint arXiv:2401.XXXX , 2024.
+
+Srinivasan Kadavath, Urvashi Khandelwal, Alec Radford, and Noam Shazeer. Answer me this: Self-verifying large language models. In arXiv preprint arXiv:2205.05407 , 2022.
+
+Varghese v. China Southern Airlines Co., Ltd., 925 F.3d 1339 (11th Cir. 2019)
+
+Shaboon v. Egyptair, 2013 IL App (1st) 111279-U (Ill. App. Ct. 2013)
+
+Peterson v. Iran Air, 905 F. Supp. 2d 121 (D.D.C. 2012)
+
+Martinez v. Delta Airlines, Inc., 2019 WL 4639462 (Tex. App. Sept. 25, 2019)
+
+Estate of Durden v. KLM Royal Dutch Airlines, 2017 WL 2418825 (Ga. Ct. App. June 5, 2017)
+
+Miller v. United Airlines, Inc., 174 F.3d 366, 371-72 (2d Cir. 1999)
+
+Riddell, R., Ahmed, N., Maitland, A., Lawson, M., and Taneja, A. (2024). Inequality Inc. How corporate power divides our world and the need for a new era of public action. Oxfam International. doi:10.21201/2024.000007
+
+Amnesty International. (2024). The State of the World’s Human Rights: April 2024. Index POL 10/7200/2024.
+
+Ioannidis, J. P. A. (2005). Why Most Published Research Findings Are False. PLoS Medicine. doi:10.1371/journal.pmed.0020124
+
+Williams, A., Nangia, N., and Bowman, S. (2018). A Broad-Coverage Challenge Corpus for Sentence Understanding through Inference. doi:10.18653/v1/N18-1101
+
+Reinhart, C. M., and Rogoff, K. S. (2010). Growth in a Time of Debt. American Economic Review 100(2), 573-578. doi:10.1257/aer.100.2.573
+
+Brown v. Board of Education, 347 U.S. 483 (1954)
+
+Hydroxychloroquine or chloroquine with or without a macrolide for treatment of COVID-19: a multinational registry analysis. (2020). doi:10.1016/S0140-6736(20)31180-6
+
+Cardiovascular Disease, Drug Therapy, and Mortality in Covid-19. (2020). doi:10.1056/NEJMoa2007621
+
+When contact changes minds: An experiment on transmission of support for gay equality. (2014). doi:10.1126/science.1256151

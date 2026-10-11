@@ -1,0 +1,28 @@
+{
+  "input_case_ids": [
+    "puppet-1",
+    "puppet-2",
+    "puppet-3"
+  ],
+  "results": [
+    {
+      "citation": "Hao Wang and Li Zhang. Synthesizing realistic avatars for enhanced virtual communication. IEEE Transactions on Visualization and Computer Graphics , 29(5):1802\u20131815, 2023. doi: 10.1109/TVCG.2023.3214567 . URL https://ieeexplore.ieee.org/document/3214567 .",
+      "citation_status": "NOT_FOUND",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication"
+    },
+    {
+      "citation": "Min-Jun Lee and Soo-Young Kim. Generative adversarial networks for hyper-realistic avatar creation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 1234\u20131243, 2022. doi: 10.1109/CVPR.2022.001234 . URL https://ieeexplore.ieee.org/document/001234 .",
+      "citation_status": "NOT_FOUND",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication"
+    },
+    {
+      "citation": "John Smith and Jane Doe. Deep learning techniques for avatar-based interaction in virtual environments. IEEE Transactions on Neural Networks and Learning Systems , 32(12):5600\u20135612, 2021. doi: 10.1109/TNNLS.2021.3071234 . URL https://ieeexplore.ieee.org/document/3071234 .",
+      "citation_status": "NOT_FOUND",
+      "status": "NOT_FOUND",
+      "reason": "No Crossref record found; absence is not proof of fabrication"
+    }
+  ],
+  "method": "Live OpenAI extraction plus publication lookup of three exact original-v1 entries; bibliography only."
+}

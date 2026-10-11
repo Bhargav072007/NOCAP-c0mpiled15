@@ -1,0 +1,51 @@
+{
+  "org_id": "public-benchmark",
+  "project_id": "rr-replication",
+  "datasets": [
+    {
+      "id": "rr",
+      "path": "rr_above90.csv",
+      "org_id": "public-benchmark",
+      "project_id": "rr-replication",
+      "unit": "percent"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Average 1946-2009 4.1 2.8 2.8 -0.1",
+      "dataset_id": "rr",
+      "column": "dRGDP",
+      "metric": "mean",
+      "reported": -0.1,
+      "decimals": 1,
+      "unit": "percent"
+    },
+    {
+      "claim": "a public-debt-to-GDP ratio of over 90 percent is actually 2.2 percent",
+      "dataset_id": "rr",
+      "column": "dRGDP",
+      "metric": "mean",
+      "reported": 2.2,
+      "decimals": 1,
+      "unit": "percent"
+    }
+  ],
+  "sources": [
+    {
+      "id": "rr-original",
+      "path": "rr-original.txt",
+      "source_url": "https://www.nber.org/system/files/working_papers/w15639/w15639.pdf",
+      "identity_reviewed": true,
+      "scope": "full_text",
+      "original_pdf_sha256": "4e522bb976cf2a2ffead5829c1f316d46e283e4125890342b1b15a19523cc10f"
+    },
+    {
+      "id": "rr-replication",
+      "path": "rr-replication.txt",
+      "source_url": "https://peri.umass.edu/images/WP322.pdf",
+      "identity_reviewed": true,
+      "scope": "full_text",
+      "original_pdf_sha256": "b481030e538a1222fb1116bd2cc0646d031b8e36a0bf3b7057f1378800e0f0e5"
+    }
+  ]
+}

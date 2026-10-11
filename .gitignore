@@ -1,0 +1,11 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+work/
+rr-original.txt
+rr-replication.txt
+hybrid_report.json
+hybrid_science_report.json
+hybrid_extraction_validation.json
+hybrid_reference_validation.json

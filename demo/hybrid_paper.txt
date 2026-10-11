@@ -1,0 +1,13 @@
+Original table result (normalised transcription):
+Average 1946-2009 4.1 2.8 2.8 -0.1
+
+Original paper abstract (verbatim extracted text):
+Above 90 percent, median growth rates fall by one percent, and average growth falls
+considerably more. [1]
+
+Replication abstract (verbatim extracted phrase):
+a public-debt-to-GDP ratio of over 90 percent is actually 2.2 percent
+
+References
+
+Reinhart, C. M., and Rogoff, K. S. (2010). Growth in a Time of Debt. NBER Working Paper 15639. doi:10.3386/w15639
