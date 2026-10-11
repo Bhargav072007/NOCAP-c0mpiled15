@@ -82,7 +82,7 @@ with st.container(key='workspace'):
     with a: heading(route, ROUTES[route][0])
     with b: identity_card(me)
     if is_demo:
-        st.html('<div class="nc-mode-banner">LOCAL DEMO <span>Synthetic evidence. Live verification is not connected.</span></div>')
+        st.html('<div class="nc-mode-banner">LOCAL DEMO <span>Synthetic sample captures. Review mode and coverage are shown with each report.</span></div>')
     if route == 'Overview': overview(client, me)
     elif route == 'Team workbench': team_view(client, me)
     elif route == 'Settings':

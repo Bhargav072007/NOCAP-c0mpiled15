@@ -3,6 +3,7 @@ WORKDIR /app
 COPY requirements.txt requirements-cloud.txt ./
 RUN pip install --no-cache-dir -r requirements-cloud.txt
 COPY cloud ./cloud
+COPY verifier ./verifier
 COPY ledger ./ledger
 COPY dashboard ./dashboard
 COPY migrations ./migrations

@@ -27,7 +27,7 @@ def landing(is_demo):
     with st.container(key='public'):
         st.html(product_home(brand()))
         if is_demo:
-            st.caption('Local demo available · synthetic evidence · live hardware and verification are not connected.')
+            st.caption('Local workspace available · synthetic sample captures · manuscript checks run through the connected API.')
 
 
 def login(is_demo):

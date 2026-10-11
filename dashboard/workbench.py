@@ -213,7 +213,7 @@ def integration_view(client):
             else:
                 st.caption('Your NoCap device is not configured for this workspace. Ask the administrator to connect the source.')
         with st.expander('Service readiness'):
-            st.dataframe([{'Integration': 'Database query', 'Status': value['database_query']}, {'Integration': 'Signing adapter', 'Status': 'Configured' if value['signing_configured'] else 'Not configured'}, {'Integration': 'Citation verifier', 'Status': 'Configured' if value['verifier_configured'] else 'Prepared fixtures only' if value['mode'] == 'demo' else 'Not configured'}, {'Integration': 'AWS / physical device acceptance', 'Status': 'Not verified'}], hide_index=True, use_container_width=True)
+            st.dataframe([{'Integration': 'Database query', 'Status': value['database_query']}, {'Integration': 'Signing adapter', 'Status': 'Configured' if value['signing_configured'] else 'Not configured'}, {'Integration': 'Research verifier', 'Status': 'Segment 3 · '+value.get('verifier_mode','configured') if value['verifier_configured'] else 'Not configured'}, {'Integration': 'AWS / physical device acceptance', 'Status': 'Not verified'}], hide_index=True, use_container_width=True)
         st.download_button('Download integration status',json.dumps(value,indent=2),'nocap-integration-status.json','application/json',on_click='ignore')
         st.button('Refresh connection status')
         with st.expander('Configuration boundary'):

@@ -12,6 +12,8 @@ class Settings:
     demo: bool = True
     signing_plugin: str = ''
     verifier_plugin: str = ''
+    verifier_mode: str = 'offline'
+    verifier_quantum: bool = False
     max_upload: int = 25 * 1024 * 1024
 
     @classmethod
@@ -20,9 +22,12 @@ class Settings:
                    storage=os.getenv('NOCAP_STORAGE','local'),media_dir=os.getenv('NOCAP_MEDIA_DIR','.runtime/media'),
                    bucket=os.getenv('S3_BUCKET',''),region=os.getenv('AWS_REGION','us-east-2'),
                    demo=os.getenv('NOCAP_BACKEND_MODE','demo')=='demo',
-                   signing_plugin=os.getenv('NOCAP_SIGNING_PLUGIN',''),verifier_plugin=os.getenv('NOCAP_VERIFIER_PLUGIN',''))
+                   signing_plugin=os.getenv('NOCAP_SIGNING_PLUGIN',''),verifier_plugin=os.getenv('NOCAP_VERIFIER_PLUGIN',''),
+                   verifier_mode=os.getenv('NOCAP_VERIFIER_MODE','offline'),
+                   verifier_quantum=os.getenv('NOCAP_VERIFIER_QUANTUM','0')=='1')
 
     def validate(self):
+        if self.verifier_mode not in {'offline','hybrid'}: raise ValueError('Verifier mode must be offline or hybrid')
         from sqlalchemy.engine import make_url
         url=make_url(self.database_url)
         if self.storage not in {'local','s3'}: raise ValueError('Storage must be local or s3')

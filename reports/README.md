@@ -50,3 +50,5 @@ one pausable ribbon per page, 66 tests + 7 subtests and desktop/mobile browser r
 
 Latest demo iteration: [UI-M2](UI-M2-dynamic-demo.md), an interactive 3D workflow
 preview with synchronized pause, native step selection and 320–1440px browser checks.
+
+- [FS2: frontend/backend verifier integration](FS2-verifier-integration.md)

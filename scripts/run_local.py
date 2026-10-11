@@ -9,7 +9,7 @@ from cloud.config import Settings
 
 if __name__=='__main__':
     subprocess.run([sys.executable,'-m','cloud.bootstrap'],check=True)
-    env={**os.environ,**dotenv_values(ROOT/'.runtime/local.env')}
+    env={**dotenv_values(ROOT/'.env'),**os.environ,**dotenv_values(ROOT/'.runtime/local.env')}
     api=subprocess.Popen([sys.executable,'-m','uvicorn','cloud.server:app','--host','127.0.0.1','--port','8000'],env=env)
     ui=None
     try:

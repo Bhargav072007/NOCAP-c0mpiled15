@@ -104,7 +104,7 @@ def test_reports_ledger_download_contract(api):
     led=c.get('/ledger').json()
     assert led['merkle_root']==merkle_root([r['record_hash'] for r in led['records']])
     assert led['chain_ok'] is None and led['anchor_tx'] is None and led['fixture']
-    result=c.post('/reports',json={'text':Path('demo/paper_real.txt').read_text(),'capture_ids':['demo_1']}).json()
+    result=c.post('/reports',json={'text':Path('demo/paper_real.txt').read_text(),'capture_ids':['demo_1'],'mode':'demo'}).json()
     assert len(result['results'])==4
     assert c.get('/reports/'+result['report_id']).json()['results']==result['results']
     assert c.get('/reports/'+result['report_id'],headers=auth('outsider')).status_code==404

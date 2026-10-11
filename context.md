@@ -1116,3 +1116,15 @@ Next action: user tests http://localhost:8501, reviews docs/FULLSTACK.md and han
 - Expanded product content from supplied documentation; distinguishes optional hardware design/roadmap from validated local runtime. Single source remains; no Devices tab.
 - Brighter #78F59B green applied across homepage/workspace/native controls and motion details. Existing animations and accessible preferences retained.
 - 66 tests + 7 subtests pass; browser desktop/mobile down to 320px, image loading, FAQ, anchors and local access checked. Report: reports/UI-P1-product.md.
+
+## FS2 — GitHub frontend/backend integration (2026-10-11)
+
+User requested integration in Bhargav072007/NOCAP-c0mpiled15. Built on 8ccd50c,
+using main's authenticated cloud API and bundled Segment 3 verifier. Inspected
+avishkar-backend; retained its separate historical scaffold instead of replacing
+working tenant-scoped persistence with unimplemented S3 methods. Added direct
+manuscript/evidence review, saved full reports, trusted signing/chain checks,
+frontend controls, API image source, tests and integration setup documentation.
+No Devices tab added. No private environment files included. See
+reports/FS2-verifier-integration.md and docs/INTEGRATION.md for validation and the
+remaining external-provider / AWS / physical-device acceptance boundaries.

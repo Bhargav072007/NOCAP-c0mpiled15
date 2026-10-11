@@ -205,51 +205,117 @@ def verify_view(client):
 @st.fragment
 def citation_view(client):
     import hashlib
+    import json
     from dashboard.client import DEMO
+    fixture=client.mode=='fixture'
+    modes={'Offline evidence checks':'offline'}
+    captures=[]
+    if not fixture:
+        try:
+            integration=client.json('GET','/integration')
+            if integration.get('hybrid_enabled'):
+                modes['Full research analysis · configured provider']='hybrid'
+            if getattr(client,'demo',False): modes['Synthetic example · no analysis']='demo'
+            captures=client.captures()
+        except APIError as exc:
+            st.error(str(exc))
+            return
     with st.container(key='citation_panel'):
-        st.html('<div class="nc-panel-label">CITATION REVIEW</div>')
+        st.html('<div class="nc-panel-label">RESEARCH REVIEW</div>')
         st.subheader('Make every reference count.')
-        st.caption('Review citations, support, and the reasons behind each returned finding.')
-        if client.mode=='fixture' or getattr(client,'demo',False):
-            st.caption('Fixture mode: prepared fictional references only. No Crossref, Semantic Scholar, or AI lookup runs.')
+        st.caption('Connect the manuscript to its evidence. Inspect each finding and keep the full review record.')
+        if fixture:
+            mode='demo'
+        else:
+            choice=st.selectbox('Analysis mode',list(modes),key='analysis_mode_choice')
+            mode=modes[choice]
+        if mode=='demo':
+            st.caption('Prepared fictional references only. No publication lookup or model analysis runs.')
             col1,col2=st.columns(2)
             if col1.button('Load mixed demo',key='mixed_demo'):
                 st.session_state.report_text=(DEMO/'paper_real.txt').read_text()
             if col2.button('Load three fake references',key='fake_demo'):
                 st.session_state.report_text=(DEMO/'paper_fake_refs.txt').read_text()
+        elif mode=='offline':
+            st.caption('Runs the real local verifier. Checks linked capture integrity and extracts references; source discovery and scientific model review require full analysis.')
+        else:
+            st.info('Full analysis sends manuscript and relevant evidence to the server’s configured model provider and publication services. It may take several minutes. Human review remains required.')
         with st.form('citation_form'):
             text=st.text_area('Research text',key='report_text',height=180,max_chars=50000,
                               placeholder='Paste the passage and its references…')
+            upload=None
+            if not fixture and mode!='demo':
+                upload=st.file_uploader('Or upload a manuscript',type=['pdf','docx','txt','md','tex'],
+                    key='manuscript_upload',help='An uploaded manuscript takes precedence over pasted text. Up to 25 MiB and 50,000 extracted characters. Scanned PDFs need OCR.')
+            selected=[]
+            if not fixture and mode!='demo':
+                labels={r['id']:f"{r['file_name']} · {r['id']}" for r in captures}
+                selected=st.multiselect('Link workspace evidence',list(labels),format_func=labels.get,
+                    help='Only captures in your organization are available. The API rechecks the complete chain for each selected source.')
             submitted=st.form_submit_button('Check citations',key='citation_submit',type='primary',icon=':material/fact_check:')
+        data=upload.getvalue() if upload else text.encode()
+        fingerprint=hashlib.sha256(data+json.dumps([mode,selected,upload.name if upload else None]).encode()).hexdigest()
         if submitted:
-            fingerprint=hashlib.sha256(text.encode()).hexdigest()
-            if not text.strip():
-                st.warning('Add research text before checking citations.')
-            elif st.session_state.get('reported_fingerprint')!=fingerprint:
+            if not data.strip():
+                st.warning('Add research text or a manuscript before checking citations.')
+            elif st.session_state.get('reported_fingerprint')!=fingerprint or st.session_state.get('report_source')=='saved':
                 st.session_state.pop('report_result',None)
                 try:
-                    with st.spinner('Waiting for the citation report…'):
-                        result=client.report(text,[])
+                    with st.spinner('Reviewing the manuscript and evidence…'):
+                        if upload:
+                            result=client.report_file(upload.name,data,upload.type,selected,mode)
+                        elif fixture:
+                            result=client.report(text,[])
+                        else:
+                            result=client.report(text,selected,mode=mode)
                     st.session_state.report_result=result
                     st.session_state.reported_fingerprint=fingerprint
+                    st.session_state.report_source='current'
                 except APIError as exc:
                     st.error(str(exc))
+                    if not fixture: st.caption('If a long request timed out, check saved reports before submitting again.')
+        if not fixture:
+            with st.expander('Saved research reports'):
+                try:
+                    history=client.reports()
+                    if history:
+                        names={r['report_id']:f"{r['created_at']} · {r['analysis_mode']} · {r['findings']} findings · {r['report_id'][-6:]}" for r in history}
+                        saved=st.selectbox('Choose a saved report',list(names),format_func=names.get)
+                        if st.button('Open saved report'):
+                            st.session_state.report_result=client.saved_report(saved)
+                            st.session_state.report_source='saved'
+                    else: st.caption('Completed reports will appear here.')
+                except APIError as exc: st.error(str(exc))
         result=st.session_state.get('report_result')
-        if result and st.session_state.get('reported_fingerprint')==hashlib.sha256(text.encode()).hexdigest():
-            st.caption(f"Report {result['report_id']} · {len(result['results'])} findings")
+        if result and (st.session_state.get('reported_fingerprint')==fingerprint or st.session_state.get('report_source')=='saved'):
+            st.caption(f"Report {result['report_id']} · {result.get('analysis_mode','demo' if fixture else 'configured')} · {len(result['results'])} findings")
+            if st.session_state.get('report_source')=='saved': st.caption('Showing a saved report; the form above is a separate submission.')
+            analysis=result.get('analysis',{})
+            if result.get('evidence_contains_demo'): st.warning('This report includes synthetic workspace captures. Their provenance is not real hardware evidence.')
+            if analysis.get('issues'):
+                with st.expander('Coverage and review requirements',expanded=True):
+                    for issue in analysis['issues']: st.write('• '+issue)
+            st.download_button('Download full research report',json.dumps(result,indent=2,ensure_ascii=False),
+                file_name=result['report_id']+'.json',mime='application/json',key='download_research_report')
             if not result['results']:
-                empty('No findings returned', 'The API returned an empty report. This does not establish that the text is verified.')
+                empty('No findings returned', 'Read the coverage notes. An empty findings list does not establish that the text is verified.')
             for i,finding in enumerate(result['results']):
                 with st.container(border=True):
-                    badge(finding['status'],client.mode=='fixture' or bool(result.get('fixture')), f'citation-{i}', result['report_id'], bool(result.get('cached')))
+                    badge(finding['status'],fixture or bool(result.get('fixture')), f'citation-{i}', result['report_id'], bool(result.get('cached')))
+                    if finding.get('backend_status'): st.caption(f"Check {finding.get('check','review')} · {finding['backend_status']}")
                     st.write(finding['citation'])
-                    with st.expander('Reason and source details'):
-                        st.write(finding['reason'])
-                        st.caption('Claim');st.write(finding['claim'])
+                    st.write(finding['reason'])
+                    with st.expander('Claim and evidence details'):
+                        st.caption('Claim');st.write(finding['claim'] or 'No individual claim attached')
                         st.caption('Matched title');st.write(finding['matched_title'] or 'None supplied')
                         st.caption('DOI');st.text(finding['doi'] or 'None supplied')
-        elif not text:
-            empty('Follow the references', 'Paste your text or load a synthetic example. Findings appear after submission.')
+                        for key in ('evidence','source_evidence','suggested_fix'):
+                            if finding.get(key): st.write(finding[key])
+            if analysis:
+                with st.expander('Complete verifier audit'):
+                    st.json(analysis,expanded=False)
+        elif not text and not upload:
+            empty('Follow the references', 'Paste text or upload a manuscript. Findings appear after submission.')
 
 
 def anchor_controls(client,led):

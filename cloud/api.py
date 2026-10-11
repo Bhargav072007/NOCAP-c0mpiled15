@@ -48,7 +48,9 @@ def create_app(settings=None,storage=None):
     app.add_middleware(BodyLimit,limit=settings.max_upload+65536)
     security=HTTPBearer(auto_error=False)
     def connection():
-        with engine.begin() as conn: yield conn
+        with engine.connect() as conn:
+            yield conn
+            conn.commit()
     def principal(auth:HTTPAuthorizationCredentials|None=Depends(security),conn=Depends(connection)):
         if auth is None: raise HTTPException(401,'Bearer token required')
         row=conn.execute(select(db.tokens).where(db.tokens.c.digest==digest(auth.credentials),db.tokens.c.revoked==False)).mappings().first()
@@ -93,8 +95,9 @@ def create_app(settings=None,storage=None):
     def integration(p=Depends(human),conn=Depends(connection)):
         conn.execute(select(1))
         return {'mode':'demo' if settings.demo else 'live','database':'SQLite / local' if engine.dialect.name=='sqlite' else 'PostgreSQL / TLS',
-                'storage':settings.storage,'region':settings.region,'database_query':'passed','signing_configured':bool(settings.signing_plugin),
-                'verifier_configured':bool(settings.verifier_plugin),'cloud_verified':False,
+                'storage':settings.storage,'region':settings.region,'database_query':'passed','signing_configured':bool(settings.signing_plugin) or not settings.demo,
+                'verifier_configured':True,'verifier_mode':settings.verifier_mode,
+                'hybrid_enabled':settings.verifier_mode=='hybrid','verifier_engine':'Segment 3','cloud_verified':False,
                 'note':'Configuration is not evidence of AWS reachability. Only the database query ran; S3 and real hardware require acceptance tests.'}
     @app.get('/summary')
     def summary(p=Depends(human),conn=Depends(connection)):
@@ -185,8 +188,13 @@ def create_app(settings=None,storage=None):
             return {'id':r['id'],'status':previous['payload']['status'],'duplicate':True,'fixture':previous['payload'].get('fixture',False)}
         device=owned(conn,db.devices,p['device_id'],p)
         status='UNSUPPORTED'
-        if settings.signing_plugin:
-            try: valid=plugin(settings.signing_plugin)(r,device['public_key'])
+        if not settings.demo and not settings.signing_plugin and not device['public_key']:
+            raise HTTPException(503,'Enroll the source public key before live ingestion')
+        if settings.signing_plugin or not settings.demo or device['public_key']:
+            try:
+                from cloud.verification import signature_valid
+                check=plugin(settings.signing_plugin) if settings.signing_plugin else signature_valid
+                valid=check(r,device['public_key'])
             except Exception: raise HTTPException(503,'Signing verifier unavailable') from None
             if valid is not True: raise HTTPException(422,'Signature or canonical record hash rejected')
             status='VERIFIED'
@@ -234,23 +242,89 @@ def create_app(settings=None,storage=None):
         row=conn.execute(select(db.captures.c.payload).where(db.captures.c.org_id==p['org_id'],db.captures.c.file_sha256==hashlib.sha256(data).hexdigest()).order_by(db.captures.c.sequence).limit(1)).scalar()
         return {'status':row['status'] if row else 'CAP','matched_id':row['id'] if row else None,'fixture':settings.demo,
                 'reason':'Exact stored byte match. Signature status is reported separately by the capture verdict.' if row else 'No matching file in this organization; this alone does not prove manipulation.'}
-    @app.post('/reports',status_code=201)
-    def report(value:ReportIn,p=Depends(human),conn=Depends(connection)):
-        for id in value.capture_ids: owned(conn,db.captures,id,p)
-        if settings.verifier_plugin:
-            try:
-                from dashboard.client import validate_report
-                result=validate_report({'report_id':uid('report'),'results':plugin(settings.verifier_plugin)(value.text)})
-            except Exception: raise HTTPException(503,'Citation verifier unavailable or returned invalid results') from None
-        elif settings.demo:
+    def run_report(value,p,conn,document=None):
+        # SQLite legacy transaction mode does not BEGIN for SELECT. Start a read
+        # snapshot explicitly; PostgreSQL locks source heads before reading chains.
+        if engine.dialect.name=='sqlite' and not conn.connection.driver_connection.in_transaction:
+            conn.exec_driver_sql('BEGIN')
+        selected=[owned(conn,db.captures,id,p) for id in dict.fromkeys(value.capture_ids)]
+        mode=settings.verifier_mode if value.mode=='configured' else value.mode
+        if mode=='hybrid' and settings.verifier_mode!='hybrid':
+            raise HTTPException(503,'Hybrid analysis is not enabled on this API')
+        if mode=='demo':
+            if not settings.demo: raise HTTPException(403,'Synthetic reports are disabled')
             from dashboard.client import FixtureClient,APIError
             try: result=FixtureClient().report(value.text,value.capture_ids)
-            except APIError: raise HTTPException(422,'Local demo supports the two prepared citation examples only') from None
-            result['report_id']=uid('report')
-        else: raise HTTPException(503,'Citation verifier is not configured')
-        result['fixture']=settings.demo
-        conn.execute(insert(db.reports).values(id=result['report_id'],org_id=p['org_id'],payload={**result,'text':value.text,'capture_ids':value.capture_ids},created_at=now()))
-        event(conn,p,'report.created',result['report_id']);return result
+            except APIError: raise HTTPException(422,'Choose one of the prepared synthetic examples') from None
+            result['analysis_mode']='demo'
+        else:
+            # Read a complete ordered snapshot for each selected source. Keys and chain
+            # heads come from enrollment, never from author-supplied context JSON.
+            device_ids={r['device_id'] for r in selected}
+            devices=[dict(r) for r in conn.execute(select(db.devices).where(
+                db.devices.c.org_id==p['org_id'],db.devices.c.id.in_(device_ids)
+            ).order_by(db.devices.c.id).with_for_update()).mappings()] if device_ids else []
+            rows=[dict(r) for r in conn.execute(select(db.captures).where(
+                db.captures.c.org_id==p['org_id'],db.captures.c.device_id.in_(device_ids)
+            ).order_by(db.captures.c.sequence).limit(501)).mappings()] if device_ids else []
+            if len(rows)>500: raise HTTPException(413,'Evidence chain exceeds the 500-capture review limit')
+            # Release the read transaction before potentially slow external model calls.
+            conn.commit()
+            try:
+                if settings.verifier_plugin and value.mode=='configured':
+                    from dashboard.client import validate_report
+                    flags=plugin(settings.verifier_plugin)(value.text)
+                    from cloud.verification import presentation
+                    result=validate_report({'report_id':'pending','results':presentation({'flags':flags})})
+                    result.update(analysis={'flags':flags,'issues':['Custom adapter does not assess linked workspace captures.']},analysis_mode='custom',fixture=False)
+                else:
+                    from cloud.verification import analyse_workspace
+                    result=analyse_workspace(value.text,org_id=p['org_id'],captures=rows,devices=devices,
+                        selected_ids=value.capture_ids,store=store,mode=mode,
+                        quantum=settings.verifier_quantum,document=document)
+            except Exception:
+                raise HTTPException(503,'Research verifier unavailable or evidence could not be assessed') from None
+        result.update(report_id=uid('report'),created_at=now(),workspace_demo=settings.demo)
+        if document:
+            result['document']={k:document[k] for k in ('file_sha256','warnings')}
+        # Persist the complete verifier audit, not only the simplified UI badges.
+        payload={**result,'text':value.text,'capture_ids':value.capture_ids}
+        conn.execute(insert(db.reports).values(id=result['report_id'],org_id=p['org_id'],payload=payload,created_at=result['created_at']))
+        event(conn,p,'report.created',result['report_id'])
+        conn.commit()  # Make the saved report visible before sending a success response.
+        return result
+
+    @app.post('/reports',status_code=201)
+    def report(value:ReportIn,p=Depends(human),conn=Depends(connection)):
+        return run_report(value,p,conn)
+
+    @app.post('/reports/file',status_code=201)
+    def report_file(file:UploadFile=File(...),capture_ids:str=Form('[]',max_length=10000),
+                    mode:str=Form('configured'),p=Depends(human),conn=Depends(connection)):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        suffix=Path(file.filename or '').suffix.lower()
+        if suffix not in {'.pdf','.docx','.txt','.md','.tex'}:
+            raise HTTPException(422,'Use a PDF, DOCX, TXT, Markdown or TeX manuscript')
+        data=file.file.read(settings.max_upload+1)
+        if not data or len(data)>settings.max_upload: raise HTTPException(413,'Document must contain 1 byte to 25 MiB')
+        try:
+            from verifier.parser import parse_document
+            with TemporaryDirectory(prefix='nocap-manuscript-') as folder:
+                path=Path(folder)/('manuscript'+suffix);path.write_bytes(data)
+                document=parse_document(path)
+            value=ReportIn(text=document['text'],capture_ids=json.loads(capture_ids),mode=mode)
+        except Exception:
+            raise HTTPException(422,'Document could not be read. Supply selectable text, up to 50,000 characters; scanned PDFs need OCR.') from None
+        return run_report(value,p,conn,document)
+
+    @app.get('/reports')
+    def list_reports(limit:int=Query(20,ge=1,le=100),p=Depends(human),conn=Depends(connection)):
+        rows=conn.execute(select(db.reports.c.id,db.reports.c.created_at,db.reports.c.payload).where(
+            db.reports.c.org_id==p['org_id']).order_by(db.reports.c.created_at.desc(),db.reports.c.id).limit(limit)).mappings()
+        return [{'report_id':r['id'],'created_at':r['created_at'],
+                 'analysis_mode':r['payload'].get('analysis_mode','legacy'),
+                 'findings':len(r['payload'].get('results',[]))} for r in rows]
     @app.get('/reports/{id}')
     def get_report(id:str,p=Depends(human),conn=Depends(connection)): return owned(conn,db.reports,id,p)['payload']
     @app.get('/ledger')

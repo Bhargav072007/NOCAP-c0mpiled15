@@ -109,7 +109,8 @@ Existing capture/report/ledger shapes remain usable. Additions:
 | GET /captures | List, default 100, max 500, `after` sequence cursor |
 | GET /captures/{id}/file | Original bytes, authenticated and digest checked |
 | POST /verify/file | Registry byte comparison; UNSUPPORTED for unverified matches |
-| POST /reports, GET /reports/{id} | Stored citation reports via plugin or explicit fixtures |
+| POST /reports, POST /reports/file | Segment 3 text or manuscript review with authenticated evidence |
+| GET /reports, GET /reports/{id} | Organization-scoped saved report history / full audit |
 | GET /ledger | Stable ordered snapshot and real SHA-256 Merkle computation |
 | POST /ledger/anchor | Explicit 503 until durable API orchestration is integrated |
 | GET /pubkey?device_id=... | That org device's enrolled public key; 404 if absent |
@@ -156,8 +157,9 @@ export DATABASE_URL='postgresql+psycopg://<app-user>:<url-encoded-password>@<rds
 export NOCAP_STORAGE=s3
 export S3_BUCKET='<private-bucket>'
 export AWS_REGION=us-east-2
-export NOCAP_SIGNING_PLUGIN='team_signing_adapter:verify_record'
-export NOCAP_VERIFIER_PLUGIN='verifier:verify'
+# Built-in signature and verifier integration requires no plugin paths.
+export NOCAP_VERIFIER_MODE=hybrid
+# Configure the selected provider credential privately; see docs/INTEGRATION.md.
 ```
 
 After the owner approves the migration target:
@@ -185,11 +187,13 @@ def verify_record(record: dict, public_key_pem: str) -> bool:
 ```
 
 The application imports that trusted server-configured function. No plugin path
-comes from a request. Exceptions yield 503; False yields 422. Missing signing
-fails closed in live mode. Citation plugin `verify(text)` returns the shared list
-of findings and is schema-validated. No AI backend is fabricated. Whole-chain
-verification and durable Sepolia orchestration are still owner integrations;
-ledger always reports chain_ok=null until a real audit is connected.
+comes from a request. Exceptions yield 503; False yields 422. Without an override,
+the built-in Segment 3 canonical SHA-256 / Ed25519 verifier checks enrolled keys.
+Missing enrollment fails closed in live mode. Research reports verify complete
+chains for selected sources and retain their provenance findings. The separate
+ledger export still reports chain_ok=null; durable Sepolia orchestration remains
+unconnected. A legacy text-only citation adapter can still be configured, but
+it explicitly reports that linked captures were not assessed. See [INTEGRATION.md](INTEGRATION.md).
 
 On the dashboard host (no DB/S3 credentials):
 

@@ -66,7 +66,7 @@ class LiveClient:
             kwargs['headers'] = {**kwargs.get('headers',{}), 'Authorization':'Bearer '+self.token}
         try:
             response = self.session.request(method, self.base_url + path,
-                                            timeout=(3.05, 20), allow_redirects=False, **kwargs)
+                                            timeout=kwargs.pop('timeout', (3.05, 20)), allow_redirects=False, **kwargs)
             if not 200 <= response.status_code < 300:
                 hint={401:'Sign in again or check the access token.',403:'Your role does not permit this action.',409:'This record changed or already exists. Refresh before saving.',413:'The file or snapshot exceeds the supported size limit.',422:'Check required fields and the submitted record.',503:'The required service or integration is unavailable.'}.get(response.status_code,'Check the service and retry.')
                 raise APIError(f'API returned HTTP {response.status_code}. {hint}')
@@ -105,10 +105,23 @@ class LiveClient:
             raise APIError('Choose a nonempty file up to 25 MiB.')
         return validate_verdict(self.json('POST', '/verify/file', files={'file': (name, data, mime)}))
 
-    def report(self, text, capture_ids=None):
+    def report(self, text, capture_ids=None, mode='configured'):
         if not text.strip() or len(text) > 50000:
             raise APIError('Enter between 1 and 50,000 characters.')
-        return validate_report(self.json('POST', '/reports', json={'text':text, 'capture_ids':capture_ids or []}))
+        return validate_report(self.json('POST', '/reports', json={'text':text, 'capture_ids':capture_ids or [], **({'mode':mode} if mode!='configured' else {})}, timeout=(3.05,600)))
+
+    def report_file(self, name, data, mime='application/octet-stream', capture_ids=None, mode='configured'):
+        if not data or len(data)>MAX_FILE:
+            raise APIError('Choose a nonempty manuscript up to 25 MiB.')
+        return validate_report(self.json('POST','/reports/file',
+            files={'file':(name,data,mime)}, data={'capture_ids':json.dumps(capture_ids or []),'mode':mode},
+            timeout=(3.05,600)))
+
+    def reports(self):
+        return self.json('GET','/reports')
+
+    def saved_report(self, report_id):
+        return validate_report(self.json('GET','/reports/'+quote(report_id,safe='')))
 
     def anchor(self):
         # Contract stays POST /ledger/anchor with no invented request fields.

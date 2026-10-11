@@ -30,6 +30,7 @@ class CommentIn(Strict):
 class ReportIn(Strict):
     text: str=Field(min_length=1,max_length=50000)
     capture_ids: list[str]=Field(default_factory=list,max_length=100)
+    mode: Literal['configured','offline','hybrid','demo']='configured'
 class CaptureIn(BaseModel):
     # Do not normalize signed field bytes: retain original strings exactly.
     model_config=ConfigDict(extra='forbid')
