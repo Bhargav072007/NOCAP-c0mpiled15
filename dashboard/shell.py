@@ -2,6 +2,7 @@
 import os
 from dashboard.motion import ambient_ribbon
 from dashboard.demo import workflow_demo
+from dashboard.lively import evidence_flow, motion_switch
 import streamlit as st
 from dashboard.client import APIError, LiveClient, make_client
 
@@ -25,9 +26,9 @@ def brand():
 
 def landing(is_demo):
     with st.container(key='public'):
-        st.html(f'''<header class="nc-public-nav">{brand()}<nav aria-label="Main navigation"><a href="#workflow" target="_self">How it works</a><a href="?page=login" target="_self">Sign in</a><a class="nc-link-primary" href="?page=login" target="_self">Open workspace <span aria-hidden="true">↗</span></a></nav></header>
+        st.html(f'''<header class="nc-public-nav">{brand()}<nav aria-label="Main navigation"><a href="#workflow" target="_self">How it works</a><a href="?page=login" target="_self">Sign in</a><a class="nc-link-primary" href="?page=login" target="_self">Open workspace <span aria-hidden="true">↗</span></a></nav></header>{motion_switch("home")}
         <section class="nc-hero"><div class="nc-hero-copy"><h1><span class="nc-hero-line"><span>Good research.</span></span><span class="nc-hero-line"><span>Clear evidence.</span></span></h1><p>Keep original captures, citation checks, and your team’s review in one place. Follow every finding back to its source.</p><div class="nc-hero-actions"><a class="nc-link-primary" href="?page=login" target="_self">Enter the workspace <span aria-hidden="true">↗</span></a><a class="nc-link-secondary" href="#demo" target="_self">Explore the demo</a></div><div class="nc-hero-note">NoCap <span> / </span> Proof, not vibes.</div></div>
-        {workflow_demo()}</section>
+        {workflow_demo()}</section>{evidence_flow()}
         <section id="workflow" class="nc-workflow"><div class="nc-section-heading"><h2>From the first capture<br>to the final review.</h2><p>One connected NoCap device.<br>A shared workspace for the whole team.</p></div><div class="nc-workflow-grid"><article><span>01 / COLLECT</span><h3>Keep the original.</h3><p>Bring the source file and capture record into your workspace. Inspect its provenance alongside the evidence.</p></article><article><span>02 / REVIEW</span><h3>Look a little closer.</h3><p>Compare a file, check references, and assign findings to a teammate. Keep comments with the review.</p></article><article><span>03 / EXPORT</span><h3>Leave a clear trail.</h3><p>Download the audit ledger with record hashes and the reported chain status for further inspection.</p></article></div></section>
         <section class="nc-bottom-cta"><div><h2>Start with the evidence.</h2></div><a class="nc-link-primary" href="?page=login" target="_self">Open workspace <span aria-hidden="true">↗</span></a></section>
         <footer class="nc-footer"><span>NoCap <span class="nc-muted">/ Proof, not vibes.</span></span><span>Capture. Review. Document.</span><a href="?page=login" target="_self">Sign in ↗</a></footer>''')

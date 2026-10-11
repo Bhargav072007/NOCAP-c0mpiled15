@@ -1103,3 +1103,9 @@ Next action: user tests http://localhost:8501, reviews docs/FULLSTACK.md and han
 - Added self-hosted fonts, restrained shared palette, editorial workflow list and flatter review workspace. Retained single source, real access flows, 3D demo and paused/reduced-motion support.
 - 66 tests + 7 subtests pass; browser access, validation, motion preferences and responsive layouts checked. Phone 3D overflow corrected. One reviewed font detector warning remains.
 - Report: reports/UI-R3-refinement.md. No live hardware/cloud or verifier integration claim.
+
+### UI-M3 — 2026-10-11T22:19:46.392438+00:00
+
+- Applied Emil Kowalski animate skill: new document-stack/scanner/packet illustration on home and Overview, visible headline arrival, orbital ribbon, and focused UI feedback.
+- Added native surface pause controls and extended manual/system reduced-motion support including modal portals. Real evidence data stays stationary; one-source model and access remain intact.
+- 66 tests + 7 subtests pass; browser verified mobile/desktop, pause, reduced motion, local access and native dialog. No new dependencies. Report: reports/UI-M3-lively-motion.md.

@@ -6,6 +6,7 @@ from datetime import datetime
 import streamlit as st
 from dashboard.client import APIError
 from dashboard.motion import ambient_ribbon
+from dashboard.lively import evidence_flow
 
 STATUSES=['To review','In progress','Changes requested','Approved']
 
@@ -145,6 +146,7 @@ def overview(client, me):
         events = call(client, 'GET', '/activity')
         names = {m['id']: m['name'] for m in members}
         values = [summary['captures'], summary['open_reviews'], summary['approved'], summary['members']]
+        st.html(evidence_flow(compact=True))
         with st.container(key='overview_metrics'):
             for col, label, value in zip(st.columns(4), ['Evidence records', 'Open reviews', 'Approved reviews', 'Team members'], values):
                 with col, st.container(key='metric_'+label.replace(' ', '_')):

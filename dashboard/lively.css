@@ -1,0 +1,85 @@
+/* UI-M3: explanatory motion and tactile feedback. Emil Kowalski animate recipes.
+   Existing ease-out reused; see docs/design-sources.md for MIT attribution. */
+:root{--nc-move:cubic-bezier(.77,0,.175,1)}
+.nc-motion-toggle{display:flex;justify-content:flex-end;position:relative;z-index:2}
+.nc-motion-toggle label{font:12px 'Instrument Sans',sans-serif;color:var(--nc-muted);cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 10px;border-radius:5px}
+.nc-motion-toggle label::before{content:'';width:8px;height:10px;border-left:2px solid currentColor;border-right:2px solid currentColor}
+.nc-motion-toggle input:focus-visible+label{outline:2px solid var(--nc-accent);outline-offset:2px}
+.nc-motion-paused{display:none}.nc-motion-toggle input:checked+label .nc-motion-running{display:none}.nc-motion-toggle input:checked+label .nc-motion-paused{display:inline}
+.nc-motion-toggle input:checked+label::before{border:0;width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid currentColor}
+.st-key-public>.stElementContainer:has(.nc-public-nav) .nc-hero{padding-top:45px}
+.nc-hero-line{overflow:hidden;padding-bottom:.16em;margin-bottom:-.16em}
+.nc-hero-line>span{animation:nc-mask-arrive 700ms var(--nc-ease) both}
+.nc-hero-line:nth-child(2)>span{animation-delay:70ms}
+.nc-hero-copy>p{animation:nc-soft-arrive 600ms 140ms var(--nc-ease) backwards}
+.nc-hero-actions{animation:nc-soft-arrive 600ms 210ms var(--nc-ease) backwards}
+@keyframes nc-mask-arrive{from{transform:translateY(105%);opacity:.1}to{transform:translateY(0);opacity:1}}
+@keyframes nc-soft-arrive{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+/* A second fine orbital filament gives the existing ribbon depth. */
+.nc-ambient-art::after{content:'';position:absolute;width:90%;height:68%;border:1px solid #c1d6a580;border-radius:50%;transform:rotate(-28deg);animation:nc-filament 9s linear infinite;pointer-events:none}
+@keyframes nc-filament{to{transform:rotate(332deg)}}
+.nc-ambient-checkbox:checked~.nc-ambient-art::after,.nc-demo:has(#nc-demo-pause:checked) .nc-ambient-art::after{animation-play-state:paused}
+/* A diagram with isolated moving layers; copy never moves during the loop. */
+.nc-flow{display:grid;grid-template-columns:1fr 1.35fr;gap:50px;align-items:center;padding:48px 0 58px;margin-bottom:30px;border-top:1px solid var(--nc-line);position:relative}
+.nc-flow-copy h2{font-size:clamp(32px,3.3vw,46px);line-height:1.1;font-weight:500;letter-spacing:-.03em;margin:20px 0;padding:0}
+.nc-flow-copy p{color:var(--nc-muted);font-size:16px;line-height:1.7;max-width:320px;margin:0}
+.nc-flow-caption{font-size:12px;color:var(--nc-muted)}
+.nc-flow-copy a{display:inline-flex;gap:18px;align-items:center;min-height:44px;font-size:14px;color:var(--nc-accent)!important;margin-top:22px;text-decoration:none}
+.nc-flow-art{height:340px;position:relative;isolation:isolate;overflow:clip;perspective:900px}
+.nc-flow-grid{position:absolute;inset:0;opacity:.55;background-image:radial-gradient(#5e6d4c 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(ellipse at center,#000,transparent 70%);transform:rotateX(20deg)}
+.nc-flow-stack{position:absolute;width:142px;height:174px;left:calc(50% - 71px);top:24px;transform-style:preserve-3d;animation:nc-stack-float 8s ease-in-out infinite}
+@keyframes nc-stack-float{0%,100%{transform:translateY(0) rotateX(14deg) rotateY(-22deg) rotateZ(-8deg)}50%{transform:translateY(-12px) rotateX(6deg) rotateY(18deg) rotateZ(4deg)}}
+.nc-flow-sheet{position:absolute;inset:0;border:1px solid #75875e;border-radius:8px;backface-visibility:hidden}
+.nc-flow-sheet-back{background:#26301f;transform:translate3d(28px,-9px,-38px);opacity:.5}
+.nc-flow-sheet-mid{background:#36442a;transform:translate3d(14px,-5px,-19px);opacity:.75}
+.nc-flow-sheet-front{background:#222c1b;box-shadow:0 20px 35px #0004;overflow:hidden;padding:22px}
+.nc-flow-file-mark{width:28px;height:33px;border:1px solid #c1d6a5;border-radius:3px;margin-bottom:25px;position:relative}
+.nc-flow-file-mark::after{content:'';position:absolute;right:-1px;top:-1px;border-left:9px solid #c1d6a5;border-top:9px solid #222c1b}
+.nc-flow-sheet i{display:block;width:100%;height:2px;background:#a2b98a;margin-top:10px;opacity:.7}.nc-flow-sheet i:nth-of-type(2){width:72%}.nc-flow-sheet i:nth-of-type(3){width:45%}
+.nc-flow-scan{position:absolute;inset:0;background:linear-gradient(transparent 0%,transparent 70%,#c1d6a520 97%,#c1d6a5 100%);animation:nc-scan 4s var(--nc-move) infinite;pointer-events:none}
+@keyframes nc-scan{0%{transform:translateY(-100%);opacity:0}15%{opacity:.9}85%{opacity:.9}100%{transform:translateY(100%);opacity:0}}
+.nc-flow-rail{position:absolute;left:16.66%;right:16.66%;height:1px;bottom:88px;background:#465738;overflow:visible}
+.nc-flow-packet{position:absolute;inset:-1px 0;height:3px;background:linear-gradient(90deg,transparent 0 88%,#c1d6a5 97%,#e9f4dc);clip-path:inset(0 0 0 84%);animation:nc-packet 5s linear infinite;opacity:0}
+.nc-flow-packet-two{animation-delay:-2.5s}
+@keyframes nc-packet{0%{transform:translateX(-85%);opacity:0}8%,88%{opacity:1}100%{transform:translateX(0);opacity:0}}
+.nc-flow-stops{position:absolute;left:0;right:0;bottom:13px;display:grid;grid-template-columns:repeat(3,1fr);text-align:center;gap:8px}
+.nc-flow-stops>div{position:relative}.nc-flow-node{display:block;position:relative;width:10px;height:10px;margin:0 auto 19px;border:1px solid #bbd59d;background:#1b2514;border-radius:50%}
+.nc-flow-node::after{content:'';position:absolute;inset:-6px;border:1px solid #a6c688;border-radius:50%;animation:nc-node-pulse 5s var(--nc-ease) infinite;opacity:0}
+.nc-flow-stops>div:nth-child(2) .nc-flow-node::after{animation-delay:.9s}.nc-flow-stops>div:nth-child(3) .nc-flow-node::after{animation-delay:1.8s}
+@keyframes nc-node-pulse{0%,60%,100%{transform:scale(.75);opacity:0}15%{opacity:.8}45%{transform:scale(1.6);opacity:0}}
+.nc-flow-stops b{font-size:14px;font-weight:500;display:block}.nc-flow-stops small{font-size:12px;color:var(--nc-muted);display:block;margin-top:5px}
+/* Compact explanatory motion for the Overview, explicitly separated from metrics. */
+.nc-flow-compact{grid-template-columns:230px 1fr;gap:24px;padding:18px 22px;margin:0 0 18px;border:1px solid var(--nc-line);border-radius:8px;background:#192015;min-width:0}
+.nc-flow-compact .nc-flow-caption{font-size:11px}.nc-flow-compact .nc-flow-copy h3{font-size:23px;margin:7px 0 5px;padding:0}.nc-flow-compact .nc-flow-copy p{font-size:12px}
+.nc-flow-compact .nc-flow-art{height:125px;margin-right:120px}.nc-flow-compact .nc-flow-stack{width:38px;height:46px;top:18px;left:calc(50% - 19px)}
+.nc-flow-compact .nc-flow-sheet{border-radius:3px}.nc-flow-compact .nc-flow-sheet-front{padding:7px}.nc-flow-compact .nc-flow-file-mark{width:12px;height:15px;margin-bottom:5px}.nc-flow-compact .nc-flow-file-mark::after{border-width:4px}
+.nc-flow-compact .nc-flow-sheet i{margin-top:4px;height:1px}.nc-flow-compact .nc-flow-sheet i:nth-of-type(3){display:none}
+.nc-flow-compact .nc-flow-sheet-back{transform:translate3d(10px,-3px,-14px)}.nc-flow-compact .nc-flow-sheet-mid{transform:translate3d(5px,-2px,-7px)}
+.nc-flow-compact .nc-flow-rail{bottom:53px}.nc-flow-compact .nc-flow-stops{bottom:12px}.nc-flow-compact .nc-flow-node{margin-bottom:14px}.nc-flow-compact .nc-flow-stops b{font-size:12px}.nc-flow-compact .nc-flow-stops small{display:none}
+.nc-flow-compact .nc-motion-toggle{position:absolute;right:12px;top:calc(50% - 22px)}
+/* Retargetable feedback on the controls that actually receive an interaction. */
+.st-key-workspace [class*=st-key-metric_]{position:relative}
+.st-key-workspace [class*=st-key-metric_]::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--nc-accent);transform:scaleX(0);transform-origin:left;transition:transform 180ms var(--nc-ease)}
+.st-key-navigation [role=tab]{position:relative}
+.st-key-navigation [role=tab]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--nc-accent);transform:scaleX(0);transform-origin:left;transition:transform 180ms var(--nc-ease)}
+.st-key-navigation [role=tab][aria-selected=true]::after{transform:scaleX(1)}
+.st-key-navigation [data-baseweb=tab-highlight]{background:transparent}
+.st-key-workspace [data-testid=stFileUploaderDropzone] [data-testid=stIconMaterial],.nc-person .nc-avatar,.nc-hero-actions a>span,.nc-flow-copy a>span{transition:transform 180ms var(--nc-ease)}
+.nc-task-row{position:relative}.nc-task-row::before{content:'';position:absolute;inset:0;background:#c1d6a50a;opacity:0;transition:opacity 160ms ease;pointer-events:none}
+@media(hover:hover) and (pointer:fine){
+ .st-key-workspace [class*=st-key-metric_]:hover::after{transform:scaleX(1)}
+ .nc-task-row:hover::before{opacity:1}
+ .nc-person:hover .nc-avatar{transform:rotate(-6deg) scale(1.08)}
+ .st-key-workspace [data-testid=stFileUploaderDropzone]:hover [data-testid=stIconMaterial]{transform:translateY(-4px)}
+ .nc-hero-actions a:hover>span,.nc-flow-copy a:hover>span{transform:translate(3px,-3px)}
+ .nc-flow-art:hover .nc-flow-stack{animation-play-state:paused}
+}
+/* CSS starting-style recipe: occasional dialogs only; retain native focus handling. */
+[role=dialog]{transition:opacity 250ms var(--nc-ease),transform 250ms var(--nc-ease)}
+@starting-style{[role=dialog]{opacity:0;transform:translateY(8px) scale(.96)}}
+/* The existing global preference takes priority, including modal portals. */
+.st-key-public:has(#nc-home-motion:checked) *,.st-key-public:has(#nc-home-motion:checked) *::before,.st-key-public:has(#nc-home-motion:checked) *::after,
+.st-key-workspace:has(#nc-workspace-motion:checked) *,.st-key-workspace:has(#nc-workspace-motion:checked) *::before,.st-key-workspace:has(#nc-workspace-motion:checked) *::after{animation-play-state:paused!important}
+@media(max-width:1000px){.nc-flow-compact{grid-template-columns:180px 1fr}.nc-flow-compact .nc-flow-art{margin-right:0}.nc-flow-compact .nc-motion-toggle{position:static;grid-column:1;grid-row:2;justify-content:flex-start}.nc-flow-compact .nc-flow-art{grid-column:2;grid-row:1/3}}
+@media(max-width:700px){.nc-flow{grid-template-columns:1fr;gap:22px;padding:35px 0}.nc-flow-copy h2{font-size:36px}.nc-flow-copy h2 br{display:none}.nc-flow-art{height:320px}.nc-flow-copy p{max-width:440px}.nc-flow-compact{padding:18px;gap:12px}.nc-flow-compact .nc-flow-copy{grid-column:1;grid-row:1}.nc-flow-compact .nc-motion-toggle{grid-column:1;grid-row:2;justify-content:flex-start}.nc-flow-compact .nc-flow-art{grid-column:1;grid-row:3;width:100%;height:125px}.nc-flow-compact .nc-flow-copy h3{font-size:23px}.nc-flow-compact .nc-flow-copy p{font-size:13px}.nc-flow-compact .nc-flow-copy h3{margin-top:6px}}
+@media(prefers-reduced-motion:reduce){.nc-motion-toggle{display:none}.nc-hero-line>span{transform:none;opacity:1}.nc-flow *,.nc-flow *::after,.nc-ambient-art::after{animation:none!important;transition:none!important}[role=dialog]{transition:none;transform:none}.nc-flow-scan{display:none}.nc-flow-stack{transform:rotateX(8deg) rotateY(-12deg)}@starting-style{[role=dialog]{opacity:1;transform:none}}}

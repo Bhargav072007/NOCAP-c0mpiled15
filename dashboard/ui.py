@@ -11,6 +11,7 @@ def styles(opaque=False, still=False):
     css += Path(__file__).with_name('motion.css').read_text()
     css += Path(__file__).with_name('demo.css').read_text()
     css += Path(__file__).with_name('refinement.css').read_text()
+    css += Path(__file__).with_name('lively.css').read_text()
     if opaque:
         css += '.nc-mode-banner,.nc-status {background:#141a10!important;}'
     if still:
@@ -20,7 +21,10 @@ def styles(opaque=False, still=False):
           .st-key-sidebar_nav *,.st-key-sidebar_nav *::before,.st-key-sidebar_nav *::after
           {animation:none!important;transition:none!important;}
           .nc-hero-line>span{transform:none!important;opacity:1!important;}
-          .nc-ambient-control,.nc-ambient-checkbox,.nc-demo-pause,#nc-demo-pause{display:none;}'''
+          [role=dialog]{transition:none!important;transform:none!important;}
+          @starting-style{[role=dialog]{opacity:1!important;transform:none!important;}}
+          .nc-ambient-control,.nc-ambient-checkbox,.nc-demo-pause,#nc-demo-pause,.nc-motion-toggle{display:none;}
+          .nc-flow-scan{display:none;}'''
     st.html('<style>' + css + '</style>')
 
 
