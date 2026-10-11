@@ -1,10 +1,75 @@
 # NoCap — Proof, not vibes.
 
-A full-stack workspace with a public landing page and sign-in for evidence review, team collaboration and
-NoCap device ingestion. Streamlit frontend, authenticated FastAPI, SQLAlchemy
-persistence, local files/SQLite for demo, and PostgreSQL/private-S3 adapters for
-the team's AWS integration. Dark reference-dashboard layout with restrained
-transitions, clear status labels and reduced-motion support.
+## The problem
+
+Research papers can look convincing while their evidence is difficult to inspect.
+A reference may not exist, a real source may not support the claim made about it,
+and a published figure may be disconnected from the original lab data. When papers,
+source files and review conversations live in different places, resolving those
+questions becomes slow and hard to audit.
+
+## The product
+
+**NoCap is a pre-publication research integrity workspace** that brings papers,
+source evidence and team review into one place. It helps researchers inspect three
+questions: **Does the reference exist? Does it support the claim? Does the
+underlying data support the result?** Findings guide human review; they are not an
+automatic verdict on scientific correctness.
+
+The software is the core product. One optional NoCap capture device connects lab
+or field evidence to the workspace. Research teams can collect originals, assign
+review work, discuss findings and keep an inspectable record of decisions.
+
+![Angled view of the NoCap prototype: white enclosure, green logo, camera and display](dashboard/static/product/nocap-studio-hero.webp)
+
+*NoCap capture prototype — retouched photograph based on the supplied product photo.*
+
+### From the bench to the paper
+
+1. **Collect:** upload a research paper and retain supporting capture files with lab labels.
+2. **Review:** inspect reference checks, evidence provenance and coverage gaps; assign findings to teammates.
+3. **Document:** save reports, record review decisions and download the audit output.
+
+| Part | What it does today |
+| --- | --- |
+| Research papers | Accepts PDF, DOCX, TXT, Markdown and TeX; extracts text and saves review reports. Default publication checks look up up to 12 DOI references. |
+| Evidence studio | Displays source evidence and supports file comparison, record hashes and signature verification for correctly enrolled signed captures. |
+| Team workbench | Tracks assignments, comments, review statuses and approval permissions. |
+| Capture ingestion | Supports JPEG, PNG and MP4 uploads up to 50 MiB, with optional lab annotations. Unsigned uploads remain explicitly unverified. |
+| Deeper analysis | Provider-backed analysis is optional and requires configuration; publication identity alone does not establish claim support. |
+
+### Meet the capture prototype
+
+![Top view of the NoCap prototype showing the camera, display and electronics cutouts](dashboard/static/product/nocap-studio-detail.webp)
+
+*Top view — retouched prototype photograph, not a production render.*
+
+The documented hardware design uses a **Raspberry Pi 5 and Camera Module 3**, with
+push-to-talk notes and sensor measurements as intended capture inputs. The signing
+implementation uses **SHA-256 hashes, Ed25519 signatures and chained records** to
+help establish origin and detect changes. A valid signature does not establish
+whether an experiment or conclusion is correct.
+
+The workspace is designed around **one connected source**, with connection details
+in Settings. Hardware voice/sensor capabilities and end-to-end physical-device
+validation should not be inferred from the software demo. See the
+[product content and photo provenance](docs/product-content-sources.md).
+
+## Try the demo
+
+[Open the NoCap Codespaces demo](https://glowing-potato-5wj6ww5654627r55-8501.app.github.dev/)
+
+This is a temporary demonstration link: the Codespace and application must be
+running, and port 8501 must be public for visitors. It uses a demo workspace with
+synthetic evidence; it is not a permanent production deployment. If unavailable,
+run the complete local demo below.
+
+## Architecture
+
+Streamlit frontend · authenticated FastAPI backend · SQLAlchemy persistence.
+The local demo uses SQLite and local files; production adapters support PostgreSQL
+and private S3 storage. Device credentials and workspace credentials are separate.
+Secrets, local uploads and runtime data are excluded from Git.
 
 ## Start the complete local demo
 
