@@ -332,13 +332,12 @@ Research sources accessed October 11, 2026:
 
 ## Current implementation state
 
-GH-S1: user explicitly authorized pushing this submission to
-Bhargav072007/NOCAP-c0mpiled15 with environment files ignored. A clean checkout
-preserves the repository's initial commit/license; source and tests are staged,
-66 tests + 7 subtests pass, and ignore/credential checks passed. Publication is
-pending GitHub reauthentication (connector expired; local HTTPS has no credentials).
-No remote change yet. Report: reports/GH-S1-submission.md.
-
+GH-S2: Published the dashboard/API/3D-demo submission to main in
+Bhargav072007/NOCAP-c0mpiled15. Verified remote commit:
+1e619faad25f0c1c748b9fcc5c5c9542315fb9eb. The existing verifier source is
+preserved unchanged; README, environment template and dependencies combine both
+submissions. Uploaded tree matches the local tree exactly. Dashboard regression:
+66 tests + 7 subtests pass. Live cross-component integration remains unverified.
 
 UI-M2 implements the latest dynamic-demo / responsive / 3D-animation request. The
 landing preview now cycles through capture, review and export panels in a CSS 3D
@@ -401,7 +400,7 @@ not current acceptance commands. Original PDF baseline and append-only history p
 
 | UI-M2 | Dynamic 3D workflow demo and responsive refinement | Complete locally | [reports/UI-M2-dynamic-demo.md](reports/UI-M2-dynamic-demo.md) |
 
-| GH-S1 | GitHub submission and environment exclusions | Prepared; authentication pending | [reports/GH-S1-submission.md](reports/GH-S1-submission.md) |
+| GH-S1 | GitHub submission and environment exclusions | Published; see GH-S2 log | [reports/GH-S1-submission.md](reports/GH-S1-submission.md) |
 
 Verifier takeover remains conditional under the original assignment; it is not automatically activated by this UI sequence.
 
@@ -1088,3 +1087,12 @@ Next action: user tests http://localhost:8501, reviews docs/FULLSTACK.md and han
 - Submission-checkout pytest: 66 tests + 7 subtests passed, two existing warnings. Git diff whitespace checks passed.
 - Blocker: GitHub connector requires reauthentication and local HTTPS Git has no credentials. Asked user to reconnect; no remote change made at this milestone.
 - Next: reconnect, verify remote main has not changed, and publish without force. Report: reports/GH-S1-submission.md.
+
+### GH-S2 — 2026-10-11T21:58:46.818841+00:00
+
+- GitHub connector authentication resolved; authenticated account has push permission.
+- Preserved remote verifier commit d528f66, resolving only shared README, requirements, ignore rules and environment template. Verifier source unchanged.
+- Dashboard 66 tests + 7 subtests passed after combination. Uploaded tree 0bbf5b168699ad131612edd6d2da2701cf49154c exactly matched local.
+- Published commit 1e619faad25f0c1c748b9fcc5c5c9542315fb9eb to main via non-force ref update; git ls-remote confirmed it. No Codespace or paid resource created.
+- Environment/private keys/runtime data excluded; blank configuration template included. Verifier suite was not re-run; end-to-end live integration is not claimed.
+- Next: collaborator review of the combined repository and live integration acceptance.
