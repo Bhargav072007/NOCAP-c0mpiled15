@@ -70,3 +70,6 @@ hybrid_report.json
 hybrid_science_report.json
 hybrid_extraction_validation.json
 hybrid_reference_validation.json
+
+# Signing runtime data (records, chain tip, public key copy)
+/data/
