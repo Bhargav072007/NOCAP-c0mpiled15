@@ -23,7 +23,7 @@ class S3Storage:
         self.client.put_object(Bucket=self.bucket,Key=key,Body=data,ServerSideEncryption='AES256',ContentType='application/octet-stream')
     def get(self,key):
         response=self.client.get_object(Bucket=self.bucket,Key=key)
-        try: return response['Body'].read(25*1024*1024+1)
+        try: return response['Body'].read(50*1024*1024+1)
         finally: response['Body'].close()
     def delete(self,key): self.client.delete_object(Bucket=self.bucket,Key=key)
 

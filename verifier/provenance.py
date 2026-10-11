@@ -23,7 +23,7 @@ def sha256_file(path):
 def verify_record(record,path,public_key):
     try:
         if any(k not in record for k in (*FIELDS,'record_hash','signature')): return 'INVALID_RECORD'
-        if record['type'] not in ('photo','audio','reading'): return 'INVALID_RECORD'
+        if record['type'] not in ('photo','video','audio','reading'): return 'INVALID_RECORD'
         if any(not isinstance(record[k],str) or not HEX.fullmatch(record[k]) for k in ('file_sha256','prev_hash','record_hash')): return 'INVALID_RECORD'
         if sha256_file(path)!=record['file_sha256']: return 'TAMPERED_FILE'
         digest=hashlib.sha256(canonical(record)).hexdigest()

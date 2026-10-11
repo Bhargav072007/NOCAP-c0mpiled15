@@ -11,7 +11,7 @@ buttonRadius = "medium"
 
 [server]
 enableStaticServing = true
-maxUploadSize = 25
+maxUploadSize = 50
 headless = true
 
 [browser]

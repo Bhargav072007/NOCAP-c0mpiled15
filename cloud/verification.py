@@ -1,24 +1,10 @@
 """Translate Segment 3 findings without discarding its audit or trusting upload paths."""
-import hashlib
 from pathlib import Path
 
 
 def signature_valid(record, public_key):
-    from cryptography.hazmat.primitives import serialization
-    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
-    from cryptography.exceptions import InvalidSignature
-    from verifier.provenance import canonical
-    try:
-        digest = hashlib.sha256(canonical(record)).hexdigest()
-        if digest != record['record_hash']:
-            return False
-        key = serialization.load_pem_public_key(public_key.encode())
-        if not isinstance(key, Ed25519PublicKey):
-            return False
-        key.verify(bytes.fromhex(record['signature']), bytes.fromhex(digest))
-        return True
-    except (InvalidSignature, ValueError, TypeError, KeyError):
-        return False
+    from signing.adapter import verify_record
+    return verify_record(record, public_key)
 
 
 def presentation(analysis):
@@ -51,7 +37,7 @@ def analyse_workspace(text, *, org_id, captures, devices, selected_ids, store, m
             record = row['payload']
             data = store.get(row['object_key'])
             total += len(data)
-            if len(data) > 25 * 1024 * 1024 or total > 100 * 1024 * 1024:
+            if len(data) > 50 * 1024 * 1024 or total > 100 * 1024 * 1024:
                 raise ValueError('Evidence snapshot exceeds the review limit')
             # Opaque generated paths, never a client-supplied local path.
             suffix = Path(record['file_name']).suffix.lower()
@@ -61,14 +47,18 @@ def analyse_workspace(text, *, org_id, captures, devices, selected_ids, store, m
             context['captures'].append({**evidence, 'record': record})
             if row['id'] in selected_ids:
                 if record['type'] == 'reading' and suffix in {'.csv', '.json'}:
-                    context['datasets'].append({**evidence, 'capture_id': row['id'], 'label': record['file_name']})
+                    context['datasets'].append({**evidence, 'capture_id': row['id'], 'label': record.get('metadata',{}).get('label') or record['file_name']})
                 elif record['type'] == 'photo':
-                    context['figures'].append({**evidence, 'capture_id': row['id'], 'label': record['file_name']})
+                    context['figures'].append({**evidence, 'capture_id': row['id'], 'label': record.get('metadata',{}).get('label') or record['file_name']})
         for device in devices:
             if device['public_key']:
                 context['public_keys'][device['id']] = device['public_key']
             context['expected_heads'][device['id']] = device['last_hash']
         analysis = analyse(text, context=context, mode=mode, quantum=quantum, document=document)
+        if any(r['payload']['type']=='video' for r in captures):
+            analysis['issues'].append('Video file integrity was checked; video content was not scientifically assessed.')
+        if any(any(r['payload'].get('metadata',{}).values()) for r in captures):
+            analysis['issues'].append('Lab labels are upload annotations, not part of the device signature.')
     # Verifier reports contain hashes/IDs, not temporary paths to storage originals.
     return {'results': presentation(analysis), 'analysis': analysis, 'analysis_mode': mode,
             'fixture': False, 'selected_capture_ids': selected_ids,

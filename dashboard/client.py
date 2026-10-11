@@ -93,7 +93,7 @@ class LiveClient:
             for chunk in response.iter_content(65536):
                 data.extend(chunk)
                 if len(data) > MAX_FILE:
-                    raise APIError('Capture exceeds the 25 MiB preview limit.')
+                    raise APIError('Capture exceeds the 50 MiB preview limit.')
         except requests.RequestException:
             raise APIError('Capture download interrupted. Retry the preview.') from None
         finally:
@@ -102,7 +102,7 @@ class LiveClient:
 
     def verify_file(self, name, data, mime='application/octet-stream'):
         if not data or len(data) > MAX_FILE:
-            raise APIError('Choose a nonempty file up to 25 MiB.')
+            raise APIError('Choose a nonempty file up to 50 MiB.')
         return validate_verdict(self.json('POST', '/verify/file', files={'file': (name, data, mime)}))
 
     def report(self, text, capture_ids=None, mode='configured'):
@@ -111,7 +111,7 @@ class LiveClient:
         return validate_report(self.json('POST', '/reports', json={'text':text, 'capture_ids':capture_ids or [], **({'mode':mode} if mode!='configured' else {})}, timeout=(3.05,600)))
 
     def report_file(self, name, data, mime='application/octet-stream', capture_ids=None, mode='configured'):
-        if not data or len(data)>MAX_FILE:
+        if not data or len(data)>25*1024*1024:
             raise APIError('Choose a nonempty manuscript up to 25 MiB.')
         return validate_report(self.json('POST','/reports/file',
             files={'file':(name,data,mime)}, data={'capture_ids':json.dumps(capture_ids or []),'mode':mode},
@@ -172,7 +172,7 @@ class FixtureClient:
     def verify_file(self, name, data, mime='application/octet-stream'):
         self.guard()
         if not data or len(data) > MAX_FILE:
-            raise APIError('Choose a nonempty file up to 25 MiB.')
+            raise APIError('Choose a nonempty file up to 50 MiB.')
         matched = next((r for r in self.captures() if r['file_sha256'] == hashlib.sha256(data).hexdigest()), None)
         return validate_verdict({'status': 'VERIFIED' if matched else 'CAP',
             'matched_id': matched['id'] if matched else None,
@@ -221,7 +221,7 @@ def make_client(scenario='Populated'):
 from pathlib import Path
 from urllib.parse import quote
 DEMO = Path(__file__).resolve().parents[1] / 'demo'
-MAX_FILE = 25 * 1024 * 1024
+MAX_FILE = 50 * 1024 * 1024
 STATUSES = {'VERIFIED', 'CAP', 'UNSUPPORTED'}
 CITATION_STATUSES = {'VERIFIED', 'MISMATCH', 'NOT_FOUND', 'UNSUPPORTED'}
 
@@ -237,7 +237,7 @@ def validate_captures(value):
             if not isinstance(record.get(key), str):
                 raise APIError(f'Malformed capture: {key} must be text.')
         if (record['id'] in seen or not record['id'] or record['status'] not in STATUSES
-            or record['type'] not in {'photo','audio','reading'}
+            or record['type'] not in {'photo','video','audio','reading'}
             or any(not HEX64.fullmatch(record[k]) for k in ('file_sha256','prev_hash','record_hash'))):
             raise APIError('Malformed capture: invalid ID, type, status or hash.')
         seen.add(record['id'])

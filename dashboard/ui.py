@@ -137,6 +137,9 @@ def captures_view(client):
                     image = Image.open(BytesIO(data))
                     image.verify()
                     st.image(data, caption='Synthetic calibration graphic · not a camera capture' if client.mode=='fixture' else record['file_name'], width='stretch')
+                elif record['type']=='video':
+                    st.video(data,format='video/mp4')
+                    st.caption('Original video. File integrity is separate from scientific content review.')
                 elif record['type']=='audio':
                     st.audio(data)
                     st.caption('Synthetic 440 Hz tone · not a field recording' if client.mode=='fixture' else 'Original API audio')
@@ -150,6 +153,12 @@ def captures_view(client):
             st.markdown('### '+record['file_name'].replace('`',''))
             st.caption(record.get('reason','Verdict supplied by the API; dashboard did not verify signatures.'))
             st.text(f"Captured: {record['captured_at']}\nDevice: {record['device_id']}\nLocation: {record['location']}")
+            if any(record.get('metadata',{}).values()):
+                st.caption('Lab annotations · not covered by the device signature')
+                for field,value in record['metadata'].items():
+                    if value: st.text(field.replace('_',' ').title()+': '+value)
+            if record.get('media'):
+                st.caption('Media inspection');st.json(record['media'],expanded=False)
             with st.expander('Full hashes and signature',expanded=False):
                 st.caption('File SHA-256'); st.code(record['file_sha256'],language=None)
                 st.caption('Record hash'); st.code(record['record_hash'],language=None)

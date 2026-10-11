@@ -15,7 +15,7 @@ from pydantic import ValidationError
 from cloud import db
 from cloud.config import Settings
 from cloud.storage import storage_for
-from cloud.schemas import MemberIn,DeviceIn,Heartbeat,WorkIn,WorkUpdate,CommentIn,ReportIn,CaptureIn
+from cloud.schemas import MemberIn,DeviceIn,Heartbeat,WorkIn,WorkUpdate,CommentIn,ReportIn,CaptureIn,CaptureMetadata
 from ledger.merkle import merkle_root
 
 log=logging.getLogger('nocap')
@@ -95,7 +95,7 @@ def create_app(settings=None,storage=None):
     def integration(p=Depends(human),conn=Depends(connection)):
         conn.execute(select(1))
         return {'mode':'demo' if settings.demo else 'live','database':'SQLite / local' if engine.dialect.name=='sqlite' else 'PostgreSQL / TLS',
-                'storage':settings.storage,'region':settings.region,'database_query':'passed','signing_configured':bool(settings.signing_plugin) or not settings.demo,
+                'storage':settings.storage,'region':settings.region,'database_query':'passed','signing_configured':True,'signing_engine':'signing.adapter:verify_record',
                 'verifier_configured':True,'verifier_mode':settings.verifier_mode,
                 'hybrid_enabled':settings.verifier_mode=='hybrid','verifier_engine':'Segment 3','cloud_verified':False,
                 'note':'Configuration is not evidence of AWS reachability. Only the database query ran; S3 and real hardware require acceptance tests.'}
@@ -172,25 +172,48 @@ def create_app(settings=None,storage=None):
         conn.execute(update(db.devices).where(db.devices.c.id==id,db.devices.c.org_id==p['org_id']).values(last_seen=now(),firmware=value.firmware))
         return {'id':id,'received_at':now()}
     @app.post('/captures',status_code=201)
-    def ingest(file:UploadFile=File(...),record:str=Form(...,max_length=16384),p=Depends(principal),conn=Depends(connection)):
+    def ingest(file:UploadFile=File(...),record:str|None=Form(None,max_length=16384),metadata:str=Form('{}',max_length=8192),p=Depends(principal),conn=Depends(connection)):
         if p['role']!='device': raise HTTPException(403,'Device token required')
-        try: model=CaptureIn.model_validate_json(record)
-        except ValidationError: raise HTTPException(422,'Invalid capture record schema') from None
+        from pathlib import Path
+        from signing.record import canonical
+        from cloud.media import inspect_media
+        try: annotations=CaptureMetadata.model_validate_json(metadata).model_dump()
+        except ValidationError: raise HTTPException(422,'Invalid lab metadata') from None
         data=file.file.read(settings.max_upload+1)
-        if not data or len(data)>settings.max_upload: raise HTTPException(413,'File must contain 1 byte to 25 MiB')
-        r=model.model_dump()
+        if not data or len(data)>settings.max_upload: raise HTTPException(413,'File must contain 1 byte to 50 MiB')
+        device=owned(conn,db.devices,p['device_id'],p)
+        receipt=record is None
+        if receipt:
+            # File-only ingestion establishes received bytes, not a device signature.
+            # Do not insert unsigned receipts into an enrolled signed-device chain.
+            if device['public_key']:
+                raise HTTPException(422,'This source has an enrolled signing key; include its signed record')
+            name=Path(file.filename or 'capture').name
+            kind={'.jpg':'photo','.jpeg':'photo','.png':'photo','.mp4':'video'}.get(Path(name).suffix.lower())
+            if not kind: raise HTTPException(422,'File-only uploads accept JPEG, PNG and MP4')
+            r=dict(id=uid('cap'),type=kind,file_name=name,file_sha256=hashlib.sha256(data).hexdigest(),
+                   captured_at=now(),device_id=p['device_id'],location=device['location'],prev_hash=device['last_hash'])
+            r['record_hash']=hashlib.sha256(canonical(r)).hexdigest();r['signature']=''
+            try: r=CaptureIn.model_validate(r).model_dump()
+            except ValidationError: raise HTTPException(422,'Invalid capture filename') from None
+        else:
+            try: r=CaptureIn.model_validate_json(record).model_dump()
+            except ValidationError: raise HTTPException(422,'Invalid capture record schema') from None
+        try: media=inspect_media(data,r['file_name'],r['type'])
+        except ValueError: raise HTTPException(422,'Invalid or unsupported image/video content') from None
         if r['device_id']!=p['device_id']: raise HTTPException(403,'Record belongs to another device')
         if hashlib.sha256(data).hexdigest()!=r['file_sha256']: raise HTTPException(422,'File SHA-256 mismatch')
         previous=conn.execute(select(db.captures).where(db.captures.c.org_id==p['org_id'],db.captures.c.id==r['id'])).mappings().first()
         if previous:
             original={k:previous['payload'][k] for k in r}
-            if original!=r: raise HTTPException(409,'Capture ID is immutable')
+            if original!=r or previous['payload'].get('metadata',{k:'' for k in annotations})!=annotations:
+                raise HTTPException(409,'Capture ID and lab metadata are immutable')
             return {'id':r['id'],'status':previous['payload']['status'],'duplicate':True,'fixture':previous['payload'].get('fixture',False)}
         device=owned(conn,db.devices,p['device_id'],p)
         status='UNSUPPORTED'
-        if not settings.demo and not settings.signing_plugin and not device['public_key']:
+        if not receipt and not settings.demo and not settings.signing_plugin and not device['public_key']:
             raise HTTPException(503,'Enroll the source public key before live ingestion')
-        if settings.signing_plugin or not settings.demo or device['public_key']:
+        if not receipt and (settings.signing_plugin or not settings.demo or device['public_key']):
             try:
                 from cloud.verification import signature_valid
                 check=plugin(settings.signing_plugin) if settings.signing_plugin else signature_valid
@@ -198,11 +221,12 @@ def create_app(settings=None,storage=None):
             except Exception: raise HTTPException(503,'Signing verifier unavailable') from None
             if valid is not True: raise HTTPException(422,'Signature or canonical record hash rejected')
             status='VERIFIED'
-        elif not settings.demo: raise HTTPException(503,'Signing integration is required before live ingestion')
+        elif not receipt and not settings.demo: raise HTTPException(503,'Signing integration is required before live ingestion')
         # Atomic head comparison serializes each device chain across API workers.
         changed=conn.execute(update(db.devices).where(db.devices.c.id==r['device_id'],db.devices.c.org_id==p['org_id'],db.devices.c.enabled==True,db.devices.c.last_hash==r['prev_hash']).values(last_hash=r['record_hash'],last_seen=now()))
         if changed.rowcount!=1: raise HTTPException(409,'Device chain head changed; reconcile before retry')
-        payload={**r,'status':status,'fixture':settings.demo,'reason':'Unsigned local ingestion; signature verification not configured.' if status=='UNSUPPORTED' else 'Record validated by configured signing adapter.'}
+        payload={**r,'status':status,'fixture':settings.demo,'metadata':annotations,'metadata_signed':False,
+                 'media':media,'received_at':now(),'origin':'server_receipt' if receipt else 'device_record','reason':'Received bytes hashed by the server; device origin is not cryptographically verified.' if status=='UNSUPPORTED' else 'Record hash and Ed25519 signature validated against the enrolled source key.'}
         key=f"{p['org_id']}/{uuid.uuid4().hex}"
         commit_started=False
         try:
@@ -224,7 +248,8 @@ def create_app(settings=None,storage=None):
             try: store.delete(key)
             except Exception: log.error('Orphan reconciliation required for capture %s',r['id'])
             raise HTTPException(503,'Storage/commit failed; retry the same capture ID') from None
-        return {'id':r['id'],'status':status,'fixture':settings.demo}
+        return {'id':r['id'],'status':status,'fixture':settings.demo,'file_sha256':r['file_sha256'],
+                'record_hash':r['record_hash'],'metadata_signed':False,'media':media}
     @app.get('/captures')
     def list_captures(limit:int=Query(100,ge=1,le=500),after:int=Query(0,ge=0),p=Depends(human),conn=Depends(connection)):
         return [dict(r.payload,sequence=r.sequence) for r in conn.execute(select(db.captures.c.payload,db.captures.c.sequence).where(db.captures.c.org_id==p['org_id'],db.captures.c.sequence>after).order_by(db.captures.c.sequence).limit(limit))]
@@ -238,7 +263,7 @@ def create_app(settings=None,storage=None):
     @app.post('/verify/file')
     def verify(file:UploadFile=File(...),p=Depends(human),conn=Depends(connection)):
         data=file.file.read(settings.max_upload+1)
-        if not data or len(data)>settings.max_upload: raise HTTPException(413,'File must contain 1 byte to 25 MiB')
+        if not data or len(data)>settings.max_upload: raise HTTPException(413,'File must contain 1 byte to 50 MiB')
         row=conn.execute(select(db.captures.c.payload).where(db.captures.c.org_id==p['org_id'],db.captures.c.file_sha256==hashlib.sha256(data).hexdigest()).order_by(db.captures.c.sequence).limit(1)).scalar()
         return {'status':row['status'] if row else 'CAP','matched_id':row['id'] if row else None,'fixture':settings.demo,
                 'reason':'Exact stored byte match. Signature status is reported separately by the capture verdict.' if row else 'No matching file in this organization; this alone does not prove manipulation.'}
@@ -307,7 +332,7 @@ def create_app(settings=None,storage=None):
         if suffix not in {'.pdf','.docx','.txt','.md','.tex'}:
             raise HTTPException(422,'Use a PDF, DOCX, TXT, Markdown or TeX manuscript')
         data=file.file.read(settings.max_upload+1)
-        if not data or len(data)>settings.max_upload: raise HTTPException(413,'Document must contain 1 byte to 25 MiB')
+        if not data or len(data)>25*1024*1024: raise HTTPException(413,'Document must contain 1 byte to 25 MiB')
         try:
             from verifier.parser import parse_document
             with TemporaryDirectory(prefix='nocap-manuscript-') as folder:

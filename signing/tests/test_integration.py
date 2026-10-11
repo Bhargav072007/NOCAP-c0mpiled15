@@ -195,7 +195,7 @@ tip_before = R.read_tip()
 check("missing file → FileNotFoundError",
       raises(lambda: R.make_record(captures / "nope.jpg", "photo"), FileNotFoundError), "FileNotFoundError")
 check("…chain not advanced", R.read_tip(), tip_before)
-check("kind 'video' → ValueError", raises(lambda: R.make_record(x, "video"), ValueError), "ValueError")
+check("kind 'unknown' → ValueError", raises(lambda: R.make_record(x, "unknown"), ValueError), "ValueError")
 
 errors = []
 def press():

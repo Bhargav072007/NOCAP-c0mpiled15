@@ -67,10 +67,10 @@ check(13, "file deleted → FILE_MISSING", verify_record(rec, caps / "gone.jpg",
 no_sig = {k: v for k, v in rec.items() if k != "signature"}
 check(14, "field missing → MALFORMED", verify_record(no_sig, photo, PUB), MALFORMED)
 try:
-    R.make_record(photo, "video"); bad_type = "accepted"
+    R.make_record(photo, "unknown"); bad_type = "accepted"
 except ValueError:
     bad_type = "rejected"
-check(15, "make_record('video') raises", bad_type, "rejected")
+check(15, "make_record('unknown') raises", bad_type, "rejected")
 
 # --- the chain ---------------------------------------------------------------
 recs = [rec] + [R.make_record(photo, "photo") for _ in range(3)]

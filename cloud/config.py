@@ -14,13 +14,13 @@ class Settings:
     verifier_plugin: str = ''
     verifier_mode: str = 'offline'
     verifier_quantum: bool = False
-    max_upload: int = 25 * 1024 * 1024
+    max_upload: int = 50 * 1024 * 1024
 
     @classmethod
     def env(cls):
         return cls(database_url=os.getenv('DATABASE_URL','sqlite:///.runtime/nocap.db'),
                    storage=os.getenv('NOCAP_STORAGE','local'),media_dir=os.getenv('NOCAP_MEDIA_DIR','.runtime/media'),
-                   bucket=os.getenv('S3_BUCKET',''),region=os.getenv('AWS_REGION','us-east-2'),
+                   bucket=os.getenv('S3_BUCKET',os.getenv('S3_BUCKET_NAME','')),region=os.getenv('AWS_REGION','us-east-2'),
                    demo=os.getenv('NOCAP_BACKEND_MODE','demo')=='demo',
                    signing_plugin=os.getenv('NOCAP_SIGNING_PLUGIN',''),verifier_plugin=os.getenv('NOCAP_VERIFIER_PLUGIN',''),
                    verifier_mode=os.getenv('NOCAP_VERIFIER_MODE','offline'),

@@ -1128,3 +1128,14 @@ frontend controls, API image source, tests and integration setup documentation.
 No Devices tab added. No private environment files included. See
 reports/FS2-verifier-integration.md and docs/INTEGRATION.md for validation and the
 remaining external-provider / AWS / physical-device acceptance boundaries.
+
+## FS3 — Deployed source ingestion and Sanjay signing (2026-10-11)
+
+User supplied the EC2 ingestion URL and a device credential for upload testing.
+Inspected f3f1cb4 and integrated its signing adapter, source labels, media
+inspection, MP4 previews, 50 MiB capture limits and file-only transport. Live PNG,
+JPEG and MP4 uploads returned matching SHA-256 values and S3 keys. The deployed
+service lacks workspace/detail routes, so labels/read-back/dashboard acceptance
+requires the updated API deployment. EC2 SSH/service access requested; no remote
+configuration changed. See reports/FS3-source-ingestion.md and
+ docs/DEVICE_INGESTION.md. Credential remains excluded from Git and documentation.

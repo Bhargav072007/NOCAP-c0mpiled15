@@ -10,7 +10,7 @@ table. No additional database migration is required.
 Follow the repository README local launcher instructions. Open the workspace,
 then **Evidence studio → Citation check**. The default **Offline evidence checks**
 option accepts arbitrary pasted text or PDF/DOCX/TXT/Markdown/TeX manuscripts.
-An uploaded file takes precedence over pasted text. Limits: 25 MiB upload,
+An uploaded file takes precedence over pasted text. Limits: 25 MiB manuscript upload, 50 MiB source capture upload,
 50,000 extracted characters, 100 selected captures, 500 chain records, and
 100 MiB total evidence bytes per review. Scanned PDFs need OCR text first.
 

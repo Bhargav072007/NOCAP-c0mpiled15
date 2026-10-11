@@ -31,11 +31,17 @@ class ReportIn(Strict):
     text: str=Field(min_length=1,max_length=50000)
     capture_ids: list[str]=Field(default_factory=list,max_length=100)
     mode: Literal['configured','offline','hybrid','demo']='configured'
+class CaptureMetadata(Strict):
+    label: str=Field(default='',max_length=160)
+    experiment_id: str=Field(default='',max_length=120)
+    sample_id: str=Field(default='',max_length=120)
+    notes: str=Field(default='',max_length=2000)
+
 class CaptureIn(BaseModel):
     # Do not normalize signed field bytes: retain original strings exactly.
     model_config=ConfigDict(extra='forbid')
     id: str=Field(pattern=r'^[A-Za-z0-9_-]{1,64}$')
-    type: Literal['photo','audio','reading']
+    type: Literal['photo','video','audio','reading']
     file_name: str=Field(min_length=1,max_length=255,pattern=r'^[^/\\\x00-\x1f]+$')
     file_sha256: str=Field(pattern=r'^[0-9a-f]{64}$')
     captured_at: str=Field(max_length=40)

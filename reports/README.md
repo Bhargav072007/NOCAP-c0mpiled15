@@ -52,3 +52,4 @@ Latest demo iteration: [UI-M2](UI-M2-dynamic-demo.md), an interactive 3D workflo
 preview with synchronized pause, native step selection and 320–1440px browser checks.
 
 - [FS2: frontend/backend verifier integration](FS2-verifier-integration.md)
+- [FS3: source ingestion, signing and deployed upload checks](FS3-source-ingestion.md)

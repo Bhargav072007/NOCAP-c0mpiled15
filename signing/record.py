@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 ROOT = Path(__file__).resolve().parent.parent
 GENESIS = "0" * 64                          # prev_hash of the very first record
-KINDS = ("photo", "audio", "reading")
+KINDS = ("photo", "video", "audio", "reading")
 DEFAULT_DEVICE_ID = "nocap-pi5-01"          # team plan defaults, used if .env doesn't set them
 DEFAULT_LOCATION = "EDI Building, Penn State"
 _chain_lock = threading.Lock()              # one record at a time, so the chain can't fork

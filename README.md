@@ -101,3 +101,9 @@ arrow keys, or pause the full scene. The preview uses clearly labelled sample da
 The repository also includes the hybrid verifier. See [verifier setup and usage](docs/VERIFIER.md) and [its validation report](VALIDATION.md). Its existing source, tests, fixtures, and dependency lock are preserved. The dashboard now calls the authenticated API for text/document review, linked capture checks and saved full reports. Local client/API/verifier integration is tested; external model calls are separately configured. `requirements.txt` includes both components; the existing lockfiles record their separate validation environments.
 
 Luminal Flash has been reworked and live-tested for the Segment 3 verifier. It defaults to final-answer JSON mode with local schema/evidence validation. See [verifier setup](docs/VERIFIER.md#luminal-provider--reworked-and-live-tested) and [validation](VALIDATION.md). The tested scientific fixture completes; the current dashboard integration has local and mocked-provider coverage, not a new live-provider accuracy evaluation.
+
+## Source images, videos and lab labels
+
+See [device ingestion and AWS handoff](docs/DEVICE_INGESTION.md) for signed uploads,
+file-only gateway compatibility, 50 MiB limits, image/video processing and the
+current deployed-endpoint verification boundary.
