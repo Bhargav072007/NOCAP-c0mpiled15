@@ -14,6 +14,7 @@ from tests.test_cloud import api, auth, send
 TEXT='This manuscript needs supporting evidence.\n\nReferences\n[1] Example Author. An unreviewed reference. 2020.'
 
 class Session:
+    def mount(self,*args): pass
     def __init__(self, client): self.client=client
     def request(self, method, url, **kwargs):
         kwargs['follow_redirects']=kwargs.pop('allow_redirects')
@@ -65,7 +66,7 @@ def test_uploaded_manuscript_and_invalid_uploads(api):
     doc=Document();doc.add_paragraph('Methods need review.');out=io.BytesIO();doc.save(out)
     report=ui.report_file('paper.docx',out.getvalue(),mode='offline')
     assert report['analysis']['coverage']['unlinked_statement_count']>0
-    for name,data in [('bad.pdf',b'not a PDF'),('x.exe',b'executable'),('empty.txt',b'  '),('long.txt',b'x'*50001),('paths.md',b'![x](/etc/passwd)')]:
+    for name,data in [('bad.pdf',b'not a PDF'),('x.exe',b'executable'),('empty.txt',b'  '),('long.txt',b'x'*200001),('paths.md',b'![x](/etc/passwd)')]:
         assert c.post('/reports/file',files={'file':(name,data)}).status_code==422
     assert c.post('/reports/file',files={'file':('x.txt',b'x')},data={'capture_ids':'not-json'}).status_code==422
 
@@ -165,3 +166,35 @@ def test_frontend_runs_and_reopens_real_report(api,monkeypatch):
         assert not app.exception
         assert app.session_state.report_source=='saved'
         assert app.session_state.report_result['report_id']==result['report_id']
+
+
+def test_paper_publication_checks_and_service_failure(api):
+    c,app=api
+    text='A research manuscript.\n\nReferences\n[1] Author. A study. doi:10.1234/study'
+    hit={'citation':'Author. A study. doi:10.1234/study','status':'VERIFIED','reason':'DOI and title match','matched_title':'A study','doi':'10.1234/study','needs_human_review':False}
+    with patch('verifier.citations.check_reference',return_value=hit):
+        result=dashboard(c).report_file('research.txt',text.encode(),mode='references')
+    assert result['analysis']['coverage']['publication_lookups']==1
+    assert result['results'][0]['backend_status']=='VERIFIED'
+    assert result['analysis']['status']=='needs_review'
+    assert result['document']['word_count']>0
+    with patch('verifier.citations.check_reference',side_effect=RuntimeError('private internal error')):
+        result=dashboard(c).report_file('research.txt',text.encode(),mode='references')
+    assert result['results'][0]['status']=='UNSUPPORTED'
+    assert 'private internal error' not in json.dumps(result)
+
+
+def test_research_papers_dedicated_navigation(api,monkeypatch):
+    c,_=api
+    monkeypatch.setenv('NOCAP_MODE','live');monkeypatch.setenv('NOCAP_SERVICE_DEMO','1')
+    monkeypatch.setenv('NOCAP_API','http://localhost');monkeypatch.setenv('NOCAP_TOKEN','admin-secret')
+    from tests.ui_helpers import workspace_app
+    with patch('dashboard.client.requests.Session',return_value=Session(c)):
+        app=workspace_app()
+        app.button(key='nav_Research papers').click().run()
+        assert not app.exception
+        assert app.button(key='citation_submit').label=='Review paper'
+        app.text_area(key='report_text').set_value('A paper with no bibliography.')
+        app.button(key='citation_submit').click().run()
+        assert not app.exception and not app.error
+        assert app.session_state.report_result['analysis']['status']=='needs_review'

@@ -28,9 +28,9 @@ class WorkUpdate(Strict):
 class CommentIn(Strict):
     body: str=Field(min_length=1,max_length=5000)
 class ReportIn(Strict):
-    text: str=Field(min_length=1,max_length=50000)
+    text: str=Field(min_length=1,max_length=200000)
     capture_ids: list[str]=Field(default_factory=list,max_length=100)
-    mode: Literal['configured','offline','hybrid','demo']='configured'
+    mode: Literal['configured','offline','references','hybrid','demo']='configured'
 class CaptureMetadata(Strict):
     label: str=Field(default='',max_length=160)
     experiment_id: str=Field(default='',max_length=120)

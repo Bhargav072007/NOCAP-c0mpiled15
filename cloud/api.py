@@ -274,6 +274,8 @@ def create_app(settings=None,storage=None):
             conn.exec_driver_sql('BEGIN')
         selected=[owned(conn,db.captures,id,p) for id in dict.fromkeys(value.capture_ids)]
         mode=settings.verifier_mode if value.mode=='configured' else value.mode
+        if mode=='hybrid' and len(value.text)>50000:
+            raise HTTPException(422,'Full model analysis supports up to 50,000 characters; use paper/publication checks for longer manuscripts')
         if mode=='hybrid' and settings.verifier_mode!='hybrid':
             raise HTTPException(503,'Hybrid analysis is not enabled on this API')
         if mode=='demo':
@@ -311,7 +313,7 @@ def create_app(settings=None,storage=None):
                 raise HTTPException(503,'Research verifier unavailable or evidence could not be assessed') from None
         result.update(report_id=uid('report'),created_at=now(),workspace_demo=settings.demo)
         if document:
-            result['document']={k:document[k] for k in ('file_sha256','warnings')}
+            result['document']={k:document[k] for k in ('file_sha256','warnings','file_name','word_count')}
         # Persist the complete verifier audit, not only the simplified UI badges.
         payload={**result,'text':value.text,'capture_ids':value.capture_ids}
         conn.execute(insert(db.reports).values(id=result['report_id'],org_id=p['org_id'],payload=payload,created_at=result['created_at']))
@@ -338,9 +340,11 @@ def create_app(settings=None,storage=None):
             with TemporaryDirectory(prefix='nocap-manuscript-') as folder:
                 path=Path(folder)/('manuscript'+suffix);path.write_bytes(data)
                 document=parse_document(path)
+                document['file_name']=Path(file.filename or 'manuscript').name
+                document['word_count']=len(document['text'].split())
             value=ReportIn(text=document['text'],capture_ids=json.loads(capture_ids),mode=mode)
         except Exception:
-            raise HTTPException(422,'Document could not be read. Supply selectable text, up to 50,000 characters; scanned PDFs need OCR.') from None
+            raise HTTPException(422,'Document could not be read. Supply selectable text, up to 200,000 characters; scanned PDFs need OCR.') from None
         return run_report(value,p,conn,document)
 
     @app.get('/reports')

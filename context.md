@@ -1139,3 +1139,13 @@ service lacks workspace/detail routes, so labels/read-back/dashboard acceptance
 requires the updated API deployment. EC2 SSH/service access requested; no remote
 configuration changed. See reports/FS3-source-ingestion.md and
  docs/DEVICE_INGESTION.md. Credential remains excluded from Git and documentation.
+
+## Research papers section (2026-10-11)
+
+Added a dedicated sidebar section with upload-first PDF/Word/text review, 25 MiB
+uploader enforcement, 200,000-character local/publication mode and explicit
+50,000-character model-analysis limit. Paper/publication checks use the real
+verifier plus bounded DOI metadata lookups without an AI credential. Model-free
+checks never claim to establish scientific truth. Lookup failures become
+review-required findings. Verified actual Word upload and a live DOI/title match,
+saved report and document counts; 177 tests passed. Local preview remains 8502.

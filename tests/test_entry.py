@@ -68,7 +68,7 @@ def test_demo_access_and_no_devices_navigation(monkeypatch):
     app.button(key='enter_demo').click().run()
     assert not app.exception
     assert app.session_state.demo_access
-    assert {b.label for b in app.button if b.key and b.key.startswith('nav_')} == {'Overview', 'Evidence studio', 'Team workbench', 'Settings'}
+    assert {b.label for b in app.button if b.key and b.key.startswith('nav_')} == {'Overview', 'Research papers', 'Evidence studio', 'Team workbench', 'Settings'}
     next(b for b in app.button if b.label == 'Sign out').click().run()
     assert 'demo_access' not in app.session_state
     assert app.session_state.page == 'login'

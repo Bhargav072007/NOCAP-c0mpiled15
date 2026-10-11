@@ -12,6 +12,7 @@ load_dotenv()
 st.set_page_config(page_title='NoCap — Proof, not vibes.', page_icon='N', layout='wide', initial_sidebar_state='auto')
 ROUTES = {
     'Overview': ('Your evidence at a glance.', 'space_dashboard'),
+    'Research papers': ('Upload a manuscript, check its references, and review the evidence.', 'article'),
     'Evidence studio': ('Original captures, file comparisons, citations, and the audit trail.', 'folder_open'),
     'Team workbench': ('Shared reviews. Clear ownership.', 'group'),
     'Settings': ('Workspace connection and preferences.', 'settings'),
@@ -84,6 +85,7 @@ with st.container(key='workspace'):
     if is_demo:
         st.html('<div class="nc-mode-banner">LOCAL DEMO <span>Synthetic sample captures. Review mode and coverage are shown with each report.</span></div>')
     if route == 'Overview': overview(client, me)
+    elif route == 'Research papers': citation_view(client, paper=True)
     elif route == 'Team workbench': team_view(client, me)
     elif route == 'Settings':
         integration_view(client)

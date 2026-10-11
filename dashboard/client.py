@@ -69,6 +69,8 @@ class LiveClient:
                                             timeout=kwargs.pop('timeout', (3.05, 20)), allow_redirects=False, **kwargs)
             if not 200 <= response.status_code < 300:
                 hint={401:'Sign in again or check the access token.',403:'Your role does not permit this action.',409:'This record changed or already exists. Refresh before saving.',413:'The file or snapshot exceeds the supported size limit.',422:'Check required fields and the submitted record.',503:'The required service or integration is unavailable.'}.get(response.status_code,'Check the service and retry.')
+                if path.startswith('/reports') and response.status_code==422:
+                    hint='The paper could not be read. Use a text-based PDF, DOCX or text file with at most 200,000 characters; scanned PDFs need OCR. Full model analysis is limited to 50,000 characters.'
                 raise APIError(f'API returned HTTP {response.status_code}. {hint}')
             return response
         except requests.RequestException:
@@ -106,8 +108,8 @@ class LiveClient:
         return validate_verdict(self.json('POST', '/verify/file', files={'file': (name, data, mime)}))
 
     def report(self, text, capture_ids=None, mode='configured'):
-        if not text.strip() or len(text) > 50000:
-            raise APIError('Enter between 1 and 50,000 characters.')
+        if not text.strip() or len(text) > 200000:
+            raise APIError('Enter between 1 and 200,000 characters.')
         return validate_report(self.json('POST', '/reports', json={'text':text, 'capture_ids':capture_ids or [], **({'mode':mode} if mode!='configured' else {})}, timeout=(3.05,600)))
 
     def report_file(self, name, data, mime='application/octet-stream', capture_ids=None, mode='configured'):

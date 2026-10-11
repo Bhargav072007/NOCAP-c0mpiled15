@@ -212,12 +212,12 @@ def verify_view(client):
 
 
 @st.fragment
-def citation_view(client):
+def citation_view(client, paper=False):
     import hashlib
     import json
     from dashboard.client import DEMO
     fixture=client.mode=='fixture'
-    modes={'Offline evidence checks':'offline'}
+    modes={'Paper + publication checks':'references','Offline evidence checks':'offline'} if paper else {'Offline evidence checks':'offline'}
     captures=[]
     if not fixture:
         try:
@@ -231,12 +231,12 @@ def citation_view(client):
             return
     with st.container(key='citation_panel'):
         st.html('<div class="nc-panel-label">RESEARCH REVIEW</div>')
-        st.subheader('Make every reference count.')
+        st.subheader('Review your research paper.' if paper else 'Make every reference count.')
         st.caption('Connect the manuscript to its evidence. Inspect each finding and keep the full review record.')
         if fixture:
             mode='demo'
         else:
-            choice=st.selectbox('Analysis mode',list(modes),key='analysis_mode_choice')
+            choice=st.selectbox('Analysis mode',list(modes),key='paper_analysis_mode' if paper else 'analysis_mode_choice')
             mode=modes[choice]
         if mode=='demo':
             st.caption('Prepared fictional references only. No publication lookup or model analysis runs.')
@@ -245,27 +245,31 @@ def citation_view(client):
                 st.session_state.report_text=(DEMO/'paper_real.txt').read_text()
             if col2.button('Load three fake references',key='fake_demo'):
                 st.session_state.report_text=(DEMO/'paper_fake_refs.txt').read_text()
+        elif mode=='references':
+            st.caption('Parses your paper, checks linked evidence and looks up up to 12 DOI references against publication records. Only reference text is sent to publication services. Scientific claims still require review.')
         elif mode=='offline':
             st.caption('Runs the real local verifier. Checks linked capture integrity and extracts references; source discovery and scientific model review require full analysis.')
         else:
             st.info('Full analysis sends manuscript and relevant evidence to the server’s configured model provider and publication services. It may take several minutes. Human review remains required.')
         with st.form('citation_form'):
-            text=st.text_area('Research text',key='report_text',height=180,max_chars=50000,
-                              placeholder='Paste the passage and its references…')
             upload=None
             if not fixture and mode!='demo':
-                upload=st.file_uploader('Or upload a manuscript',type=['pdf','docx','txt','md','tex'],
-                    key='manuscript_upload',help='An uploaded manuscript takes precedence over pasted text. Up to 25 MiB and 50,000 extracted characters. Scanned PDFs need OCR.')
+                upload=st.file_uploader('Upload your research paper',type=['pdf','docx','txt','md','tex'],
+                    key='manuscript_upload',max_upload_size=25,help='PDF, Word or text. Up to 25 MiB and 200,000 extracted characters. Selectable text is required; scanned PDFs need OCR. An upload takes precedence over pasted text.')
+            text=st.text_area('Research text',key='report_text',height=120 if paper else 180,max_chars=200000,
+                              placeholder='Or paste your manuscript and references here…')
             selected=[]
             if not fixture and mode!='demo':
                 labels={r['id']:f"{r['file_name']} · {r['id']}" for r in captures}
                 selected=st.multiselect('Link workspace evidence',list(labels),format_func=labels.get,
                     help='Only captures in your organization are available. The API rechecks the complete chain for each selected source.')
-            submitted=st.form_submit_button('Check citations',key='citation_submit',type='primary',icon=':material/fact_check:')
+            submitted=st.form_submit_button('Review paper' if paper else 'Check citations',key='citation_submit',type='primary',icon=':material/fact_check:')
         data=upload.getvalue() if upload else text.encode()
         fingerprint=hashlib.sha256(data+json.dumps([mode,selected,upload.name if upload else None]).encode()).hexdigest()
         if submitted:
-            if not data.strip():
+            if upload and len(data)>25*1024*1024:
+                st.warning('This paper exceeds 25 MiB. Export a smaller PDF and try again.')
+            elif not data.strip():
                 st.warning('Add research text or a manuscript before checking citations.')
             elif st.session_state.get('reported_fingerprint')!=fingerprint or st.session_state.get('report_source')=='saved':
                 st.session_state.pop('report_result',None)
@@ -300,6 +304,13 @@ def citation_view(client):
             st.caption(f"Report {result['report_id']} · {result.get('analysis_mode','demo' if fixture else 'configured')} · {len(result['results'])} findings")
             if st.session_state.get('report_source')=='saved': st.caption('Showing a saved report; the form above is a separate submission.')
             analysis=result.get('analysis',{})
+            document=result.get('document',{})
+            if document:
+                a,b,c=st.columns(3)
+                a.metric('Words extracted',f"{document.get('word_count',0):,}")
+                b.metric('References found',analysis.get('coverage',{}).get('reference_entries',0))
+                c.metric('Publication lookups',analysis.get('coverage',{}).get('publication_lookups',0))
+                st.caption(document.get('file_name','Uploaded manuscript'))
             if result.get('evidence_contains_demo'): st.warning('This report includes synthetic workspace captures. Their provenance is not real hardware evidence.')
             if analysis.get('issues'):
                 with st.expander('Coverage and review requirements',expanded=True):

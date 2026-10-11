@@ -21,7 +21,7 @@ The dashboard stays on port8501 for IDE forwarding; API stays on loopback8000.
 Ctrl+C stops both. Data persists in ignored `.runtime/`; the local demo uses a
 random server-side admin token and clearly labeled synthetic evidence.
 
-The four workspace sections are Overview, Evidence studio, Team workbench, and
+The workspace sections are Overview, Research papers, Evidence studio, Team workbench, and
 Settings. There is no Devices tab or fleet counter. Settings shows one configured
 NoCap source; set `NOCAP_DEVICE_ID` on the dashboard server when necessary. Reviews support assignment, statuses, approval permissions,
 comments and conflict detection. Member additions create records, not emails.
@@ -107,3 +107,14 @@ Luminal Flash has been reworked and live-tested for the Segment 3 verifier. It d
 See [device ingestion and AWS handoff](docs/DEVICE_INGESTION.md) for signed uploads,
 file-only gateway compatibility, 50 MiB limits, image/video processing and the
 current deployed-endpoint verification boundary.
+
+### Research-paper uploads
+
+Open **Research papers** in the sidebar. Upload a PDF/DOCX/TXT/Markdown/TeX file
+(up to 25 MiB and 200,000 extracted characters), then select **Review paper**.
+The default paper/publication mode checks local evidence and looks up up to 12
+DOI references. It does not require an AI key. References without a DOI or beyond
+that limit remain explicitly unassessed. Publication identity is separate from
+claim support and scientific correctness. Full provider-backed scientific analysis
+remains optional and supports up to 50,000 characters. Scanned PDFs need OCR text.
+Reports show extraction counts, findings, coverage gaps and a downloadable audit.

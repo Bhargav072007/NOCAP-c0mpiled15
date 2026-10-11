@@ -8,10 +8,10 @@ table. No additional database migration is required.
 ## Run from GitHub
 
 Follow the repository README local launcher instructions. Open the workspace,
-then **Evidence studio → Citation check**. The default **Offline evidence checks**
+then **Research papers** (also available under Evidence studio → Citation check). The default **Offline evidence checks**
 option accepts arbitrary pasted text or PDF/DOCX/TXT/Markdown/TeX manuscripts.
 An uploaded file takes precedence over pasted text. Limits: 25 MiB manuscript upload, 50 MiB source capture upload,
-50,000 extracted characters, 100 selected captures, 500 chain records, and
+200,000 extracted characters, 100 selected captures, 500 chain records, and
 100 MiB total evidence bytes per review. Scanned PDFs need OCR text first.
 
 Select workspace captures to include their provenance and available CSV/JSON
@@ -74,7 +74,7 @@ persisted storage; a long verifier call does not hold an open DB read transactio
 | POST | `/captures` | Device-token upload; built-in canonical hash and Ed25519 check for enrolled keys |
 | POST | `/verify/file` | Compare uploaded bytes with authenticated stored captures |
 
-Modes are `configured` (server default), `offline`, `hybrid` (server must enable),
+Modes are `configured` (server default), `offline`, `references` (up to 12 DOI publication lookups), `hybrid` (server must enable),
 and `demo` (local prepared fixtures only). Legacy `NOCAP_VERIFIER_PLUGIN` remains
 supported for `configured` requests; explicit offline/hybrid uses the built-in
 engine. The legacy adapter cannot claim assessment of linked captures.
