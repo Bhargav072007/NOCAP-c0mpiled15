@@ -65,3 +65,11 @@ The initial `luminal.cloud` endpoint returned HTTP 401. After the user supplied 
 The first scientific run using the public Reinhart–Rogoff replication fixture returned HTTP 503. The report preserved the local `DATA_MISMATCH` (-0.1% versus computed approximately 2.168%) and marked scientific review incomplete. Luminal scientific accuracy cannot be inferred from that failed model request. OpenAI and offline checks remain available; Qiskit prioritization does not establish scientific truth.
 
 Scientific fixture retry: a second attempt also returned HTTP 503. Scientific assessment remains incomplete; citation smoke testing succeeded. See `demo/luminal_validation_summary.json`.
+
+### Luminal rework — 2026-10-11
+
+97 automated tests pass. The reworked provider defaults to JSON-object mode, DeepSeek thinking disabled and a 4096-token output cap. A direct comparison of the same public scientific request found that default thinking either returned HTTP 503 or exhausted all 2048 output tokens on reasoning; disabled thinking returned completed JSON. This diagnosis is operational, not a model-quality comparison. Added bounded transient-server retries and detailed request-setting/status audits; nonfinite output is rejected.
+
+Fixed a server-side evidence bug: bibliography-aware batching appended separator newlines to an otherwise exact manuscript span. Scientific batching now excludes that separator. Regression tests check short manuscript passages and overlapping batches, while invented evidence remains rejected.
+
+Final full CLI run on the public original/replication fixture: approximately 19.327 seconds, scientific review completed, zero scientific validation issues, six grounded scientific concerns, and retained insufficient-evidence findings. The local -0.1% / 2.168% numerical discrepancy remained flagged. Data extraction abstained on absent explicit dataset ID/label anchors; manual links remained available. Three existing invalid original-v1 references again returned NOT_FOUND. Two synthetic support checks correctly distinguished a source reporting 120 participants from a contradicted claim of 1200. No expert-agreement, recall or false-positive benchmark is implied.

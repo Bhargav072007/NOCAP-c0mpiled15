@@ -97,3 +97,5 @@ arrow keys, or pause the full scene. The preview uses clearly labelled sample da
 ## Segment 3 verifier
 
 The repository also includes the hybrid verifier. See [verifier setup and usage](docs/VERIFIER.md) and [its validation report](VALIDATION.md). Its existing source, tests, fixtures, and dependency lock are preserved. The dashboard verifier adapter remains configurable; combining these submissions does not establish a tested end-to-end live integration. `requirements.txt` includes both components; the existing lockfiles record their separate validation environments.
+
+Luminal Flash has been reworked and live-tested for the Segment 3 verifier. It defaults to final-answer JSON mode with local schema/evidence validation. See [verifier setup](docs/VERIFIER.md#luminal-provider--reworked-and-live-tested) and [validation](VALIDATION.md). The tested scientific fixture completes; this does not establish a tested dashboard-to-model integration or general scientific accuracy.

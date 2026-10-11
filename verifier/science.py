@@ -109,7 +109,7 @@ def assess_science(text, sources, *, judge=None, diagnostics=None, deterministic
     judge=judge or get_judge();flags=[];audits=[];coverage=[];issues=[];windows=[]
     # Full manuscript is batched. External sources are explicitly sampled and bounded.
     offset=0
-    for batch in text_batches(body):
+    for batch in text_batches(body,include_bibliography=False):
         excerpts=[];total=0;passages={}
         candidates=list(dict.fromkeys([s.strip() for s in batch.splitlines() if len(s.strip())>=12]+
             [m.group().strip() for m in re.finditer(r'\S.*?(?:[.!?](?=\s|$)|\Z)',batch,re.S) if len(m.group().strip())>=12]))

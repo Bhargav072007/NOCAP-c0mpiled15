@@ -1,6 +1,8 @@
 """OpenAI Responses adapter, strict schemas and protected audit records."""
 import json
 import os
+import math
+import time
 from dotenv import load_dotenv
 
 class ModelError(RuntimeError):
@@ -82,6 +84,8 @@ def validate_schema(value, schema):
               "null": value is None}
     if kinds and not any(checks.get(k, False) for k in kinds):
         raise ModelError("Invalid model response schema")
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and not math.isfinite(value):
+        raise ModelError("Nonfinite model response number")
     if "enum" in schema and value not in schema["enum"]:
         raise ModelError("Invalid model response enum")
     if isinstance(value, dict):
@@ -99,37 +103,58 @@ class LuminalJudge:
     provider = "Luminal"
     store = None  # Provider retention policy has not been verified.
 
-    def __init__(self, *, session=None, model=None):
+    def __init__(self, *, session=None, model=None, response_format=None):
         load_dotenv()
         self.model = model or os.getenv("LUMINAL_MODEL", "deepseek-ai/DeepSeek-V4.1-Flash")
         self.key = os.getenv("LUMINAL_API_KEY")
         if not self.key: raise ModelError("Set LUMINAL_API_KEY in local .env")
+        self.response_format = response_format or os.getenv("LUMINAL_RESPONSE_FORMAT", "json_object")
+        if self.response_format not in ("json_object", "json_schema"):
+            raise ModelError("LUMINAL_RESPONSE_FORMAT must be json_object or json_schema")
+        self.thinking = os.getenv("LUMINAL_THINKING", "disabled")
+        if self.thinking not in ("disabled", "enabled"):
+            raise ModelError("LUMINAL_THINKING must be disabled or enabled")
+        try: self.output_limit = int(os.getenv("LUMINAL_MAX_OUTPUT_TOKENS", "4096"))
+        except ValueError as exc: raise ModelError("Invalid LUMINAL_MAX_OUTPUT_TOKENS") from exc
+        if not 512 <= self.output_limit <= 8192:
+            raise ModelError("LUMINAL_MAX_OUTPUT_TOKENS must be between 512 and 8192")
         import requests
         self.session = session or requests.Session()
 
     def json(self, prompt, expected, max_tokens=4096, *, schema=None):
         chosen = schema or (CITATION_SCHEMA if expected is list else SUPPORT_SCHEMA)
         try:
+            budget = min(max_tokens, self.output_limit)
             body = {"model": self.model, "messages": [{"role":"system","content":SYSTEM},
                     {"role":"user","content":prompt + "\nReturn only JSON matching this schema:\n" + json.dumps(chosen)}],
-                    "max_tokens":max_tokens,
-                    "response_format":{"type":"json_schema","json_schema":{
-                        "name":"nocap_result","strict":True,"schema":chosen}}}
-            response_format = "json_schema"
-            response = self.session.post("https://flash.luminal.cloud/v1/chat/completions",
-                headers={"Authorization": "Bearer " + self.key}, json=body,
-                timeout=60, allow_redirects=False)
-            # Retry only a provider validation rejection, never authentication/quota errors.
-            if response.status_code == 400:
+                    "max_tokens":budget, "thinking":{"type":self.thinking},
+                    "response_format":{"type":self.response_format}}
+            response_format = self.response_format
+            if response_format == "json_schema":
+                body["response_format"]["json_schema"] = {
+                    "name":"nocap_result","strict":True,"schema":chosen}
+            attempts = []
+            def send():
+                for retry in range(2):
+                    response = self.session.post("https://flash.luminal.cloud/v1/chat/completions",
+                        headers={"Authorization":"Bearer " + self.key}, json=body,
+                        timeout=60, allow_redirects=False)
+                    attempts.append({"status":response.status_code,"response_format":body["response_format"]["type"]})
+                    if response.status_code not in (502,503,504) or retry == 1:
+                        return response
+                    time.sleep(0.5)
+            response = send()
+            # A strict-schema rejection can switch format; local validation stays mandatory.
+            if response.status_code == 400 and response_format == "json_schema":
                 error = response.json().get("error", {})
                 message = error.get("message", "") if isinstance(error, dict) else ""
                 if "response_format" in message and "unavailable" in message.lower():
                     response_format = "json_object"
                     body["response_format"] = {"type":"json_object"}
-                    response = self.session.post("https://flash.luminal.cloud/v1/chat/completions",
-                        headers={"Authorization":"Bearer " + self.key},json=body,
-                        timeout=60,allow_redirects=False)
+                    response = send()
             if response.status_code != 200:
+                if response.status_code in (502,503,504):
+                    raise ModelError("Luminal temporarily unavailable (HTTP %s after %s attempts); scientific review remains incomplete" % (response.status_code,len(attempts)))
                 raise ModelError("Luminal request failed (HTTP %s); check text API access, credentials and quota" % response.status_code)
             payload = response.json()
             choice = payload["choices"][0]
@@ -143,7 +168,7 @@ class LuminalJudge:
             return result, {"provider":self.provider,"model":self.model,
                 "model_version":payload.get("model",self.model),"prompt":prompt,
                 "system_prompt":SYSTEM,"raw_response":raw,"request_id":payload.get("id"),
-                "usage":payload.get("usage"),"retention_policy":"unverified","response_format":response_format,"schema_validation":"local"}
+                "usage":payload.get("usage"),"retention_policy":"unverified","response_format":response_format,"schema_validation":"local","thinking":self.thinking,"max_output_tokens":budget,"requested_max_output_tokens":max_tokens,"attempts":attempts}
         except ModelError: raise
         except Exception as exc:
             raise ModelError("Luminal request or response failed; check connectivity and API compatibility") from exc

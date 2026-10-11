@@ -85,6 +85,19 @@ class HybridTests(unittest.TestCase):
         r=assess_science(CLAIM,[SOURCE],judge=Judge(payload(x)))
         self.assertFalse(r['issues']);self.assertEqual(r['flags'][0]['claim'],CLAIM)
         self.assertEqual(r['flags'][0]['evidence'][0]['quote'],SOURCE['text'])
+    def test_manuscript_passage_is_original_text(self):
+        x=item();x['evidence']=[{'source_id':'manuscript','passage_id':'manuscript_p0'}]
+        r=assess_science(CLAIM,[SOURCE],judge=Judge(payload(x)))
+        self.assertFalse(r['issues'])
+        self.assertEqual(r['flags'][0]['evidence'][0]['quote'],CLAIM)
+
+    def test_scientific_batches_preserve_spans(self):
+        from verifier.parser import text_batches
+        text=('A sentence across a batch boundary.\n'*100)
+        chunks=list(text_batches(text,limit=300,include_bibliography=False))
+        self.assertTrue(all(chunk in text for chunk in chunks))
+        self.assertEqual(chunks[-1][-1],text[-1])
+
     def test_invalid_passage_stays_reviewable_after_retry(self):
         x=item();x['evidence']=[{'source_id':'s','passage_id':'invented','quote':''}]
         r=assess_science(CLAIM,[SOURCE],judge=Judge(payload(x)))

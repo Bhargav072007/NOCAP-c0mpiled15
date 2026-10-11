@@ -24,7 +24,7 @@ def sections(text):
         chunks.append({'id':f'section_{i+1}','heading':m.group().strip(),'start':m.start(),'end':end,'text':text[m.start():end]})
     return chunks
 
-def text_batches(text,limit=24000):
+def text_batches(text,limit=24000,*,include_bibliography=True):
     body,bib=split_bibliography(text)
     if len(bib)>25000: raise ParseError('Bibliography exceeds 25,000 characters; provide parsed references separately')
     available=min(limit,59000-len(bib))
@@ -35,10 +35,10 @@ def text_batches(text,limit=24000):
             boundary=body.rfind('\n',start,end)
             if boundary>start+available//2: end=boundary+1
         # overlap preserves claims crossing a chunk boundary; deduplication occurs after extraction.
-        yield body[start:end]+'\n\n'+bib
+        yield body[start:end]+('\n\n'+bib if include_bibliography else '')
         if end==len(body): break
         start=max(start+1,end-600)
-    if not body.strip() and bib: yield bib
+    if not body.strip() and bib and include_bibliography: yield bib
 
 def parse_document(path,asset_dir=None):
     path=Path(path).resolve();suffix=path.suffix.lower()

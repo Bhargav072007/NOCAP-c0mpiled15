@@ -3,7 +3,12 @@
   "provider": "Luminal",
   "model": "deepseek-ai/DeepSeek-V4.1-Flash",
   "base_url": "https://flash.luminal.cloud/v1",
-  "automated_tests": 90,
+  "automated_tests": 97,
+  "configuration": {
+    "thinking": "disabled",
+    "response_format": "json_object",
+    "max_output_tokens": 4096
+  },
   "citation_smoke_test": {
     "case_ids": [
       "puppet-1",
@@ -15,21 +20,54 @@
       "NOT_FOUND",
       "NOT_FOUND"
     ],
-    "scope": "Bibliography extraction and public lookup; three existing invalid original-v1 entries"
+    "scope": "Bibliography extraction plus public lookup"
   },
   "scientific_fixture": {
-    "attempts": 2,
-    "completed": false,
-    "issues": [
-      "Luminal request failed (HTTP 503); check text API access, credentials and quota"
-    ],
-    "local_summary": {
+    "completed": true,
+    "issues": [],
+    "summary": {
       "DATA_MISMATCH": 1,
-      "NEEDS_REVIEW": 4,
+      "NEEDS_REVIEW": 6,
+      "SCIENTIFIC_CONCERN": 6,
       "UNSIGNED_DATA": 2,
-      "VERIFIED": 1
+      "VERIFIED": 5
     },
-    "elapsed_seconds_second_attempt": 26.015
+    "elapsed_seconds": 19.327,
+    "audit_settings": [
+      {
+        "thinking": "disabled",
+        "response_format": "json_object",
+        "attempts": [
+          {
+            "status": 200,
+            "response_format": "json_object"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 9235,
+          "completion_tokens": 1857,
+          "total_tokens": 11092,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          }
+        }
+      }
+    ]
   },
-  "general_accuracy_measured": false
+  "support_smoke_test": {
+    "120_participants": "SUPPORTED",
+    "1200_participants": "CONTRADICTED",
+    "scope": "Synthetic source sentence"
+  },
+  "explicit_data_linking_smoke_test": [
+    {
+      "dataset_id": "rr",
+      "column": "dRGDP",
+      "metric": "mean",
+      "reported": 2.2
+    }
+  ],
+  "automatic_data_linking_limit": "Full fixture lacks explicit ID/label anchors; extractor abstains and manual links remain active.",
+  "general_accuracy_measured": false,
+  "historical_failure": "Earlier default-thinking scientific requests returned HTTP 503; reduced-budget request used all 2048 output tokens for reasoning."
 }
