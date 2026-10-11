@@ -14,12 +14,12 @@
    A CSS-native checkbox pauses this instance without network or Python reruns. */
 .nc-ambient{position:relative;display:grid;place-items:center;height:140px;width:100%;margin:0 0 8px;isolation:isolate}
 .nc-ambient-art{position:relative;width:160px;height:126px;display:grid;place-items:center;pointer-events:none}
-.nc-aurora-ribbon{width:126px;height:126px;border-radius:42% 58% 48% 52%;background:conic-gradient(from 0deg,#c8f53b,#54d3d0 22%,#769fff 43%,#b798ef 62%,#e0eeff 79%,#c8f53b);mask-image:radial-gradient(ellipse at center,transparent 44%,#000 49%,#000 58%,transparent 66%);filter:blur(1.4px);animation:nc-aurora-flow 12s linear infinite;opacity:.95}
+.nc-aurora-ribbon{width:126px;height:126px;border-radius:42% 58% 48% 52%;background:conic-gradient(from 0deg,#78f59b,#54d3d0 22%,#769fff 43%,#b798ef 62%,#e0eeff 79%,#78f59b);mask-image:radial-gradient(ellipse at center,transparent 44%,#000 49%,#000 58%,transparent 66%);filter:blur(1.4px);animation:nc-aurora-flow 12s linear infinite;opacity:.95}
 @keyframes nc-aurora-flow{0%{transform:rotate(0deg) scale(1,.88);border-radius:42% 58% 48% 52%}25%{border-radius:58% 42% 59% 41%}50%{transform:rotate(180deg) scale(.88,1);border-radius:48% 52% 42% 58%}75%{border-radius:41% 59% 58% 42%}100%{transform:rotate(360deg) scale(1,.88);border-radius:42% 58% 48% 52%}}
 .nc-ambient-checkbox{position:absolute!important;width:1px!important;height:1px!important;opacity:0;clip-path:inset(50%);margin:0}
 .nc-ambient-control{display:inline-flex;align-items:center;justify-content:center;gap:6px;position:absolute;right:0;bottom:4px;font:10px system-ui!important;color:#9ba3ac;cursor:pointer;padding:6px 9px;border:1px solid #343a30;border-radius:999px;background:#0b0e0a}
 .nc-ambient-control:hover{color:#e3eecf;border-color:#65734e}
-.nc-ambient-checkbox:focus-visible~.nc-ambient-control{outline:2px solid #c8f53b;outline-offset:3px}
+.nc-ambient-checkbox:focus-visible~.nc-ambient-control{outline:2px solid #78f59b;outline-offset:3px}
 .nc-play-icon,.nc-play-label{display:none}
 .nc-ambient-checkbox:checked~.nc-ambient-art .nc-aurora-ribbon{animation-play-state:paused}
 .nc-ambient-checkbox:checked~.nc-ambient-control .nc-pause-icon,.nc-ambient-checkbox:checked~.nc-ambient-control .nc-pause-label{display:none}

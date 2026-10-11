@@ -1,0 +1,13 @@
+{
+  "tool": "Built-in image_gen",
+  "hero": {
+    "source": "IMG_9457.jpeg",
+    "output": "dashboard/static/product/nocap-studio-hero.webp",
+    "prompt": "Use case: precise-object-edit. Asset type: hero product photography for NoCap research evidence website. Edit the supplied real prototype photo. Preserve the exact device silhouette, white 3D-printed enclosure and texture, green NOCAP logo spelling and position, black front panel with rectangular unlit display on LEFT and circular camera lens on RIGHT, exposed electronics cutouts on far left, all visible ports and physical geometry. Do not invent or redesign parts, do not illuminate the display or add UI. Improve exposure, white balance, edge clarity and professional studio lighting while retaining real material texture. Remove the distracting table/background and place this same device against a seamless deep forest green background #10251b with a subtle realistic contact shadow and soft brighter green rim light. Product centered and fully visible, occupies 80% of width, generous margins, landscape 4:3 composition. No added typography, badges, hands, props, extra devices, or fake specifications. Keep accurate prototype identity; this is a photographic retouch, not a futuristic redesign."
+  },
+  "detail": {
+    "source": "IMG_9458.jpeg",
+    "output": "dashboard/static/product/nocap-studio-detail.webp",
+    "prompt": "Use case: precise-object-edit. Create a faithful photographic enhancement of the supplied NoCap prototype top-down photo for a product detail section. Preserve exact enclosure silhouette and surface ridges, white 3D-printed material, green NOCAP logo at top left, exposed PCB and ports through left cutouts, rectangular unlit display left and circular black lens right in black faceplate. Keep all holes and physical features; do not invent components, graphics or new text. Remove the ribbed dark table only and replace it with a seamless very pale mint studio backdrop #e1f4e7, subtle natural contact shadow. Improve sharpness and neutral lighting without turning the real prototype into a glossy manufactured render. Full product visible, top-down composition, landscape 4:3, centered with margins; product 78% of width. No extra props or devices. Match original identity closely."
+  }
+}

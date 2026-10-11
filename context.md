@@ -1109,3 +1109,10 @@ Next action: user tests http://localhost:8501, reviews docs/FULLSTACK.md and han
 - Applied Emil Kowalski animate skill: new document-stack/scanner/packet illustration on home and Overview, visible headline arrival, orbital ribbon, and focused UI feedback.
 - Added native surface pause controls and extended manual/system reduced-motion support including modal portals. Real evidence data stays stationary; one-source model and access remain intact.
 - 66 tests + 7 subtests pass; browser verified mobile/desktop, pause, reduced motion, local access and native dialog. No new dependencies. Report: reports/UI-M3-lively-motion.md.
+
+### UI-P1 — 2026-10-11T22:44:23.708610+00:00
+
+- Enhanced supplied NoCap prototype photos with built-in image_gen and placed optimized WebP assets in the hero and hardware section. Original images unchanged; retouched labels and exact prompts retained.
+- Expanded product content from supplied documentation; distinguishes optional hardware design/roadmap from validated local runtime. Single source remains; no Devices tab.
+- Brighter #78F59B green applied across homepage/workspace/native controls and motion details. Existing animations and accessible preferences retained.
+- 66 tests + 7 subtests pass; browser desktop/mobile down to 320px, image loading, FAQ, anchors and local access checked. Report: reports/UI-P1-product.md.

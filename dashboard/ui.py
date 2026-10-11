@@ -12,6 +12,7 @@ def styles(opaque=False, still=False):
     css += Path(__file__).with_name('demo.css').read_text()
     css += Path(__file__).with_name('refinement.css').read_text()
     css += Path(__file__).with_name('lively.css').read_text()
+    css += Path(__file__).with_name('product.css').read_text()
     if opaque:
         css += '.nc-mode-banner,.nc-status {background:#141a10!important;}'
     if still:

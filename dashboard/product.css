@@ -1,0 +1,36 @@
+/* UI-P1: product photography and brighter spring-green identity. */
+:root{--nc-accent:#78f59b;--nc-ground:#0c1b14;--nc-surface:#14291d;--nc-line:#294a36;--nc-muted:#b5c8ba;--nc-ink:#f2f8f0}
+.st-key-workspace{--nc-muted:#b5c8ba;--nc-line:#294a36}
+.nc-product-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:44px;padding-bottom:65px!important}
+.nc-product-hero .nc-hero-copy h1{font-size:clamp(44px,5.1vw,72px)}
+.nc-product-visual{margin:0;min-width:0}
+.nc-product-photo{overflow:hidden;border-radius:10px;background:#10251b;perspective:1000px}
+.nc-product-photo img{display:block;width:100%;height:auto;animation:nc-product-arrive 900ms var(--nc-ease) backwards;transition:transform 600ms var(--nc-ease)}
+@keyframes nc-product-arrive{from{transform:translateY(12px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+@media(hover:hover) and (pointer:fine){.nc-product-photo:hover img{transform:scale(1.025)}}
+.nc-product-visual figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:17px;font-size:11px;color:var(--nc-muted)}
+.nc-product-visual figcaption strong{font-size:14px;font-weight:500;color:var(--nc-ink)}
+.nc-product-audience{padding:24px 0;border-top:1px solid var(--nc-line);border-bottom:1px solid var(--nc-line);display:flex;justify-content:space-between;align-items:center;gap:24px}
+.nc-product-audience>span{font-size:13px;color:var(--nc-muted)}.nc-product-audience p{font-size:14px;color:var(--nc-ink);margin:0}.nc-product-audience i{font-style:normal;color:#53aa70;margin:0 14px}
+.nc-review-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:80px;align-items:center;padding:85px 0;scroll-margin-top:25px}
+.nc-review-copy h2,.nc-hardware-copy h2,.nc-product-faq h2{font-size:clamp(30px,3.2vw,44px);font-weight:500;line-height:1.14;letter-spacing:-.03em;margin:0 0 24px;padding:0;text-wrap:balance}
+.nc-section-intro,.nc-hardware-copy>p{font-size:16px;color:var(--nc-muted);line-height:1.7;margin:0;max-width:480px}
+.nc-product-checks{margin-top:28px}.nc-product-checks article{display:flex;gap:20px;padding:21px 0;border-bottom:1px solid var(--nc-line)}.nc-product-checks article>span{font:12px monospace;color:var(--nc-accent);padding-top:5px}
+.nc-product-checks h3{font-size:20px;font-weight:500;letter-spacing:-.02em;line-height:1.3;margin:0 0 8px;padding:0}.nc-product-checks p{font-size:14px;line-height:1.65;color:var(--nc-muted);margin:0}
+.nc-review-principle{font-size:13px;color:var(--nc-accent);margin:24px 0 0}
+.nc-hardware{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:70px;align-items:center;padding:70px 0;border-top:1px solid var(--nc-line);scroll-margin-top:20px}
+.nc-hardware-photo{margin:0;min-width:0}.nc-hardware-photo img{display:block;width:100%;height:auto;border-radius:8px;background:#e1f4e7}.nc-hardware-photo figcaption{color:var(--nc-muted);font-size:12px;line-height:1.6;margin-top:15px}
+.nc-product-kicker{display:block;font-size:13px;color:var(--nc-accent);margin-bottom:18px}
+.nc-hardware-specs{margin:25px 0 20px;padding:0}.nc-hardware-specs>div{display:grid;grid-template-columns:75px 1fr;gap:18px;border-top:1px solid var(--nc-line);padding:14px 0}.nc-hardware-specs dt{font-size:14px;color:var(--nc-accent);font-weight:500}.nc-hardware-specs dd{font-size:14px;line-height:1.6;color:var(--nc-muted);margin:0}
+.nc-hardware-copy .nc-product-note{font-size:12px;line-height:1.65;color:var(--nc-muted)}
+.nc-product-faq{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;border-top:1px solid var(--nc-line);padding:60px 0}.nc-product-faq h2{font-size:32px}
+.nc-product-faq details{border-bottom:1px solid var(--nc-line);padding:0 0 18px;margin-bottom:18px}.nc-product-faq summary{font-size:16px;font-weight:500;cursor:pointer;min-height:44px;display:list-item;list-style-position:inside;padding:10px 0;line-height:1.5}.nc-product-faq summary::marker{color:var(--nc-accent)}.nc-product-faq summary:focus-visible{outline:2px solid var(--nc-accent);outline-offset:5px}.nc-product-faq details p{color:var(--nc-muted);font-size:14px;line-height:1.75;margin:10px 0 0}
+.nc-demo-input:checked+.nc-demo-tab{background:#1c492e;color:#b3ffca;border-color:#489e64}.nc-demo-card{background:#142d1e;border-color:#39764b}.nc-demo-plane{background:#214632;border-color:#39764b}
+.nc-demo-file-icon,.nc-demo-export-file>b{border-color:#499460}.nc-demo-card-top,.nc-demo-meta strong,.nc-demo-comment p{color:var(--nc-ink)}
+.nc-flow-compact{background:#132d1d;border-color:#315e3d}.nc-flow-sheet-front{background:#1a3924}.nc-flow-sheet-mid{background:#285037}.nc-flow-sheet-back{background:#20462b}
+.nc-link-primary:hover{background:#a1ffba}.st-key-sidebar_nav button[kind=primary]{background:#1d482b;color:#b8ffcd}.nc-avatar{background:#1b3a25;color:#a4f9bd;border-color:#477c54}.nc-mode-banner{border-left-color:#78f59b}
+.nc-demo-tab:hover,.nc-demo-pause:hover,.st-key-sidebar_nav button:hover{background:#1a3c27}
+.nc-ambient-compact .nc-aurora-ribbon{filter:blur(.4px);opacity:.95}
+@media(max-width:1100px){.nc-product-hero{gap:30px}.nc-review-story,.nc-hardware{gap:36px}.nc-product-audience{align-items:flex-start;flex-direction:column;gap:12px}.nc-product-visual figcaption{flex-direction:column;gap:5px}.nc-product-faq{gap:36px}}
+@media(max-width:760px){.nc-product-hero{grid-template-columns:1fr;gap:36px;padding-top:32px!important;padding-bottom:40px!important}.nc-product-hero .nc-hero-copy h1{font-size:clamp(43px,8vw,64px)}.nc-product-visual{max-width:600px;margin:0 auto;width:100%}.nc-product-visual figcaption{flex-direction:row;flex-wrap:wrap}.nc-product-audience{padding:22px 0}.nc-product-audience p{line-height:2;font-size:13px}.nc-product-audience i{margin:0 6px}.nc-review-story,.nc-hardware,.nc-product-faq{grid-template-columns:1fr;gap:36px;padding:46px 0}.nc-review-story .nc-demo{max-width:540px;width:100%;margin:auto}.nc-review-copy h2,.nc-hardware-copy h2{font-size:36px}.nc-hardware-photo{order:2}.nc-hardware-copy{order:1}.nc-hardware-specs>div{grid-template-columns:68px 1fr;gap:15px}.nc-product-faq{gap:15px}.nc-product-faq h2{font-size:30px}.nc-product-photo{border-radius:7px}.nc-product-visual figcaption{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.nc-product-photo img{animation:none!important;transition:none!important;transform:none!important}}
