@@ -1,0 +1,71 @@
+{
+  "rehearsals": [
+    {
+      "run": 1,
+      "status": "passed",
+      "ledger_sha256": "dc2dd6bb34278e27dff422e7024cc2a732363db4540b66c3a3947c80421489a8",
+      "checks": [
+        "capture media and selection",
+        "download original exact bytes",
+        "original/edited upload verdicts",
+        "upload retained after capture refresh",
+        "mixed and three-fake citation examples",
+        "reasons",
+        "ledger downloaded from browser and deep-equal to adapter"
+      ]
+    },
+    {
+      "run": 2,
+      "status": "passed",
+      "ledger_sha256": "dc2dd6bb34278e27dff422e7024cc2a732363db4540b66c3a3947c80421489a8",
+      "checks": [
+        "capture media and selection",
+        "download original exact bytes",
+        "original/edited upload verdicts",
+        "upload retained after capture refresh",
+        "mixed and three-fake citation examples",
+        "reasons",
+        "ledger downloaded from browser and deep-equal to adapter"
+      ]
+    }
+  ],
+  "states": {
+    "Empty": "passed",
+    "Disconnected": "passed",
+    "Malformed": "passed",
+    "Slow": "waiting indicator and eventual response observed",
+    "Long list": "60 records rendered with one selected preview",
+    "Polling": "10-second fragment cycle observed; selected photo retained",
+    "Reduced transparency": "manual fallback computed backdrop-filter none",
+    "Recovery": "populated restored without mode change"
+  },
+  "visual": {
+    "layouts": [
+      {
+        "width": 1440,
+        "height": 900,
+        "views": 4,
+        "horizontal_overflow": false,
+        "reduced_motion": "none"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "views": 4,
+        "horizontal_overflow": false,
+        "reduced_motion": "none"
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "views": 4,
+        "horizontal_overflow": false,
+        "reduced_motion": "none"
+      }
+    ],
+    "keyboard_focus": {
+      "tag": "DIV",
+      "outline": "solid"
+    }
+  }
+}

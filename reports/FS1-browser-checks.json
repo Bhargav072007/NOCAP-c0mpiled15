@@ -1,0 +1,37 @@
+{
+  "collaboration": "Added local member (no email), created review, assigned owner, saved status, persisted comment; listed all team members",
+  "device_transport": "UI registration -> device bearer heartbeat/upload -> persistent capture -> exact download; same-ID replay accepted once; UNSUPPORTED label (not signed hardware)",
+  "rehearsals": [
+    {
+      "run": 1,
+      "ledger_sha256": "40d13450026617f6f5fb9d769dcd725dbf16d05e3968467c274086d247a201d7",
+      "status": "passed"
+    },
+    {
+      "run": 2,
+      "ledger_sha256": "40d13450026617f6f5fb9d769dcd725dbf16d05e3968467c274086d247a201d7",
+      "status": "passed"
+    }
+  ],
+  "layouts": [
+    {
+      "width": 1440,
+      "views": 5,
+      "overflow": false,
+      "reduced_motion": "passed"
+    },
+    {
+      "width": 1280,
+      "views": 5,
+      "overflow": false,
+      "reduced_motion": "passed"
+    },
+    {
+      "width": 390,
+      "views": 5,
+      "overflow": false,
+      "reduced_motion": "passed"
+    }
+  ],
+  "keyboard": "Visible focus and keyboard dialog open/Escape close passed"
+}

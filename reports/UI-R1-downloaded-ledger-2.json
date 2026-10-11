@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "id": "demo_1",
+      "type": "photo",
+      "file_name": "photo.jpg",
+      "file_sha256": "08b31e1f89f45e22e504bcfa4a6093d7f10b7fa532d85da748fa673fbe8b29f9",
+      "captured_at": "2026-10-11T12:01:00+00:00",
+      "device_id": "synthetic-generator",
+      "location": "Demo workspace / no physical location",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "record_hash": "e6fc46131699080cec361ce9fbf84a4f94f2434acbf15bacefb47ef781ec54c0",
+      "signature": "",
+      "status": "VERIFIED",
+      "fixture": true,
+      "reason": "Demo registry match only. No signature or hardware verification."
+    },
+    {
+      "id": "demo_2",
+      "type": "audio",
+      "file_name": "synthetic_tone.wav",
+      "file_sha256": "a1bc29d27dbdec46d2721656cac1f85fa5d98f91bb83a2be7b4a27ed7c7b73ec",
+      "captured_at": "2026-10-11T12:02:00+00:00",
+      "device_id": "synthetic-generator",
+      "location": "Demo workspace / no physical location",
+      "prev_hash": "e6fc46131699080cec361ce9fbf84a4f94f2434acbf15bacefb47ef781ec54c0",
+      "record_hash": "73cd5fe4a4fc973da7bd6fc5be24a114d8f1c1621aab1a4adf4e026766625435",
+      "signature": "",
+      "status": "VERIFIED",
+      "fixture": true,
+      "reason": "Demo registry match only. No signature or hardware verification."
+    },
+    {
+      "id": "demo_3",
+      "type": "reading",
+      "file_name": "reading.json",
+      "file_sha256": "a8d31ca9f1ba0c60908121df4eecea3bed0e1374664f7d91f0464e3aec27a9ca",
+      "captured_at": "2026-10-11T12:03:00+00:00",
+      "device_id": "synthetic-generator",
+      "location": "Demo workspace / no physical location",
+      "prev_hash": "73cd5fe4a4fc973da7bd6fc5be24a114d8f1c1621aab1a4adf4e026766625435",
+      "record_hash": "acb08aeea38a05f3e15be620f049c78f3327df0fbc5fdf537230f3ea051b560a",
+      "signature": "",
+      "status": "VERIFIED",
+      "fixture": true,
+      "reason": "Demo registry match only. No signature or hardware verification."
+    }
+  ],
+  "merkle_root": "1bea807ae7601bebbbdacb8c5483da47907752d3a6d8c4408650ec85238cf5d5",
+  "chain_ok": null,
+  "chain_msg": "Not checked: synthetic, unsigned demo records.",
+  "anchor_tx": null,
+  "fixture": true
+}

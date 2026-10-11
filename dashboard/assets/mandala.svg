@@ -1,0 +1,86 @@
+<!-- Decorative component adapted from the user-selected reference https://meghyanai.com/; not an evidence diagram. -->
+<svg class="nc-mandala" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g transform="translate(400 400)" fill="none" stroke="currentColor">
+          <!-- Concentric rings -->
+          <circle r="358" stroke-width="0.8"></circle>
+          <circle r="292" stroke-width="0.55"></circle>
+          <circle r="210" stroke-width="0.55"></circle>
+          <circle r="128" stroke-width="0.55"></circle>
+          <circle r="50" stroke-width="0.8"></circle>
+          <circle r="9" fill="currentColor" stroke="none"></circle>
+          <!-- 16 fine spokes -->
+          <g stroke-width="0.35" opacity="0.6">
+            <line y1="-358" y2="358"></line>
+            <line y1="-358" y2="358" transform="rotate(22.5)"></line>
+            <line y1="-358" y2="358" transform="rotate(45)"></line>
+            <line y1="-358" y2="358" transform="rotate(67.5)"></line>
+            <line y1="-358" y2="358" transform="rotate(90)"></line>
+            <line y1="-358" y2="358" transform="rotate(112.5)"></line>
+            <line y1="-358" y2="358" transform="rotate(135)"></line>
+            <line y1="-358" y2="358" transform="rotate(157.5)"></line>
+          </g>
+          <!-- Outer lotus petals: ring 292 → 358 -->
+          <g stroke-width="0.75">
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(45)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(90)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(135)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(180)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(225)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(270)"></path>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(315)"></path>
+          </g>
+          <!-- Mid lotus petals: ring 128 → 210 -->
+          <g stroke-width="0.75">
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(45)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(90)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(135)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(180)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(225)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(270)"></path>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(315)"></path>
+          </g>
+          <!-- Inner spoke diamonds between ring 50 and 128 -->
+          <g stroke-width="0.6">
+            <path d="M0-50 L14-89 0-128 -14-89z"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(45)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(90)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(135)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(180)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(225)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(270)"></path>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(315)"></path>
+          </g>
+          <!-- Dot accents on outer ring (16 pts) -->
+          <g fill="currentColor" stroke="none">
+            <circle r="4" cy="-358"></circle>
+            <circle r="4" cy="-358" transform="rotate(22.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(45)"></circle>
+            <circle r="4" cy="-358" transform="rotate(67.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(90)"></circle>
+            <circle r="4" cy="-358" transform="rotate(112.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(135)"></circle>
+            <circle r="4" cy="-358" transform="rotate(157.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(180)"></circle>
+            <circle r="4" cy="-358" transform="rotate(202.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(225)"></circle>
+            <circle r="4" cy="-358" transform="rotate(247.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(270)"></circle>
+            <circle r="4" cy="-358" transform="rotate(292.5)"></circle>
+            <circle r="4" cy="-358" transform="rotate(315)"></circle>
+            <circle r="4" cy="-358" transform="rotate(337.5)"></circle>
+          </g>
+          <!-- Dot accents on mid ring diagonal spokes -->
+          <g fill="currentColor" stroke="none">
+            <circle r="3" cy="-210" transform="rotate(22.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(67.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(112.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(157.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(202.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(247.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(292.5)"></circle>
+            <circle r="3" cy="-210" transform="rotate(337.5)"></circle>
+          </g>
+        </g>
+      </svg>

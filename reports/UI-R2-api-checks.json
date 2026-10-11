@@ -1,0 +1,11 @@
+{
+  "api_health": "ok",
+  "ui_health": "ok",
+  "invalid_token_status": 401,
+  "review_persisted": true,
+  "comment_persisted": true,
+  "ledger_records": 7,
+  "ledger_export_matches_api": true,
+  "ledger_sha256": "40d13450026617f6f5fb9d769dcd725dbf16d05e3968467c274086d247a201d7",
+  "coverage": "Local API and synthetic data; no live cloud or hardware"
+}

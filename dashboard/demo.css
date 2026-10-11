@@ -1,0 +1,78 @@
+/* UI-M2 — Product-shaped 3D illustration. Native radios work without JavaScript.
+   Stage motion never changes a real review, source record or verification status. */
+.nc-sr-only,.nc-demo-input{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.nc-hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,4vw,65px);padding:80px 0 90px}
+.nc-hero-copy h1{font-size:clamp(56px,6.3vw,88px);letter-spacing:-.055em}
+.nc-demo{min-width:0;scroll-margin-top:30px;border:1px solid #262d25;border-radius:24px;background:radial-gradient(ellipse at 50% 40%,#20291965,transparent 65%),#0e100d;position:relative;isolation:isolate}
+.nc-demo-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:25px 25px 20px}
+.nc-demo-heading .nc-eyebrow{font-size:8px;letter-spacing:1.5px;color:#9ba98d}
+.nc-demo-heading h2{font-size:25px;letter-spacing:-.8px;line-height:1.2;font-weight:450;margin:9px 0 0;padding:0}
+.nc-demo-heading .nc-ambient-compact{width:85px;flex:none}
+.nc-demo-player{border:0;padding:0 20px;margin:0;min-width:0;display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.nc-demo-tab{font-size:10px!important;color:#899481;cursor:pointer;padding:9px 10px;border:1px solid transparent;border-radius:8px;transition:background .25s,color .25s,border-color .25s;white-space:nowrap;line-height:1.4}
+.nc-demo-input:checked+.nc-demo-tab{background:#20291c;color:#e6eedc;border-color:#36432a}
+.nc-demo-tab:hover{color:#f0f3ed;background:#192015}
+.nc-demo-input:focus-visible+label{outline:2px solid #c8f53b;outline-offset:3px}
+.nc-demo-pause{margin-left:auto;cursor:pointer;font-size:10px!important;color:#a2ae96;padding:9px 8px;border-radius:7px;min-height:33px;display:inline-flex;align-items:center}
+.nc-demo-pause:hover{background:#20291c;color:#e6eedc}
+.nc-demo-resume-text{display:none}
+#nc-demo-pause:checked+.nc-demo-pause .nc-demo-resume-text{display:inline}
+#nc-demo-pause:checked+.nc-demo-pause .nc-demo-pause-text{display:none}
+.nc-demo-stage{position:relative;flex:0 0 100%;height:390px;perspective:1100px;isolation:isolate}
+.nc-demo-rig{position:absolute;inset:25px 17px 30px;transform-style:preserve-3d;transform:rotateX(7deg) rotateY(-9deg) rotateZ(-2deg);transition:transform .9s var(--nc-ease)}
+@media(hover:hover) and (pointer:fine){.nc-demo-stage:hover .nc-demo-rig{transform:rotateX(2deg) rotateY(3deg) rotateZ(0deg)}.nc-workflow-grid article:hover{rotate:x 3deg}}
+.nc-demo-plane{position:absolute;inset:0;border:1px solid #37412d;border-radius:16px;background:linear-gradient(130deg,#242b1d,#12170f);pointer-events:none}
+.nc-demo-plane-back{transform:translate3d(18px,-5px,-42px) rotateZ(4deg);opacity:.4}
+.nc-demo-plane-mid{transform:translate3d(9px,2px,-20px) rotateZ(1deg);opacity:.75}
+.nc-demo-card{position:absolute;inset:0;padding:23px 24px 18px;border:1px solid #45503a;border-radius:16px;background:linear-gradient(130deg,#1e2419,#12160f 85%);box-shadow:0 22px 36px #0005,inset 0 1px #ffffff0b;opacity:0;transform:translate3d(18px,10px,-40px) rotateY(-12deg);backface-visibility:hidden;pointer-events:none;display:flex;flex-direction:column}
+.nc-demo-capture{opacity:1;transform:translate3d(0,0,20px)}
+.nc-demo-card-top{display:flex;align-items:center;gap:9px;color:#c0d0ae;font-size:8px;letter-spacing:1.2px;line-height:1.2}
+.nc-demo-card-top>b{margin-left:auto;color:#839372;font-family:monospace;font-size:12px;font-weight:400}
+.nc-demo-file-icon{display:grid;place-items:center;width:25px;height:25px;border-radius:7px;border:1px solid #465237;background:#293220;font-size:15px;letter-spacing:0}
+.nc-demo-card h3{font-size:24px;line-height:1.2;font-weight:450;letter-spacing:-.8px;padding:0;margin:17px 0 5px;color:#f0f4e9}
+.nc-demo-card>p{font-size:11px;margin:0;color:#a8b29d;line-height:1.5}
+.nc-demo-chart{margin:18px 0 12px;height:91px;flex:none;border-bottom:1px solid #303a25;overflow:hidden}
+.nc-demo-chart-label{display:flex;justify-content:space-between;color:#8f9c80;font-size:8px;margin-bottom:4px}
+.nc-demo-signal{height:65px;width:100%;background:repeating-linear-gradient(0deg,transparent 0 19px,#293320 19px 20px),repeating-linear-gradient(90deg,transparent 0 49px,#293320 49px 50px)}
+.nc-demo-wave{height:65px;width:100%;background:#c8ed8e;clip-path:polygon(0.00% 64.1%, 5.56% 64.1%, 8.33% 59.1%, 11.94% 62.1%, 15.00% 38.1%, 18.06% 72.1%, 21.67% 62.1%, 26.11% 64.1%, 30.00% 63.1%, 33.89% 44.1%, 37.78% 48.1%, 41.67% 18.1%, 45.56% 74.1%, 48.61% 49.1%, 53.06% 57.1%, 57.22% 50.1%, 62.50% 57.1%, 65.83% 31.1%, 68.89% 37.1%, 72.78% 73.1%, 76.94% 56.1%, 81.67% 62.1%, 87.22% 53.1%, 93.33% 60.1%, 100.00% 55.1%, 100.00% 56.9%, 93.33% 61.9%, 87.22% 54.9%, 81.67% 63.9%, 76.94% 57.9%, 72.78% 74.9%, 68.89% 38.9%, 65.83% 32.9%, 62.50% 58.9%, 57.22% 51.9%, 53.06% 58.9%, 48.61% 50.9%, 45.56% 75.9%, 41.67% 19.9%, 37.78% 49.9%, 33.89% 45.9%, 30.00% 64.9%, 26.11% 65.9%, 21.67% 63.9%, 18.06% 73.9%, 15.00% 39.9%, 11.94% 63.9%, 8.33% 60.9%, 5.56% 65.9%, 0.00% 65.9%)}
+.nc-demo-meta{display:flex;gap:12px;justify-content:space-between}.nc-demo-meta>div{display:flex;flex-direction:column;gap:5px}.nc-demo-meta span{font-size:7px;letter-spacing:1px;color:#879779}.nc-demo-meta strong{font-size:10px;color:#cbd6be;font-weight:400}
+.nc-demo-card-foot{display:flex;align-items:center;gap:9px;color:#909e82;font-size:9px;margin-top:auto;padding-top:15px}.nc-demo-mini-icon{font-size:15px;color:#c8ed8e}
+.nc-demo-checklist{margin-top:15px;display:grid;gap:0}.nc-demo-checklist>div{display:flex;gap:10px;align-items:center;font-size:10px;padding:10px 0;border-bottom:1px solid #303829;color:#cbd5c1}.nc-demo-checklist small{margin-left:auto;font-size:9px;color:#99ab87}.nc-demo-check{color:#c8ed8e}
+.nc-demo-comment{display:flex;gap:10px;align-items:center;margin-top:auto;padding-top:14px}.nc-demo-comment>span{display:grid;place-items:center;font-size:11px;width:28px;height:28px;background:#39462b;border-radius:50%;color:#dfedcf}.nc-demo-comment p{font-size:10px;color:#cbd6c0;margin:0;line-height:1.5}.nc-demo-comment small{display:block;font-size:8px;color:#899b77;margin-top:3px}
+.nc-demo-ledger{margin-top:17px;display:grid;gap:6px}.nc-demo-ledger>div{display:flex;align-items:center;gap:10px;border:1px solid #303d25;background:#1b2415;padding:10px;border-radius:7px;font-size:10px}.nc-demo-ledger span{color:#8a9e76;font-size:8px;font-family:monospace}.nc-demo-ledger b{font-weight:400;color:#cddbc1}.nc-demo-ledger small{margin-left:auto;font-size:8px;color:#9caf88}
+.nc-demo-export-file{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:13px;font-size:10px;color:#d0ddc4}.nc-demo-export-file>span{font-size:23px;color:#c8ed8e}.nc-demo-export-file small{display:block;font-size:8px;color:#92a37f;margin-top:4px}.nc-demo-export-file>b{margin-left:auto;border:1px solid #3f4e31;font-size:7px;padding:4px 6px;border-radius:4px;font-weight:400}
+.nc-demo-floor{position:absolute;bottom:5px;left:15%;width:70%;height:15px;border-radius:50%;background:#0006;filter:blur(10px);z-index:-1;transform:rotate(-2deg)}
+.nc-demo-description{flex:0 0 100%;text-align:center;min-height:36px;margin:0 0 8px}.nc-demo-description p{display:none;margin:0;padding:0 8px;font-size:11px;line-height:1.5;color:#a6b298}
+#nc-demo-auto:checked~.nc-demo-description .nc-demo-desc-auto,#nc-demo-capture:checked~.nc-demo-description .nc-demo-desc-capture,#nc-demo-review:checked~.nc-demo-description .nc-demo-desc-review,#nc-demo-export:checked~.nc-demo-description .nc-demo-desc-export{display:block}
+.nc-demo-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid #283021;padding:18px 24px}.nc-demo-footer>span{font-size:7px;letter-spacing:1.1px;color:#839475}.nc-demo-footer b{display:block;font-size:10px;letter-spacing:0;font-weight:400;color:#a8b89a;margin-top:5px}.nc-demo-footer a{font-size:11px!important;color:#dfe9d5!important;text-decoration:none;display:flex;align-items:center;gap:13px;padding:7px 0}.nc-demo-footer a:hover span{translate:2px -2px}.nc-demo-footer a span{transition:translate .3s}
+
+/* A 15s sequence gives each card a legible hold; all moving parts share the pause.
+   Static defaults are readable before CSS loads and when animation is disabled. */
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-card{animation:nc-demo-cycle 15s var(--nc-ease) infinite}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-capture{animation-delay:0s}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-review{animation-delay:-10s}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-export{animation-delay:-5s}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-signal{animation:nc-signal-draw 15s ease infinite}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-plane-mid{animation:nc-demo-depth 7.5s ease-in-out infinite}
+#nc-demo-auto:checked~.nc-demo-stage .nc-demo-plane-back{animation:nc-demo-depth-back 7.5s ease-in-out infinite}
+@keyframes nc-demo-cycle{0%,26%{opacity:1;transform:translate3d(0,0,20px) rotateY(0)}31%{opacity:0;transform:translate3d(-28px,-8px,-20px) rotateY(12deg)}32%,94%{opacity:0;transform:translate3d(24px,12px,-35px) rotateY(-12deg)}100%{opacity:1;transform:translate3d(0,0,20px) rotateY(0)}}
+@keyframes nc-signal-draw{0%{clip-path:inset(0 100% 0 0)}22%,100%{clip-path:inset(0 0 0 0)}}
+@keyframes nc-demo-depth{0%,100%{transform:translate3d(9px,2px,-20px) rotateZ(1deg)}50%{transform:translate3d(16px,-3px,-30px) rotateZ(2deg)}}
+@keyframes nc-demo-depth-back{0%,100%{transform:translate3d(18px,-5px,-42px) rotateZ(4deg)}50%{transform:translate3d(24px,-9px,-52px) rotateZ(5deg)}}
+#nc-demo-pause:checked~.nc-demo-stage *{animation-play-state:paused!important}
+.nc-demo:has(#nc-demo-pause:checked) .nc-aurora-ribbon{animation-play-state:paused}
+.nc-demo-player:has(#nc-demo-auto:not(:checked)) .nc-demo-card{opacity:0;transform:translate3d(18px,10px,-40px);transition:opacity .3s,transform .65s var(--nc-ease)}
+#nc-demo-capture:checked~.nc-demo-stage .nc-demo-capture,#nc-demo-review:checked~.nc-demo-stage .nc-demo-review,#nc-demo-export:checked~.nc-demo-stage .nc-demo-export{opacity:1;transform:translate3d(0,0,20px)}
+
+.nc-workflow-grid{perspective:1200px}.nc-workflow-grid article{transform-style:preserve-3d;transition:rotate .5s var(--nc-ease),translate .35s var(--nc-spring),border-color .35s}
+
+@media(max-width:1100px) and (min-width:761px){.nc-hero{grid-template-columns:minmax(0,1fr) minmax(360px,1fr);gap:25px}.nc-hero-copy h1{font-size:clamp(46px,5.6vw,64px)}.nc-hero-copy>p{font-size:16px}.nc-demo-heading{padding:22px 20px 18px}.nc-demo-player{padding:0 14px;gap:2px}.nc-demo-tab{padding:9px 7px}.nc-demo-pause{padding:9px 4px}.nc-demo-rig{inset:25px 12px 30px}.nc-demo-card{padding:20px 18px 17px}.nc-demo-heading h2{font-size:23px}}
+@media(max-width:760px){.nc-hero{grid-template-columns:minmax(0,1fr);gap:42px;padding:50px 0 55px}.nc-hero-copy h1{font-size:clamp(44px,8.8vw,66px);letter-spacing:-.055em;max-width:650px}.nc-hero-copy>p{max-width:540px}.nc-hero-note{margin-top:25px}.nc-demo{width:100%;max-width:540px;margin:0 auto}.nc-demo-stage{height:380px}.nc-demo-rig{inset:25px 22px 26px;transform:rotateX(5deg) rotateY(-5deg) rotateZ(-1deg)}.nc-demo-tab{min-height:40px;display:flex;align-items:center}.nc-demo-pause{min-height:40px}.nc-demo-heading .nc-ambient-compact{height:44px}.nc-demo-footer{padding:16px 22px}}
+@media(max-width:420px){.nc-demo{border-radius:18px}.nc-demo-heading{padding:22px 17px 16px}.nc-demo-heading h2{font-size:22px}.nc-demo-player{padding:0 12px;gap:2px}.nc-demo-tab{font-size:9px!important;padding:8px 7px}.nc-demo-pause{font-size:9px!important;padding:8px 4px}.nc-demo-rig{inset:22px 7px 26px}.nc-demo-card{padding:19px 17px 16px}.nc-demo-stage{height:370px}.nc-demo-card h3{font-size:23px}.nc-demo-footer{padding:16px}.nc-demo-heading .nc-ambient-compact{width:75px}.nc-demo-description p{font-size:10px}}
+@media(max-width:350px){.nc-public-nav .nc-link-primary{padding:10px;font-size:10px!important}.nc-public-nav nav{gap:10px}.nc-demo-pause{flex-basis:100%;justify-content:flex-end;min-height:24px;padding:0 6px}.nc-demo-stage{height:375px}.nc-demo-heading{gap:4px}.nc-demo-heading h2{font-size:20px}.nc-demo-heading .nc-eyebrow{font-size:7px}.nc-demo-heading .nc-ambient-compact{width:65px}.nc-demo-card{padding:18px 13px}.nc-demo-footer a{font-size:10px!important;gap:6px}}
+@media(prefers-reduced-motion:reduce){.nc-demo *,.nc-demo *::before,.nc-demo *::after{animation:none!important;transition:none!important}.nc-demo-pause,#nc-demo-pause{display:none}.nc-demo-rig{transform:none}.nc-workflow-grid article:hover{rotate:none;translate:none}}
+
+/* The tour has one pause control for its ribbon and scene. */
+.nc-demo .nc-ambient-control,.nc-demo .nc-ambient-checkbox{display:none}
+.nc-demo-heading .nc-ambient-compact{width:48px}
+.nc-demo-heading .nc-ambient-art{margin:0}

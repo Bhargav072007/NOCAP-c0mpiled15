@@ -1,0 +1,8 @@
+{
+  "motion": "rapid tabs and real response reveal exercised",
+  "reduced_motion": "computed animation none",
+  "raf_samples": 59,
+  "raf_median_ms": 16.699999999999818,
+  "raf_max_ms": 33.40000000000009,
+  "environment": "headless Chrome / local Linux; idle sampling only, not a transition FPS guarantee"
+}

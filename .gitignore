@@ -1,4 +1,65 @@
 .venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+test-results/
+.runtime/
+tmp/
+
+# Local environment variants and shell environment helpers
+.envrc
+.envrc.*
+venv/
+env/
+ENV/
+
+# Private credentials / signing material (use configuration templates instead)
+.streamlit/secrets.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+
+# Local databases, generated files and scratch work
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+work/
+build/
+dist/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.DS_Store
+
+# Reference-site captures are research material, not product source
+/reports/reference*/
+
+# Alternate environment filenames and credential stores
+*.env
+*.env.*
+!.env.example
+secrets.json
+secrets.yaml
+secrets.yml
+secrets.toml
+id_rsa
+id_ed25519
+
+# Verifier configuration
+.venv/
 .env
 __pycache__/
 *.pyc

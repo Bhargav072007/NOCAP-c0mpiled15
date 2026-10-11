@@ -1,0 +1,5 @@
+SYNTHETIC CITATION DEMO — these are fictional references, not real publications.
+Calibration specimen A is stable [Demo Reference A].
+The edited image matches the original [Demo Reference B].
+A universal effect was observed [Demo Reference C].
+The result repeats indefinitely [Demo Reference D].

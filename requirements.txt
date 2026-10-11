@@ -1,6 +1,11 @@
+streamlit>=1.65,<2
+requests>=2.32,<3
+Pillow>=11,<13
+python-dotenv>=1,<2
+
+# Verifier dependencies
 faster-whisper>=1.1,<2
 cryptography>=43,<47
-Pillow>=10,<13
 ImageHash>=4.3,<5
 numpy>=1.26,<3
 scipy>=1.11,<2
@@ -12,7 +17,4 @@ eyecite>=2.7,<3
 beautifulsoup4>=4.12,<5
 opencv-python-headless>=4.10,<5
 qiskit>=2.2,<3
-
 openai>=1.68,<3
-python-dotenv>=1,<2
-requests>=2.32,<3

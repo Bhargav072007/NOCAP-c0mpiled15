@@ -1,0 +1,116 @@
+/* UI-M1: ten finite/interactive components plus one ambient loop.
+   Original native CSS; no embedded template videos or network dependencies. */
+:root{--nc-ease:cubic-bezier(.16,1,.3,1);--nc-spring:cubic-bezier(.2,.8,.2,1.18)}
+
+/* 01 — Masked headline reveal (text/UI-kit rhythm). Never hidden without CSS. */
+.nc-hero-line{display:block;overflow:hidden;padding-bottom:.09em;margin-bottom:-.09em}
+.nc-hero-line>span{display:block;animation:nc-headline-in .85s var(--nc-ease) both}
+.nc-hero-line:nth-child(2)>span{animation-delay:.11s}
+@keyframes nc-headline-in{from{transform:translateY(110%);opacity:.15}to{transform:translateY(0);opacity:1}}
+
+/* 02 — Trace / continue button: travelling highlight and directional arrow.
+   Sweep runs only on hover/focus, not endlessly. No fake completed state. */
+.nc-link-primary,.st-key-workspace button[kind^=primary],.st-key-login button[kind^=primary]{position:relative;isolation:isolate;overflow:hidden;transition:transform .24s var(--nc-spring),box-shadow .25s,background .25s}
+.nc-link-primary::before,.st-key-workspace button[kind^=primary]::before,.st-key-login button[kind^=primary]::before{content:"";position:absolute;inset:-30% auto -30% -65%;width:45%;background:linear-gradient(110deg,transparent,#b6d77780,transparent);transform:skewX(-16deg);pointer-events:none;z-index:-1}
+.nc-link-primary:is(:hover,:focus-visible)::before,.st-key-workspace button[kind^=primary]:not(:disabled):is(:hover,:focus-visible)::before,.st-key-login button[kind^=primary]:not(:disabled):is(:hover,:focus-visible)::before{animation:nc-button-sweep .7s var(--nc-ease) both}
+.nc-link-primary>span{transition:transform .3s var(--nc-spring)}
+.nc-link-primary:is(:hover,:focus-visible)>span{transform:translate(3px,-3px)}
+.nc-link-primary:is(:hover,:focus-visible){box-shadow:0 0 0 5px #c8f53b0d;transform:translateY(-2px)}
+@keyframes nc-button-sweep{to{left:125%}}
+
+/* 03 — Evidence card stack: layered depth, a spring lift and content arrival. */
+.nc-proof-sheet{isolation:isolate;transition:transform .65s var(--nc-spring),box-shadow .65s var(--nc-ease),border-color .3s;animation:nc-sheet-in .9s .12s var(--nc-ease) backwards}
+.nc-proof-sheet::before{content:"";position:absolute;inset:8px -8px -8px 8px;border:1px solid #454e3566;border-radius:inherit;z-index:-1;transform:rotate(0deg);transition:transform .6s var(--nc-spring);pointer-events:none}
+.nc-proof-sheet:hover{transform:translateY(-5px);border-color:#64714f;box-shadow:13px 16px 0 -1px #0a0a0a,13px 16px 0 #303729}
+.nc-proof-sheet:hover::before{transform:rotate(1.8deg)}
+.nc-sheet-row{transition:transform .35s var(--nc-spring),border-color .3s}
+.nc-proof-sheet:hover .nc-sheet-row{transform:translateX(3px);border-color:#39422d}
+@keyframes nc-sheet-in{from{opacity:0;transform:translateY(18px) rotate(1deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+
+/* 04 — Workflow list: progressive entrance and animated step-marker hover.
+   Scroll-driven enhancement degrades to a short page-entry sequence. */
+.nc-workflow-grid article{animation:nc-workflow-in .65s var(--nc-ease) both;transition:translate .35s var(--nc-spring),border-color .35s}
+.nc-workflow-grid article:nth-child(2){animation-delay:.08s}
+.nc-workflow-grid article:nth-child(3){animation-delay:.16s}
+.nc-workflow-grid article>span{display:inline-block;transition:transform .35s var(--nc-spring),color .3s}
+.nc-workflow-grid article:hover{translate:0 -5px;border-color:#8ca959}
+.nc-workflow-grid article:hover>span{transform:translateX(6px);color:#c8f53b}
+@keyframes nc-workflow-in{from{opacity:.4;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@supports(animation-timeline:view()){.nc-workflow-grid article{animation-timeline:view();animation-range:entry 0% entry 75%;animation-delay:0s}}
+
+/* 05 — Side rail: selected marker grows in; hovered labels move just 3px. */
+.st-key-sidebar_nav button{position:relative;transition:background .22s,color .22s}
+.st-key-sidebar_nav button::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:4px;background:#c8f53b;transform:scaleY(0);transition:transform .3s var(--nc-ease);transform-origin:center}
+.st-key-sidebar_nav button[kind=primary]::before{transform:scaleY(1);animation:nc-rail-in .4s var(--nc-ease)}
+.st-key-sidebar_nav button p{transition:transform .22s var(--nc-spring)}
+.st-key-sidebar_nav button:is(:hover,:focus-visible) p{transform:translateX(3px)}
+@keyframes nc-rail-in{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* 06 — Tab navigation: selected underline draws from the leading edge. */
+.st-key-navigation [role=tab]{position:relative;transition:color .24s,background .24s}
+.st-key-navigation [role=tab]::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:#c8f53b;transform:scaleX(0);transform-origin:left;transition:transform .35s var(--nc-ease)}
+.st-key-navigation [role=tab][aria-selected=true]::after{transform:scaleX(1)}
+.st-key-navigation [role=tab]:is(:hover,:focus-visible){color:#d9e7c4}
+.st-key-navigation [data-baseweb=tab-highlight]{background:transparent}
+
+/* 07 — Upload target: input focus / drag affordance and an icon spring. */
+.st-key-verify_panel [data-testid=stFileUploaderDropzone]{transition:border-color .3s,background .3s,box-shadow .3s,transform .3s var(--nc-spring)}
+.st-key-verify_panel [data-testid=stFileUploaderDropzone]:is(:hover,:focus-within){border-color:#a9ce68;background:#151c10;box-shadow:inset 0 0 0 1px #a9ce6822;transform:translateY(-2px)}
+.st-key-verify_panel [data-testid=stFileUploaderDropzone] [data-testid=stIconMaterial]{transition:transform .35s var(--nc-spring)}
+.st-key-verify_panel [data-testid=stFileUploaderDropzone]:is(:hover,:focus-within) [data-testid=stIconMaterial]{transform:translateY(-3px)}
+
+/* 08 — On/off toggle: tactile native track and knob transitions.
+   The input remains the source of truth; no custom click interception. */
+.st-key-workspace label:has([role=switch])>div:not([data-testid]){transition:background-color .25s,box-shadow .25s}
+.st-key-workspace label:has([role=switch])>div:not([data-testid])>div{transition:transform .34s var(--nc-spring),background-color .25s}
+.st-key-workspace label:has([role=switch]:checked)>div:not([data-testid]){box-shadow:0 0 0 4px #c8f53b12}
+.st-key-workspace label:has([role=switch]):active>div:not([data-testid])>div{scale:1.1 .92}
+
+/* 09 — Actual returned verdict: one-time badge arrival, with hover detail.
+   dashboard.ui.badge already gates .nc-reveal on a new result identity. */
+.nc-badge{transform-origin:left center;transition:transform .22s var(--nc-spring),box-shadow .22s}
+.nc-badge.nc-reveal{animation:nc-verdict-in .5s var(--nc-spring) backwards}
+.nc-badge:hover{transform:translateY(-2px);box-shadow:0 4px 18px #0004}
+@keyframes nc-verdict-in{0%{opacity:0;transform:translateY(6px) scale(.92)}70%{opacity:1;transform:translateY(0) scale(1.025)}100%{opacity:1;transform:none}}
+
+/* 10 — Real review progress: fill reveal inside the API-derived width.
+   Zero remains zero; no synthetic counting or autonomous progress. */
+.st-key-review_progress [role=progressbar]>div>div{transform-origin:left;animation:nc-progress-in .85s var(--nc-ease) both;transition:transform .6s var(--nc-ease)}
+@keyframes nc-progress-in{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* One ambient animation. A luminous ribbon, not a verification/loading state.
+   A CSS-native checkbox pauses this instance without network or Python reruns. */
+.nc-ambient{position:relative;display:grid;place-items:center;height:140px;width:100%;margin:0 0 8px;isolation:isolate}
+.nc-ambient-art{position:relative;width:160px;height:126px;display:grid;place-items:center;pointer-events:none}
+.nc-aurora-ribbon{width:126px;height:126px;border-radius:42% 58% 48% 52%;background:conic-gradient(from 0deg,#c8f53b,#54d3d0 22%,#769fff 43%,#b798ef 62%,#e0eeff 79%,#c8f53b);mask-image:radial-gradient(ellipse at center,transparent 44%,#000 49%,#000 58%,transparent 66%);filter:blur(1.4px);animation:nc-aurora-flow 12s linear infinite;opacity:.95}
+@keyframes nc-aurora-flow{0%{transform:rotate(0deg) scale(1,.88);border-radius:42% 58% 48% 52%}25%{border-radius:58% 42% 59% 41%}50%{transform:rotate(180deg) scale(.88,1);border-radius:48% 52% 42% 58%}75%{border-radius:41% 59% 58% 42%}100%{transform:rotate(360deg) scale(1,.88);border-radius:42% 58% 48% 52%}}
+.nc-ambient-checkbox{position:absolute!important;width:1px!important;height:1px!important;opacity:0;clip-path:inset(50%);margin:0}
+.nc-ambient-control{display:inline-flex;align-items:center;justify-content:center;gap:6px;position:absolute;right:0;bottom:4px;font:10px system-ui!important;color:#9ba3ac;cursor:pointer;padding:6px 9px;border:1px solid #343a30;border-radius:999px;background:#0b0e0a}
+.nc-ambient-control:hover{color:#e3eecf;border-color:#65734e}
+.nc-ambient-checkbox:focus-visible~.nc-ambient-control{outline:2px solid #c8f53b;outline-offset:3px}
+.nc-play-icon,.nc-play-label{display:none}
+.nc-ambient-checkbox:checked~.nc-ambient-art .nc-aurora-ribbon{animation-play-state:paused}
+.nc-ambient-checkbox:checked~.nc-ambient-control .nc-pause-icon,.nc-ambient-checkbox:checked~.nc-ambient-control .nc-pause-label{display:none}
+.nc-ambient-checkbox:checked~.nc-ambient-control .nc-play-icon,.nc-ambient-checkbox:checked~.nc-ambient-control .nc-play-label{display:inline}
+.nc-proof-sheet .nc-ambient{margin-top:18px}
+.nc-proof-sheet:has(.nc-ambient) h2{margin:10px 0 24px;font-size:28px}
+.nc-ambient-compact{width:100px;height:48px;margin:0}
+.nc-ambient-compact .nc-ambient-art{width:48px;height:48px;margin-right:42px}
+.nc-ambient-compact .nc-aurora-ribbon{width:44px;height:44px;filter:blur(.4px)}
+.nc-ambient-compact .nc-ambient-control{right:0;bottom:11px;width:25px;height:25px;padding:0}
+.nc-ambient-compact .nc-pause-label,.nc-ambient-compact .nc-play-label{display:none!important}
+.nc-identity-with-motion{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+.nc-identity-with-motion .nc-identity{margin:0}
+.nc-login-ambient{display:flex;align-items:center;justify-content:space-between;gap:12px}
+@media(max-width:700px){.nc-ambient{height:120px}.nc-ambient-art{height:108px;width:130px}.nc-aurora-ribbon{width:108px;height:108px}.nc-ambient-compact{height:44px;width:86px}.nc-ambient-compact .nc-ambient-art{width:44px;height:44px;margin-right:34px}.nc-ambient-compact .nc-aurora-ribbon{width:40px;height:40px}.nc-identity-with-motion{justify-content:flex-start;gap:8px}.nc-identity-with-motion .nc-identity{flex:1;min-width:0}.nc-hero-line>span{animation-duration:.7s}}
+
+/* Every authored animation, transition, pseudo-element and ambient instance stops.
+   Manual preference is applied by ui.styles after this stylesheet. */
+@media(prefers-reduced-motion:reduce){
+ .st-key-public *,.st-key-public *::before,.st-key-public *::after,
+ .st-key-login *,.st-key-login *::before,.st-key-login *::after,
+ .st-key-workspace *,.st-key-workspace *::before,.st-key-workspace *::after,
+ .st-key-sidebar_nav *,.st-key-sidebar_nav *::before,.st-key-sidebar_nav *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .nc-hero-line>span{transform:none!important;opacity:1!important}
+ .nc-ambient-control,.nc-ambient-checkbox{display:none}
+}

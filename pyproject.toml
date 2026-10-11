@@ -1,0 +1,9 @@
+[project]
+name = "nocap-dashboard"
+version = "0.2.0"
+description = "NoCap dashboard, team workbench and cloud integration base"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
