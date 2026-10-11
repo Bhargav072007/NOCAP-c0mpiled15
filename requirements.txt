@@ -1,0 +1,22 @@
+# NoCap backend dependencies
+# Pin exact versions for reproducible installs.
+
+# Web framework
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+
+# Database
+sqlalchemy==2.0.40
+psycopg[binary]==3.2.6
+
+# AWS SDK
+boto3==1.38.23
+
+# Configuration
+python-dotenv==1.1.0
+
+# Multipart form / file uploads (required by FastAPI)
+python-multipart==0.0.20
+
+# Testing
+pytest==8.3.5

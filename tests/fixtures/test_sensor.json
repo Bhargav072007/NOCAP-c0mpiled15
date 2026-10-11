@@ -1,0 +1,23 @@
+{
+  "sensor_id": "TEST_ONLY_sensor_001",
+  "label": "TEST_ONLY",
+  "timestamp": "2026-10-11T20:00:00Z",
+  "location": {
+    "lat": 37.7749,
+    "lon": -122.4194
+  },
+  "readings": [
+    {
+      "name": "temperature_c",
+      "value": 22.4
+    },
+    {
+      "name": "humidity_pct",
+      "value": 61.2
+    },
+    {
+      "name": "battery_v",
+      "value": 3.7
+    }
+  ]
+}
